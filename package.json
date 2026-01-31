@@ -8,11 +8,12 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
-    "test:smoke": "npx playwright test --grep @smoke"
+    "test:smoke": "npx playwright test --grep @smoke",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "Viktor K.",
-  "license": "ISC",;
+  "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@playwright/test": "^1.58.1",
