@@ -7,18 +7,6 @@
     "strict": true,
     "types": ["node", "@playwright/test"],
 
-    "include": [
-      "src/**/*.ts",
-      "tests/**/*.ts",
-      "playwright.config.ts"
-    ],
-    "exclude": [
-      "node_modules",
-      "artifacts",
-      "playwright-report",
-      "test-results"
-    ],
-
     "sourceMap": true,
     "skipLibCheck": true,
     "isolatedModules": true,
@@ -27,5 +15,16 @@
 
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "playwright.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "artifacts",
+    "playwright-report",
+    "test-results"
+  ]
 }
