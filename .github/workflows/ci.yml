@@ -8,6 +8,8 @@ jobs:
   lint-and-test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      HUSKY: 0
 
     steps:
       - name: Checkout
@@ -22,19 +24,23 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 1) Lint first (fail-fast)
+      # 1) Lint (fail-fast)
       - name: Lint
         run: npm run lint
 
-      # 2) Install Playwright browsers (and OS deps)
+      # 2) Typecheck (fail-fast, cheap)
+      - name: Typecheck
+        run: npm run typecheck
+
+      # 3) Install Playwright browsers (expensive)
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # 3) Run tests
+      # 4) Run tests
       - name: Run Playwright tests
         run: npm test
 
-      # 4) Upload artifacts even if tests fail
+      # 5) Upload artifacts even if tests fail
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
@@ -48,5 +54,3 @@ jobs:
         with:
           name: test-results
           path: test-results
-
-
