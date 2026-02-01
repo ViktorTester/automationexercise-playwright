@@ -5,3 +5,9 @@ test-results/
 .env
 .idea
 .husky
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

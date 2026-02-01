@@ -1,0 +1,8 @@
+{
+  "baseUrl": "https://practice.expandtesting.com",
+  "apiBaseUrl": "https://practice.expandtesting.com/notes/api",
+  "credentialEnv": {
+    "username": "BRAND1_DEV_USERNAME",
+    "password": "BRAND1_DEV_PASSWORD"
+  }
+}
