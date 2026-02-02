@@ -1,61 +1,113 @@
-# Playwright + TypeScript QA Project
+# ExpandTesting Playwright (TypeScript)
 
-This repository contains an automated testing setup based on **Playwright** and **TypeScript**.
-The project focuses on early defect detection, deterministic CI validation, and consistent engineering practices.
+End-to-end and API test automation scaffolding built on **Playwright** and **TypeScript**.
 
----
-
-## 🧱 Technology Stack
-
-- TypeScript
-- Playwright
-- ESLint
-- Husky (Git hooks)
-- GitHub Actions (CI)
+The repository is currently focused on **configuration and engineering guardrails** (lint, typecheck, environment loading, CI). Tests can be added incrementally without changing the foundational setup.
 
 ---
 
-## 📁 Project Structure (high level)
+## Technology stack
+
+- **@playwright/test** (test runner)
+- **TypeScript** (strict mode)
+- **ESLint** + **eslint-plugin-playwright**
+- **Husky** (local Git hooks)
+- **GitHub Actions** (CI)
+
+---
+
+## Quick start
+
+### Prerequisites
+
+- Node.js **20.x** (recommended)
+- `npm` (comes with Node)
+
+### Install
+
+```bash
+npm install
+npx playwright install
+```
+
+### Run a test (once tests exist)
+
+```bash
+# default: BRAND=brand1, ENV=dev
+npm test
+
+# explicit environment
+BRAND=brand2 ENV=staging npm test
+
+# cross-browser (adds firefox + webkit)
+CROSS_BROWSER=1 BRAND=brand1 ENV=dev npm test
+```
+
+---
+
+## Environments and brands
+
+This project uses a **2D matrix**:
+
+- `BRAND`: `brand1` | `brand2`
+- `ENV`: `dev` | `staging`
+
+Config files:
 
 ```
-.
-├── src/                  # Shared utilities, helpers, pages, fixtures
-├── tests/                # Playwright tests (e2e / smoke)
-├── .husky/               # Git hooks (pre-commit, pre-push, commit-msg)
-├── playwright.config.ts
-├── tsconfig.json
-├── package.json
-└── .github/workflows/ci.yml
+config/
+  brand1/
+    dev.json
+    staging.json
+  brand2/
+    dev.json
+    staging.json
 ```
 
----
+Resolution rules:
 
-## 🧪 Quality Gates
+1. If `BASE_URL` is set, it overrides `baseUrl` from the JSON file.
+2. Otherwise the config is loaded from `config/<brand>/<env>.json`.
+3. The run fails fast if the file is missing or values are invalid.
 
-### Local (Husky Git hooks)
-
-Local checks provide fast feedback before changes are pushed.
-
-| Hook        | Purpose |
-|------------|---------|
-| `commit-msg` | Enforces Conventional Commit message format |
-| `pre-push`   | Runs TypeScript typecheck and smoke tests |
-
-Hooks can be bypassed using `--no-verify`, therefore they are **not a replacement for CI**.
+More details: see `ENVIRONMENT_SETUP.md`.
 
 ---
 
-### Continuous Integration (GitHub Actions)
+## Reports and artifacts
 
-CI is the **single source of truth** for validation.
+Playwright outputs are intentionally consolidated under `artifacts/`:
 
-Pipeline steps:
+- `artifacts/playwright-report/` — HTML report
+- `artifacts/test-output/` — Playwright test output directory
+- `artifacts/junit.xml` — JUnit report
+- `artifacts/results.json` — JSON results
+
+This structure simplifies CI uploads and defect triage (evidence stays together).
+
+---
+
+## Quality gates
+
+### Local gates (Husky)
+
+Local hooks provide fast feedback before push:
+
+- `commit-msg` — enforces Conventional Commit format
+- `pre-push` — runs `npm run typecheck` and `npm run test:smoke`
+
+> Hooks can be bypassed with `--no-verify`. CI remains the source of truth.
+
+### CI gates (GitHub Actions)
+
+CI runs on pushes and pull requests:
+
 1. Install dependencies
 2. ESLint (fail-fast)
 3. TypeScript typecheck (fail-fast)
-4. Install Playwright browsers
-5. Run Playwright tests
-6. Upload reports and artifacts
+4. Install Playwright browsers (only when test files exist)
+5. Run Playwright tests (only when test files exist)
+6. Upload artifacts
 
 Husky is disabled in CI to avoid side effects:
 
@@ -66,36 +118,34 @@ env:
 
 ---
 
-## ▶️ Common Commands
+## Common commands
 
 ```bash
-npm run lint        # ESLint static analysis
-npm run typecheck   # TypeScript type check (tsc --noEmit)
-npm test            # Playwright tests
-npm run test:smoke  # Smoke test subset
+npm run lint         # static analysis
+npm run lint:fix     # auto-fix where possible
+npm run typecheck    # TypeScript compilation checks
+npm test             # all tests
+npm run test:smoke   # subset tagged with @smoke
+
+# Convenience scripts
+npm run test:brand1:dev
+npm run test:brand1:staging
+npm run test:brand2:dev
+npm run test:brand2:staging
 ```
 
 ---
 
-## 🧠 Design Principles
+## Design rationale (testing perspective)
 
-- **Fail-fast**: inexpensive static checks run before expensive test execution
-- **Shift-left**: defects are detected as early as possible
-- **Determinism**: CI does not depend on local Git hooks
-- **Transparency**: hooks and rules are version-controlled
+The setup aligns with standard test-control and risk-reduction practices:
 
----
-
-## 📌 Notes
-
-Smoke tests are executed:
-- locally (pre-push) for fast feedback,
-- in CI for clean-environment validation.
-
-This duplication is intentional and aligned with quality gate practices.
+- **Fail-fast**: inexpensive checks (lint/typecheck/config validation) run before costly execution.
+- **Determinism**: environment resolution is explicit and validated before tests start.
+- **Traceability**: CI artifacts provide evidence for investigation and audit.
 
 ---
 
-## 📄 License
+## License
 
 Internal / educational use.

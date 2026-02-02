@@ -2,13 +2,34 @@ name: CI
 
 on:
   push:
+    branches: [ main, master ]
   pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      brand:
+        description: "BRAND to run (brand1/brand2)"
+        required: false
+        default: "brand1"
+      env:
+        description: "ENV to run (dev/staging)"
+        required: false
+        default: "dev"
+      cross_browser:
+        description: "Set to 1 to enable firefox + webkit"
+        required: false
+        default: "0"
+      workers:
+        description: "Override workers count (optional)"
+        required: false
+        default: ""
 
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
     env:
+      # Disable Husky in CI to avoid hooks interfering with pipeline execution
       HUSKY: 0
 
     steps:
@@ -38,19 +59,24 @@ jobs:
 
       # 4) Run tests
       - name: Run Playwright tests
+        env:
+          BRAND: ${{ github.event.inputs.brand || 'brand1' }}
+          ENV: ${{ github.event.inputs.env || 'dev' }}
+          CROSS_BROWSER: ${{ github.event.inputs.cross_browser || '0' }}
+          PW_WORKERS: ${{ github.event.inputs.workers || '' }}
         run: npm test
 
       # 5) Upload artifacts even if tests fail
-      - name: Upload Playwright report
+      - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
-          path: playwright-report
+          name: artifacts
+          path: artifacts/**
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: test-results
+          path: test-results/**
