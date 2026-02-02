@@ -14,6 +14,11 @@ Config files live under:
 
 ## Running tests
 
+Defaults (if variables are not provided):
+
+- `BRAND=brand1`
+- `ENV=dev`
+
 Use BRAND + ENV (recommended):
 
 - `BRAND=brand1 ENV=dev npm test`
@@ -43,3 +48,11 @@ Example config files reference environment variable names for credentials, e.g.:
 - `BRAND1_DEV_PASSWORD`
 
 Store secret values in your CI/CD secret store (GitHub Actions Secrets), not in repo JSON.
+
+### Notes on validation
+
+Configuration is validated **before** Playwright starts. A run will fail fast if:
+
+- `ENV`/`BRAND` contains an unsupported value
+- `config/<brand>/<env>.json` is missing or invalid JSON
+- `baseUrl` is missing (unless `BASE_URL` is provided)

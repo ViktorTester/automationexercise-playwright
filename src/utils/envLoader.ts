@@ -1,6 +1,35 @@
-import fs from 'fs';
-import path from 'path';
-import { EnvConfig, AllowedBrand, AllowedEnv } from '../types/EnvConfig';
+import * as fs from 'fs';
+import * as path from 'path';
+import {AllowedBrand, AllowedEnv, EnvConfig} from '../types/EnvConfig';
+
+type RawEnvConfigFile = {
+  baseUrl?: unknown;
+  apiBaseUrl?: unknown;
+  credentialEnv?: RawCredentialEnv;
+};
+
+type RawCredentialEnv = {
+  username?: unknown;
+  password?: unknown;
+};
+
+function asObject(value: unknown): Record<string, unknown> {
+  if (!value || typeof value !== 'object') {
+    return {};
+  }
+  return value as Record<string, unknown>;
+}
+
+function asRawEnvConfigFile(value: unknown): RawEnvConfigFile {
+  const obj = asObject(value);
+  const credentialEnvObj = obj.credentialEnv !== undefined ? asObject(obj.credentialEnv) : undefined;
+
+  return {
+    ...(obj.baseUrl !== undefined ? { baseUrl: obj.baseUrl } : {}),
+    ...(obj.apiBaseUrl !== undefined ? { apiBaseUrl: obj.apiBaseUrl } : {}),
+    ...(credentialEnvObj !== undefined ? { credentialEnv: credentialEnvObj as RawCredentialEnv } : {}),
+  };
+}
 
 /**
  * Allowed values are intentionally strict (fail-fast).
@@ -38,8 +67,8 @@ export function loadEnvConfig(): EnvConfig {
 
   if (!fs.existsSync(configPath)) {
     throw new Error(
-      `Environment config file not found: ${configPath}. ` +
-      `Expected at: config/<brand>/<env>.json (brand=${brand}, env=${env}).`
+        `Environment config file not found: ${configPath}. ` +
+        `Expected at: config/<brand>/<env>.json (brand=${brand}, env=${env}).`
     );
   }
 
@@ -47,18 +76,34 @@ export function loadEnvConfig(): EnvConfig {
   try {
     parsed = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
   } catch (e: unknown) {
-    throw new Error(`Failed to parse JSON config: ${configPath}. ${e?.message ?? e}`);
+    const msg = e instanceof Error ? e.message : String(e);
+    throw new Error(`Failed to parse JSON config: ${configPath}. ${msg}`);
   }
 
   const baseUrlOverride = process["env"].BASE_URL?.trim();
 
-  const envConfig: EnvConfig = {
+  const fileConfig = asRawEnvConfigFile(parsed);
+  const baseUrlFromFile = typeof fileConfig.baseUrl === 'string' ? fileConfig.baseUrl : undefined;
+  const apiBaseUrlFromFile = typeof fileConfig.apiBaseUrl === 'string' ? fileConfig.apiBaseUrl : undefined;
+
+  const usernameFromFile =
+      typeof fileConfig.credentialEnv?.username === 'string' ? fileConfig.credentialEnv.username : undefined;
+  const passwordFromFile =
+      typeof fileConfig.credentialEnv?.password === 'string' ? fileConfig.credentialEnv.password : undefined;
+
+  const credentialEnvFromFile =
+      usernameFromFile || passwordFromFile
+          ? {
+            ...(usernameFromFile ? { username: usernameFromFile } : {}),
+            ...(passwordFromFile ? { password: passwordFromFile } : {}),
+          }
+          : undefined;
+
+  return {
     brand,
     env,
-    baseUrl: baseUrlOverride || parsed.baseUrl,
-    apiBaseUrl: parsed.apiBaseUrl,
-    credentialEnv: parsed.credentialEnv,
+    baseUrl: baseUrlOverride || baseUrlFromFile || '',
+    ...(apiBaseUrlFromFile ? {apiBaseUrl: apiBaseUrlFromFile} : {}),
+    ...(credentialEnvFromFile ? {credentialEnv: credentialEnvFromFile} : {}),
   };
-
-  return envConfig;
 }

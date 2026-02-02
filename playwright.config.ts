@@ -20,6 +20,8 @@ import { validateConfig } from 'src/utils/configValidator';
 const envConfig = loadEnvConfig();
 validateConfig(envConfig);
 
+const workerOverride = process["env"].PW_WORKERS ? Number(process["env"].PW_WORKERS) : undefined;
+
 export default defineConfig({
   // Where tests live
   testDir: './tests',
@@ -39,7 +41,7 @@ export default defineConfig({
    * - Prefer controlling workers from CI without code changes.
    * - If PW_WORKERS is not set, Playwright decides based on CPU.
    */
-  workers: process["env"].PW_WORKERS ? Number(process["env"].PW_WORKERS) : undefined,
+  ...(workerOverride !== undefined ? { workers: workerOverride } : {}),
 
   /**
    * Artifacts:
@@ -94,10 +96,10 @@ export default defineConfig({
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
     ...(process["env"].CROSS_BROWSER === '1'
-      ? [
+        ? [
           { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
           { name: 'webkit', use: { ...devices['Desktop Safari'] } },
         ]
-      : []),
+        : []),
   ],
 });

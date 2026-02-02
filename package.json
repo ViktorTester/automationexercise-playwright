@@ -12,8 +12,8 @@
     "prepare": "husky",
     "test:brand1:dev": "ENV=dev BRAND=brand1 npm test",
     "test:brand1:staging": "ENV=staging BRAND=brand1 npm test",
-    "test:brand2:dev": "ENV=dev BRAND=brand1 npm test",
-    "test:brand2:staging": "ENV=staging BRAND=brand1 npm test"
+    "test:brand2:dev": "ENV=dev BRAND=brand2 npm test",
+    "test:brand2:staging": "ENV=staging BRAND=brand2 npm test"
 },
   "keywords": [],
   "author": "Viktor K.",
