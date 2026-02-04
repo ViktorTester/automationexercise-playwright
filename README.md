@@ -12,6 +12,7 @@ The repository is currently focused on **configuration and engineering guardrail
 - **TypeScript** (strict mode)
 - **ESLint** + **eslint-plugin-playwright**
 - **Husky** (local Git hooks)
+- **Docker** + **Docker Compose**
 - **GitHub Actions** (CI)
 
 ---
@@ -20,8 +21,8 @@ The repository is currently focused on **configuration and engineering guardrail
 
 ### Prerequisites
 
-- Node.js **20.x** (recommended)
-- `npm` (comes with Node)
+- Node.js 20.x
+- `npm`
 
 ### Install
 
@@ -30,7 +31,7 @@ npm install
 npx playwright install
 ```
 
-### Run a test (once tests exist)
+### Run tests
 
 ```bash
 # default: BRAND=brand1, ENV=dev
@@ -43,6 +44,22 @@ BRAND=brand2 ENV=staging npm test
 CROSS_BROWSER=1 BRAND=brand1 ENV=dev npm test
 ```
 
+---
+
+## Run tests with Docker Compose (local & CI)
+
+Docker Compose is the canonical way to run tests.
+```bash
+docker compose up --build
+```
+With explicit parameters:
+```bash
+ENV=staging BRAND=brand2 CROSS_BROWSER=1 PW_WORKERS=2 docker compose up --build
+```
+Stop containers:
+```bash
+docker compose down
+```
 ---
 
 ## Environments and brands
@@ -83,7 +100,7 @@ Playwright outputs are intentionally consolidated under `artifacts/`:
 - `artifacts/junit.xml` — JUnit report
 - `artifacts/results.json` — JSON results
 
-This structure simplifies CI uploads and defect triage (evidence stays together).
+The same structure is used locally and in CI.
 
 ---
 
