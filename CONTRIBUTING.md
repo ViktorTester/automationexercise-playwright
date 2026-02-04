@@ -148,3 +148,17 @@ This project writes reports under `artifacts/`. Ensure the workflow uploads `art
 
 When the repository is copied without `.git` (e.g., downloaded as a ZIP), Husky may warn. This does not occur when the project is cloned normally.
 
+---
+
+## CI execution
+
+CI uses the same docker-compose.yml as local runs:
+
+1. Lint
+2. Typecheck
+3. docker compose build
+4. docker compose up
+5. Upload artifacts/
+
+This ensures identical runtime semantics.
+

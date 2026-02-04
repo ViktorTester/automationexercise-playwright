@@ -12,6 +12,9 @@ Config files live under:
 - `config/brand2/dev.json`
 - `config/brand2/staging.json`
 
+
+---
+
 ## Running tests
 
 Defaults (if variables are not provided):
@@ -40,6 +43,8 @@ Headless override (local debug):
 
 - `PW_HEADLESS=0 BRAND=brand1 ENV=dev npm test`
 
+---
+
 ## Secrets
 
 Example config files reference environment variable names for credentials, e.g.:
@@ -48,6 +53,33 @@ Example config files reference environment variable names for credentials, e.g.:
 - `BRAND1_DEV_PASSWORD`
 
 Store secret values in your CI/CD secret store (GitHub Actions Secrets), not in repo JSON.
+
+---
+
+## Running tests (Docker Compose)
+
+docker compose up --build
+
+With parameters:
+
+ENV=staging BRAND=brand2 docker compose up --build
+
+Docker Compose is used both locally and in CI.
+
+---
+
+## Test output location
+
+All Playwright outputs are written to:
+
+artifacts/
+
+This includes:
+- HTML report
+- JUnit and JSON results
+- Playwright outputDir (traces, screenshots, videos)
+
+---
 
 ### Notes on validation
 

@@ -36,6 +36,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+# Cheap checks before Docker
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -53,18 +54,60 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      # 3) Install Playwright browsers (expensive)
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
 
-      # 4) Run tests
-      - name: Run Playwright tests
+
+
+  # На GitHub runner (хост-машине CI) явно создаются директории. Не в контейнере
+      - name: Prepare artifact folders
+        run: |
+         mkdir -p artifacts
+          
+      # Запуск тестов через Docker Compose
+      - name: Run tests in Docker (docker compose)
+        # Передача переменных окружения (с дефолтами)
         env:
-          BRAND: ${{ github.event.inputs.brand || 'brand1' }}
           ENV: ${{ github.event.inputs.env || 'dev' }}
+          BRAND: ${{ github.event.inputs.brand || 'brand1' }}
           CROSS_BROWSER: ${{ github.event.inputs.cross_browser || '0' }}
           PW_WORKERS: ${{ github.event.inputs.workers || '' }}
-        run: npm test
+
+        run: |
+      # Логирование версии Docker Compose
+          docker compose version
+      # Сборка образа         
+          docker compose build --pull
+      # Запуск контейнеров и тестов          
+          docker compose up --abort-on-container-exit --exit-code-from tests
+          # docker compose up          - поднимает сервисы из compose файла
+          # --abort-on-container-exit  - как только контейнер-тест завершится, compose останавливает все
+          # --exit-code-from tests     - GitHub Actions получает exit code именно контейнера tests
+          
+     # Очистка Docker-ресурсов
+      - name: Docker compose down (cleanup)
+        if: always()
+        run: docker compose down -v --remove-orphans
+        # down             - Останавливает контейнеры. Удаляет сеть, созданную compose
+        # -v               - Удаляет volumes, созданные compose. Не трогает bind mounts (./artifacts, ./test-results)
+        # --remove-orphans - Удаляет контейнеры, которые: не описаны в текущем compose-файле, но остались от предыдущих запусков
+
+
+
+
+
+
+
+#      # 3) Install Playwright browsers (expensive)
+#      - name: Install Playwright browsers
+#        run: npx playwright install --with-deps
+#
+#      # 4) Run tests
+#      - name: Run Playwright tests
+#        env:
+#          BRAND: ${{ github.event.inputs.brand || 'brand1' }}
+#          ENV: ${{ github.event.inputs.env || 'dev' }}
+#          CROSS_BROWSER: ${{ github.event.inputs.cross_browser || '0' }}
+#          PW_WORKERS: ${{ github.event.inputs.workers || '' }}
+#        run: npm test
 
       # 5) Upload artifacts even if tests fail
       - name: Upload artifacts

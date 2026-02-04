@@ -1,0 +1,16 @@
+services:
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pw-tests:local
+    working_dir: /work
+    shm_size: "1gb"
+    init: true
+    volumes:
+      - ./:/work
+      - ./artifacts:/work/artifacts
+    environment:
+      ENV: dev
+      BRAND: brand1
+    command: ["npm", "test"]
