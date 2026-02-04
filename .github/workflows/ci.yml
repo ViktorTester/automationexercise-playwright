@@ -54,17 +54,12 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-
-
-
-  # На GitHub runner (хост-машине CI) явно создаются директории. Не в контейнере
       - name: Prepare artifact folders
         run: |
          mkdir -p artifacts
           
-      # Запуск тестов через Docker Compose
+      # Start the tests with docker compose
       - name: Run tests in Docker (docker compose)
-        # Передача переменных окружения (с дефолтами)
         env:
           ENV: ${{ github.event.inputs.env || 'dev' }}
           BRAND: ${{ github.event.inputs.brand || 'brand1' }}
@@ -72,29 +67,14 @@ jobs:
           PW_WORKERS: ${{ github.event.inputs.workers || '' }}
 
         run: |
-      # Логирование версии Docker Compose
           docker compose version
-      # Сборка образа         
-          docker compose build --pull
-      # Запуск контейнеров и тестов          
+          docker compose build --pull         
           docker compose up --abort-on-container-exit --exit-code-from tests
-          # docker compose up          - поднимает сервисы из compose файла
-          # --abort-on-container-exit  - как только контейнер-тест завершится, compose останавливает все
-          # --exit-code-from tests     - GitHub Actions получает exit code именно контейнера tests
           
-     # Очистка Docker-ресурсов
+     # Clear docker resources
       - name: Docker compose down (cleanup)
         if: always()
         run: docker compose down -v --remove-orphans
-        # down             - Останавливает контейнеры. Удаляет сеть, созданную compose
-        # -v               - Удаляет volumes, созданные compose. Не трогает bind mounts (./artifacts, ./test-results)
-        # --remove-orphans - Удаляет контейнеры, которые: не описаны в текущем compose-файле, но остались от предыдущих запусков
-
-
-
-
-
-
 
 #      # 3) Install Playwright browsers (expensive)
 #      - name: Install Playwright browsers
