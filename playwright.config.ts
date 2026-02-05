@@ -77,7 +77,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     // Recording the video, but saving only on failure
     video: 'retain-on-failure',
-    trace: 'on-first-retry',
+    trace: 'on',
 
     // Wait for element
     actionTimeout: 10_000,
