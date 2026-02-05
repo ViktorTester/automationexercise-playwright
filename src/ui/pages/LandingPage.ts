@@ -4,7 +4,6 @@ import {expect, Locator, Page} from "@playwright/test";
  * Landing page object
  */
 export class LandingPage {
-    readonly page: Page;
     readonly inputs: Locator;
     readonly mockExams: Locator;
     readonly mainTitle: Locator;

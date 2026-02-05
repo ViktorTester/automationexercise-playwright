@@ -5,7 +5,6 @@ import {InputsCopy} from "../copy/inputs.copy";
  * Inputs page object
  */
 export class InputsPage {
-    readonly page: Page;
     readonly title: Locator;
     readonly description: Locator;
 
