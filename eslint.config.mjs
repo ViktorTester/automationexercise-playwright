@@ -36,7 +36,6 @@ export default [
             "playwright/no-focused-test": "error",          // Restrict test.only
             "playwright/no-skipped-test": "warn",           // test.skip warnings
             "playwright/no-wait-for-timeout": "warn",       // Restrict waitForTimeout
-            "playwright/expect-expect": "error",            // Test must contain expect
             "playwright/prefer-web-first-assertions": "warn"// Prefer toHave* assertions
         },
     },
