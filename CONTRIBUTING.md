@@ -65,7 +65,10 @@ Notes:
 
 ## CI validation
 
-GitHub Actions runs on every push and pull request.
+GitHub Actions runs on pull requests targeting `main` / `master`
+(events: `opened`, `synchronize`, `reopened`, `ready_for_review`).
+
+`main` is protected: merging is blocked until CI succeeds (required status checks).
 
 Current pipeline:
 

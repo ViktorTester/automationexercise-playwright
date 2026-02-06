@@ -117,7 +117,10 @@ Local hooks provide fast feedback before push:
 
 ### CI gates (GitHub Actions)
 
-CI runs on pushes and pull requests:
+CI runs on pull requests targeting `main` / `master` only
+(events: `opened`, `synchronize`, `reopened`, `ready_for_review`).
+
+`main` branch is protected: a pull request cannot be merged until the CI checks pass.
 
 1. Install dependencies
 2. ESLint (fail-fast)
