@@ -88,3 +88,11 @@ Configuration is validated **before** Playwright starts. A run will fail fast if
 - `ENV`/`BRAND` contains an unsupported value
 - `config/<brand>/<env>.json` is missing or invalid JSON
 - `baseUrl` is missing (unless `BASE_URL` is provided)
+
+---
+
+## CI and branch protection
+
+CI is triggered on pull requests to `main` / `master`.
+`main` is protected, so the pull request cannot be merged until CI passes.
+
