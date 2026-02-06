@@ -6,7 +6,7 @@ test.describe("web-inputs", () => {
         await landing.openWebInputs();
     })
 
-    test("@smoke @regression input number", async({inputs}) =>  {
+    test("@smoke @regression Input number", async({inputs}) =>  {
 
         await inputs.expectTextsAreVisible();
 
