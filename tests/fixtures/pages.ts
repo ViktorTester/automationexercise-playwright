@@ -32,10 +32,11 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
      * env config is loaded once per worker
      */
     config: [
-        async (_, use) => {
-            const cfg = (loadEnvConfig());
-            await use(cfg)
-        }, {scope: 'worker'}
+        async ({}, use) => {
+            const cfg = loadEnvConfig();
+            await use(cfg);
+        },
+        { scope: 'worker' },
     ],
 
     // Page with baseURL applied
