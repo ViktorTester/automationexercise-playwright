@@ -54,8 +54,8 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
         await use(new LandingPage(page));
     },
 
-    inputs: async ({page}, use) => {
-        await use(new InputsPage(page))
+    inputs: async ({page, landing}, use) => {
+        await use(new InputsPage(page, landing));
     }
 })
 

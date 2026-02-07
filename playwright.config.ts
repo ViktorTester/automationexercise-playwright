@@ -72,6 +72,7 @@ export default defineConfig({
 
     // Headless in CI is typical; locally you can override via PW_HEADLESS=0 if needed
     headless: process["env"].PW_HEADLESS ? process["env"].PW_HEADLESS !== '0' : true,
+    viewport: { width: 1280, height: 720 },
 
     // Making a screenshot only on failure
     screenshot: 'only-on-failure',
