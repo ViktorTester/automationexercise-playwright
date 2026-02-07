@@ -21,7 +21,7 @@ test.describe("web-inputs", () => {
         await inputs.clickDisplayInputsBtn();
         await inputs.expectOutput(InputField.Number, testValue);
 
-        await inputs.clearAllInputs(InputField.Number);
+        await inputs.clearAllInputs();
         await inputs.expectCleared(InputField.Number);
 
     });
@@ -33,7 +33,7 @@ test.describe("web-inputs", () => {
             await inputs.clickDisplayInputsBtn();
             await inputs.expectOutput(InputField.Number, tc.expectedValue);
 
-            await inputs.clearAllInputs(InputField.Number);
+            await inputs.clearAllInputs();
             await inputs.expectCleared(InputField.Number);
 
         });
@@ -45,7 +45,7 @@ test.describe("web-inputs", () => {
         await inputs.clickDisplayInputsBtn();
         await inputs.expectOutput(InputField.Number, '');
 
-        await inputs.clearAllInputs(InputField.Number);
+        await inputs.clearAllInputs();
         await inputs.expectCleared(InputField.Number);
 
     });

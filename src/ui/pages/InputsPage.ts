@@ -51,11 +51,6 @@ export class InputsPage {
     // Actions
     async inputValue(field: InputField, value: string): Promise<void> {
 
-        // The input field is problematic, which is why
-        // such complex logic for entering values was needed.
-        await this.inputs[field].waitFor({state: 'visible'});
-        await this.inputs[field].scrollIntoViewIfNeeded();
-        await this.inputs[field].click({force: true});
         await this.inputs[field].fill(value);
 
         await expect(this.inputs[field]).toHaveValue(value);
