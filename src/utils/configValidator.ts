@@ -17,10 +17,6 @@ export function validateConfig(config: EnvConfig): void {
     throw new Error('Missing or invalid baseUrl in env config.');
   }
 
-  if (config.apiBaseUrl && typeof config.apiBaseUrl !== 'string') {
-    throw new Error('Invalid apiBaseUrl in env config (must be a string).');
-  }
-
   if (config.credentials) {
     const { username, email } = config.credentials;
 

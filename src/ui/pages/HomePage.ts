@@ -38,7 +38,7 @@ export class HomePage {
     }
 
     // Assertions
-    async checkMainTitle(): Promise<string> {
+    async checkMainTitle(): Promise<void> {
         await expect(this.mainTitile).toBeVisible();
     }
 

@@ -28,11 +28,11 @@ export class LoginPage {
 
 
     // Actions
-    async inputName(name: string): Promise<string> {
+    async inputName(name: string): Promise<void> {
         await this.signupName.fill(name)
     }
 
-    async inputEmail(email: string): Promise<string> {
+    async inputEmail(email: string): Promise<void> {
         await this.signupEmail.fill(email)
     }
 

@@ -54,8 +54,8 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
         await use(new HomePage(page));
     },
 
-    login: async ({page}, use) => {
-        await use(new LoginPage(page));
+    login: async ({page, home}, use) => {
+        await use(new LoginPage(page, home));
     }
 })
 

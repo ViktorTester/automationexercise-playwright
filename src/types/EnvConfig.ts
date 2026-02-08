@@ -4,7 +4,7 @@ export type AllowedBrand = 'brand1' | 'brand2';
 /**
  * Environment configuration contract for tests.
  */
-export interface EnvConfig {
+export type EnvConfig = {
   brand: AllowedBrand;
   env: AllowedEnv;
 
@@ -18,8 +18,8 @@ export interface EnvConfig {
    * Optional test credentials stored directly in repo JSON.
    * (for test only)
    */
-  credentials?: {
-    username?: string; // env var name that contains username
-    email?: string; // env var name that contains email
+  credentials: {
+    username: string; // env var name that contains username
+    email: string; // env var name that contains email
   };
 }

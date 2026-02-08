@@ -2,15 +2,14 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { AllowedBrand, AllowedEnv, EnvConfig } from '../types/EnvConfig';
 
-type RawEnvConfigFile = {
-    baseUrl?: unknown;
-    apiBaseUrl?: unknown;
-    credentials?: RawCredentials;
-};
-
 type RawCredentials = {
     username?: unknown;
     email?: unknown;
+};
+
+type RawEnvConfigFile = {
+    baseUrl?: unknown;
+    credentials?: RawCredentials;
 };
 
 function asObject(value: unknown): Record<string, unknown> {
@@ -24,7 +23,6 @@ function asRawEnvConfigFile(value: unknown): RawEnvConfigFile {
 
     return {
         ...(obj.baseUrl !== undefined ? { baseUrl: obj.baseUrl } : {}),
-        ...(obj.apiBaseUrl !== undefined ? { apiBaseUrl: obj.apiBaseUrl } : {}),
         ...(credentialsObj !== undefined ? { credentials: credentialsObj as RawCredentials } : {}),
     };
 }
@@ -45,6 +43,13 @@ function requireAllowed<T extends string>(name: string, value: string, allowed: 
         throw new Error(`Unsupported ${name}="${value}". Allowed: ${allowed.join(', ')}`);
     }
     return value as T;
+}
+
+function requireNonEmptyString(name: string, value: string | undefined, configPath: string): string {
+    if (!value || typeof value !== 'string' || !value.trim()) {
+        throw new Error(`Missing/invalid "${name}" in config file: ${configPath}`);
+    }
+    return value.trim();
 }
 
 /**
@@ -78,26 +83,31 @@ export function loadEnvConfig(): EnvConfig {
         throw new Error(`Failed to parse JSON config: ${configPath}. ${msg}`);
     }
 
-    const baseUrlOverride = process.env.BASE_URL?.trim();
-
     const fileConfig = asRawEnvConfigFile(parsed);
-    const baseUrlFromFile = typeof fileConfig.baseUrl === 'string' ? fileConfig.baseUrl : undefined;
-    const apiBaseUrlFromFile = typeof fileConfig.apiBaseUrl === 'string' ? fileConfig.apiBaseUrl : undefined;
 
+    const baseUrlOverride = process.env.BASE_URL?.trim();
+    const baseUrlFromFile = typeof fileConfig.baseUrl === 'string' ? fileConfig.baseUrl.trim() : undefined;
+
+    // ---- Credentials: REQUIRED (fail-fast) ----
     const usernameFromFile =
-        typeof fileConfig.credentials?.username === 'string' ? fileConfig.credentials.username : undefined;
-    const emailFromFile = typeof fileConfig.credentials?.email === 'string' ? fileConfig.credentials.email : undefined;
+        typeof fileConfig.credentials?.username === 'string' ? fileConfig.credentials.username.trim() : undefined;
+    const emailFromFile =
+        typeof fileConfig.credentials?.email === 'string' ? fileConfig.credentials.email.trim() : undefined;
 
-    const credentialsFromFile =
-        usernameFromFile && emailFromFile
-            ? { username: usernameFromFile, email: emailFromFile }
-            : undefined;
+    const creds = {
+        username: requireNonEmptyString('credentials.username', usernameFromFile, configPath),
+        email: requireNonEmptyString('credentials.email', emailFromFile, configPath),
+    };
+
+    const baseUrl = baseUrlOverride || baseUrlFromFile;
+    if (!baseUrl) {
+        throw new Error(`Missing baseUrl (or BASE_URL override) for config file: ${configPath}`);
+    }
 
     return {
         brand,
         env,
-        baseUrl: baseUrlOverride || baseUrlFromFile || '',
-        ...(apiBaseUrlFromFile ? { apiBaseUrl: apiBaseUrlFromFile } : {}),
-        ...(credentialsFromFile ? { credentials: credentialsFromFile } : {}),
+        baseUrl,
+        credentials: creds,
     };
 }
