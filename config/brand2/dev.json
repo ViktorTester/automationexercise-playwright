@@ -2,7 +2,7 @@
   "env": "dev",
   "baseUrl": "https://automationexercise.com",
   "credentials": {
-    "username": "validTestUser",
-    "email": "validTestEmail@test.com"
+    "username": "admin_login",
+    "email": "admin@email"
   }
 }

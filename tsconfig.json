@@ -13,6 +13,16 @@
 
     "baseUrl": ".",
 
+    // 'Pretty' import path
+    "paths": {
+      "@app-types/*": ["src/types/*"],
+      "@pages/*": ["src/ui/pages/*"],
+      "@locators/*": ["src/ui/locators/*"],
+      "@testdata/*": ["src/testdata/*"],
+      "@utils/*": ["src/utils/*"],
+      "@ui/*": ["src/ui/*"]
+    },
+
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true
   },
