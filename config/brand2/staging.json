@@ -1,7 +1,6 @@
 {
   "env": "staging",
   "baseUrl": "https://automationexercise.com",
-  "dataVersion": "v1.0.0",
   "credentialEnv": {
     "username": "validTestUser",
     "email": "validTestEmail@test.com"

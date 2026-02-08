@@ -17,7 +17,7 @@ export interface EnvConfig {
   /**
    * Data version for future releases
    */
-  dataVersion: string;
+  // dataVersion: string;
 
   /**
    * Optional credentials reference.

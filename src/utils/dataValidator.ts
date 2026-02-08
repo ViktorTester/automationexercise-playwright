@@ -5,7 +5,7 @@ type CredentialEnvRef = { username: string; email: string };
 
 type EnvConfigLike = {
     env: string;
-    dataVersion: string;
+    // dataVersion: string;
     credentialEnv?: CredentialEnvRef;
 };
 
@@ -19,13 +19,13 @@ export function loadTestData(arg1: string | EnvConfigLike, arg2?: string) {
     const env = typeof arg1 === 'string' ? arg1 : arg1.env;
     const version = typeof arg1 === 'string' ? (arg2 as string) : arg1.dataVersion;
 
-    const dataPath = path.resolve(`data/${env}/${version}.json`);
+   // const dataPath = path.resolve(`data/${env}/${version}.json`);
 
-    if (!fs.existsSync(dataPath)) {
-        throw new Error(`Test data ${version} for ${env} not found`);
-    }
+    // if (!fs.existsSync(dataPath)) {
+    //     throw new Error(`Test data ${version} for ${env} not found`);
+    // }
 
-    const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+    // const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 
     // Overlay valid credentials from CI secrets (if provided).
     // The config holds only the env-var *names*; actual values come from runtime environment.
@@ -38,5 +38,5 @@ export function loadTestData(arg1: string | EnvConfigLike, arg2?: string) {
         if (email) data.users.valid.email = email;
     }
 
-    return data;
+    // return data;
 }

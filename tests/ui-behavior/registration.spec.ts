@@ -4,8 +4,8 @@ import {LoginPage} from "../../src/ui/pages/LoginPage";
 import {loadEnvConfig} from "../../src/utils/envLoader";
 import {loadTestData} from "../../src/utils/dataValidator";
 
-const config = loadEnvConfig();
-const data = loadTestData(config.env, config.dataVersion);
+// const config = loadEnvConfig();
+// const data = loadTestData(config.env);
 
 test.describe("Test Case 1: Register User", () => {
     test.beforeEach(async ({home}) => {
@@ -23,8 +23,8 @@ test.describe("Test Case 1: Register User", () => {
         await login.checkLoginText();
         await login.checkSignupText();
 
-        await login.inputName(data.users.valid.username);
-        await login.inputEmail(data.users.valid.email);
+        await login.inputName("test");
+        await login.inputEmail("test@tedt.com");
         await login.pressSignupBtn();
 
     });
