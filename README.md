@@ -1,4 +1,4 @@
-# ExpandTesting Playwright (TypeScript)
+# Automationexercise Playwright (TypeScript)
 
 End-to-end and API test automation scaffolding built on **Playwright** and **TypeScript**.
 

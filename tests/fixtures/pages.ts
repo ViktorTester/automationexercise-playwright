@@ -1,8 +1,9 @@
 import {test as base, expect, type Page} from '@playwright/test'
-import {LandingPage} from "../../src/ui/pages/LandingPage";
+import {HomePage} from "../../src/ui/pages/HomePage";
 import {InputsPage} from "../../src/ui/pages/InputsPage";
 import {loadEnvConfig} from "../../src/utils/envLoader";
 import type {EnvConfig} from '../../src/types/EnvConfig';
+import {LoginPage} from "../../src/ui/pages/LoginPage";
 
 /**
  * Page Object fixtures
@@ -17,8 +18,8 @@ type WorkerFixtures = {
 
 type PagesFixtures = {
     page: Page
-    landing: LandingPage;
-    inputs: InputsPage;
+    home: HomePage
+    login: LoginPage
 }
 
 export const test = base.extend<PagesFixtures, WorkerFixtures>({
@@ -50,12 +51,12 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
         await context.close();
     },
 
-    landing: async ({page}, use) => {
-        await use(new LandingPage(page));
+    home: async ({page}, use) => {
+        await use(new HomePage(page));
     },
 
-    inputs: async ({page}, use) => {
-        await use(new InputsPage(page))
+    login: async ({page}, use) => {
+        await use(new LoginPage(page));
     }
 })
 

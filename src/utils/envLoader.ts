@@ -10,7 +10,7 @@ type RawEnvConfigFile = {
 
 type RawCredentialEnv = {
   username?: unknown;
-  password?: unknown;
+  email?: unknown;
 };
 
 function asObject(value: unknown): Record<string, unknown> {
@@ -88,16 +88,20 @@ export function loadEnvConfig(): EnvConfig {
 
   const usernameFromFile =
       typeof fileConfig.credentialEnv?.username === 'string' ? fileConfig.credentialEnv.username : undefined;
-  const passwordFromFile =
-      typeof fileConfig.credentialEnv?.password === 'string' ? fileConfig.credentialEnv.password : undefined;
+  const emailFromFile =
+      typeof fileConfig.credentialEnv?.email === 'string' ? fileConfig.credentialEnv.email : undefined;
 
   const credentialEnvFromFile =
-      usernameFromFile || passwordFromFile
+      usernameFromFile || emailFromFile
           ? {
             ...(usernameFromFile ? { username: usernameFromFile } : {}),
-            ...(passwordFromFile ? { password: passwordFromFile } : {}),
+            ...(emailFromFile ? { email: emailFromFile } : {}),
           }
           : undefined;
+
+  // const rawConfig = JSON.parse(
+  //     fs.readFileSync(configPath, 'utf-8')
+  // );
 
   return {
     brand,
@@ -105,5 +109,6 @@ export function loadEnvConfig(): EnvConfig {
     baseUrl: baseUrlOverride || baseUrlFromFile || '',
     ...(apiBaseUrlFromFile ? {apiBaseUrl: apiBaseUrlFromFile} : {}),
     ...(credentialEnvFromFile ? {credentialEnv: credentialEnvFromFile} : {}),
+   //  dataVersion: rawConfig.dataVersion
   };
 }

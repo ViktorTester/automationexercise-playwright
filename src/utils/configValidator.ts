@@ -22,14 +22,14 @@ export function validateConfig(config: EnvConfig): void {
   }
 
   if (config.credentialEnv) {
-    const { username, password } = config.credentialEnv;
+    const { username, email } = config.credentialEnv;
 
     // If one is provided, require the other (prevents partial configuration).
-    const oneProvided = Boolean(username) || Boolean(password);
-    const bothProvided = Boolean(username) && Boolean(password);
+    const oneProvided = Boolean(username) || Boolean(email);
+    const bothProvided = Boolean(username) && Boolean(email);
 
     if (oneProvided && !bothProvided) {
-      throw new Error('credentialEnv must contain both username and password (env var names) or be omitted.');
+      throw new Error('credentialEnv must contain both username and email (env var names) or be omitted.');
     }
   }
 }
