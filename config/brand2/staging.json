@@ -1,8 +1,9 @@
 {
-  "baseUrl": "https://practice.expandtesting.com",
-  "apiBaseUrl": "https://practice.expandtesting.com/notes/api",
+  "env": "staging",
+  "baseUrl": "https://automationexercise.com",
+  "dataVersion": "v1.0.0",
   "credentialEnv": {
-    "username": "BRAND2_STG_USERNAME",
-    "password": "BRAND2_STG_PASSWORD"
+    "username": "validTestUser",
+    "email": "validTestEmail@test.com"
   }
 }

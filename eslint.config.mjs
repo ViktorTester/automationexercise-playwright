@@ -32,10 +32,12 @@ export default [
             },
         },
         rules: {
+
             // Allow (_, use) in fixtures
             "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
             // Allow empty destructuring ({}, use)
             "no-empty-pattern": "off",
+
             // Playwright best practices
             "playwright/no-focused-test": "error",          // Restrict test.only
             "playwright/no-skipped-test": "warn",           // test.skip warnings

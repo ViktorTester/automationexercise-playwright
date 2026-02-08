@@ -15,9 +15,9 @@ export interface EnvConfig {
   baseUrl: string;
 
   /**
-   * API base URL for API tests
+   * Data version for future releases
    */
-  apiBaseUrl?: string;
+  dataVersion: string;
 
   /**
    * Optional credentials reference.
@@ -26,6 +26,6 @@ export interface EnvConfig {
    */
   credentialEnv?: {
     username?: string; // env var name that contains username
-    password?: string; // env var name that contains password
+    email?: string; // env var name that contains email
   };
 }

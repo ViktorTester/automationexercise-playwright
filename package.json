@@ -1,5 +1,5 @@
 {
-  "name": "expandtesting-playwright",
+  "name": "automationexercise-playwright",
   "version": "1.0.0",
   "description": "E2E and API tests using Playwright and TypeScript",
   "main": "index.js",
