@@ -1,6 +1,5 @@
 import {test as base, expect, type Page} from '@playwright/test'
 import {HomePage} from "../../src/ui/pages/HomePage";
-import {InputsPage} from "../../src/ui/pages/InputsPage";
 import {loadEnvConfig} from "../../src/utils/envLoader";
 import type {EnvConfig} from '../../src/types/EnvConfig';
 import {LoginPage} from "../../src/ui/pages/LoginPage";

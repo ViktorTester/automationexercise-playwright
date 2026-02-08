@@ -21,15 +21,14 @@ export function validateConfig(config: EnvConfig): void {
     throw new Error('Invalid apiBaseUrl in env config (must be a string).');
   }
 
-  if (config.credentialEnv) {
-    const { username, email } = config.credentialEnv;
+  if (config.credentials) {
+    const { username, email } = config.credentials;
 
-    // If one is provided, require the other (prevents partial configuration).
     const oneProvided = Boolean(username) || Boolean(email);
     const bothProvided = Boolean(username) && Boolean(email);
 
     if (oneProvided && !bothProvided) {
-      throw new Error('credentialEnv must contain both username and email (env var names) or be omitted.');
+      throw new Error('credentials must contain both username and email or be omitted.');
     }
   }
 }

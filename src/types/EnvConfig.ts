@@ -15,16 +15,10 @@ export interface EnvConfig {
   baseUrl: string;
 
   /**
-   * Data version for future releases
+   * Optional test credentials stored directly in repo JSON.
+   * (for test only)
    */
-  // dataVersion: string;
-
-  /**
-   * Optional credentials reference.
-   * Prefer storing secrets in CI secrets, not in repo JSON.
-   * This structure allows referencing env var keys, not raw secrets.
-   */
-  credentialEnv?: {
+  credentials?: {
     username?: string; // env var name that contains username
     email?: string; // env var name that contains email
   };
