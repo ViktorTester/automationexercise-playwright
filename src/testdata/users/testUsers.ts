@@ -1,7 +1,7 @@
 export const TestUsers = {
     validUser: {
         name: 'JohnDoe',
-        email: 'john.doe@test.com',
+        email: 'morning_at_pluto@test.com',
         password: 'Password123!',
         firstName: 'John',
         lastName: 'Doe',
@@ -17,7 +17,7 @@ export const TestUsers = {
 
     anotherUser: {
         name: 'JamesDoe',
-        email: 'james.doe@test.com',
+        email: 'evening_at_moon@test.com',
         password: 'Password1234!',
         firstName: 'James',
         lastName: 'Doe',

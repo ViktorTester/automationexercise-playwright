@@ -18,6 +18,12 @@ export class SignupPage {
     readonly accountInfoText: Locator;
     readonly addressInfotext: Locator;
     readonly streetInfoText: Locator;
+    readonly accountCreatedTitle: Locator;
+    readonly accountCreatedText1: Locator;
+    readonly accountCreatedText2: Locator;
+
+    readonly createAccountBtn: Locator;
+    readonly continueBtn: Locator;
 
     private readonly title: Record<Title, Locator>;
     private readonly input: Record<InputField, Locator>;
@@ -37,10 +43,17 @@ export class SignupPage {
         this.accountInfoText = page.getByText(LoginCopy.accountInfo);
         this.addressInfotext = page.getByText(LoginCopy.addressInfo);
         this.streetInfoText = page.getByText(LoginCopy.streetInfo);
+        this.accountCreatedTitle = page.getByText(LoginCopy.accountCreated);
+        this.accountCreatedText1 = page.getByText(LoginCopy.accCreatedText1);
+        this.accountCreatedText2 = page.getByText(LoginCopy.accCreatedText2);
+
+        this.createAccountBtn = page.getByTestId('create-account')
+        this.continueBtn = page.getByTestId('continue-button')
 
         this.title = {
-            [Title.Mr]: page.getByTestId('#id_gender1')
+            [Title.Mr]: page.locator('#id_gender1')
         };
+
         this.input = {
             [InputField.Name]: page.getByTestId('name'),
             [InputField.Email]: page.getByTestId('email'),
@@ -48,7 +61,7 @@ export class SignupPage {
             [InputField.FirstName]: page.getByTestId('first_name'),
             [InputField.LastName]: page.getByTestId('last_name'),
             [InputField.Company]: page.getByTestId('company'),
-            [InputField.Address1]: page.getByTestId('address1'),
+            [InputField.Address1]: page.getByTestId('address'),
             [InputField.Address2]: page.getByTestId('address2'),
             [InputField.Country]: page.getByTestId('country'),
             [InputField.State]: page.getByTestId('state'),
@@ -69,11 +82,15 @@ export class SignupPage {
         await this.signupEmail.fill(email)
     }
 
-    async pressSignupBtn(): Promise<void> {
+    async clickSignupBtn(): Promise<void> {
         await this.signupBtn.click();
     }
 
-    // to make checbox mapping
+    async chooseCountry(input: InputField, country: string): Promise<void> {
+        await this.input[input].selectOption(country)
+    }
+
+    // to make checkbox mapping
     async chooseTitle(title: Title): Promise<void> {
         const locator = this.title[title];
         await locator.check();
@@ -84,6 +101,16 @@ export class SignupPage {
         const locator = this.input[input];
         await locator.fill(value);
         await this.isValueFilled(locator, value);
+    }
+
+    async createAccount(): Promise<void> {
+        await this.createAccountBtn.click();
+        await this.checkAccountCreatedTitle();
+    }
+
+    // to make url valdiation
+    async clickContinue(): Promise<void> {
+        await this.continueBtn.click();
     }
 
     // Assertions
@@ -103,12 +130,24 @@ export class SignupPage {
         await expect(this.addressInfotext).toBeVisible();
     }
 
+    async checkAccountCreatedTitle(): Promise<void> {
+        await expect(this.accountCreatedTitle).toBeVisible();
+    }
+
+    async checkAccountCreatedText1(): Promise<void> {
+        await expect(this.accountCreatedText1).toBeVisible();
+    }
+
+    async checkAccountCreatedText2(): Promise<void> {
+        await expect(this.accountCreatedText2).toBeVisible();
+    }
+
     async checkStreetInfoTitle(): Promise<void> {
         await expect(this.accountInfoText).toBeVisible();
     }
 
     async isChecked(title: Locator): Promise<void> {
-        await expect(title.isChecked());
+        await expect(title).toBeChecked();
     }
 
     async isNamePrefilled(value: string): Promise<void> {
@@ -122,4 +161,5 @@ export class SignupPage {
     async isValueFilled(input: Locator, value: string): Promise<void> {
         await expect(input).toHaveValue(value)
     }
+
 }
