@@ -26,7 +26,9 @@ export class HomePage {
      */
     async open(): Promise<void> {
         await this.page.goto('/');
-        await this.consentBtn.click();
+
+        await this.validateConsentBtn;
+
         await this.checkMainTitle();
         await this.checkCopyright();
 
@@ -35,6 +37,14 @@ export class HomePage {
     // Actions
     async confirmAdvForm(): Promise<void> {
         await this.consentBtn.click();
+    }
+
+    async validateConsentBtn(): Promise<void> {
+        const isVisible = await this.consentBtn.isVisible();
+
+        if (isVisible) {
+            await this.consentBtn.click();
+        }
     }
 
     // Assertions

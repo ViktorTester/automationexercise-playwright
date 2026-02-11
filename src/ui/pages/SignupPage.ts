@@ -173,12 +173,7 @@ export class SignupPage extends BasePage {
     }
 
     async checkSignupText(): Promise<void> {
-        const isVisible = await this.signupText.isVisible();
-
-        if (isVisible) {
-            await expect(this.signupText).toHaveText(LoginCopy.signup);
-        }
-
+        await expect(this.signupText).toHaveText(LoginCopy.signup);
     }
 
     async checkAccountInfoTitle(): Promise<void> {
