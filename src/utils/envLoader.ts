@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { AllowedBrand, AllowedEnv, EnvConfig } from '../types/EnvConfig';
+import {AllowedBrand, AllowedEnv, EnvConfig} from '../types/EnvConfig';
 
 type RawCredentials = {
     username?: unknown;
@@ -9,6 +9,7 @@ type RawCredentials = {
 
 type RawEnvConfigFile = {
     baseUrl?: unknown;
+    apiBaseUrl?: unknown;
     credentials?: RawCredentials;
 };
 
@@ -22,8 +23,9 @@ function asRawEnvConfigFile(value: unknown): RawEnvConfigFile {
     const credentialsObj = obj.credentials !== undefined ? asObject(obj.credentials) : undefined;
 
     return {
-        ...(obj.baseUrl !== undefined ? { baseUrl: obj.baseUrl } : {}),
-        ...(credentialsObj !== undefined ? { credentials: credentialsObj as RawCredentials } : {}),
+        ...(obj.baseUrl !== undefined ? {baseUrl: obj.baseUrl} : {}),
+        ...(obj.apiBaseUrl !== undefined ? {apiBaseUrl: obj.apiBaseUrl} : {}),
+        ...(credentialsObj !== undefined ? {credentials: credentialsObj as RawCredentials} : {}),
     };
 }
 
@@ -85,8 +87,15 @@ export function loadEnvConfig(): EnvConfig {
 
     const fileConfig = asRawEnvConfigFile(parsed);
 
-    const baseUrlOverride = process.env.BASE_URL?.trim();
-    const baseUrlFromFile = typeof fileConfig.baseUrl === 'string' ? fileConfig.baseUrl.trim() : undefined;
+    const baseUrlOverride =
+        process.env.BASE_URL?.trim();
+
+    const baseUrlFromFile =
+        typeof fileConfig.baseUrl === 'string' ? fileConfig.baseUrl.trim() : undefined;
+
+    const apiBaseUrlFromFile =
+        typeof fileConfig.apiBaseUrl === 'string' ? fileConfig.apiBaseUrl.trim() : undefined;
+
 
     // ---- Credentials: REQUIRED (fail-fast) ----
     const usernameFromFile =
@@ -104,10 +113,15 @@ export function loadEnvConfig(): EnvConfig {
         throw new Error(`Missing baseUrl (or BASE_URL override) for config file: ${configPath}`);
     }
 
+    if (!apiBaseUrlFromFile) {
+        throw new Error(`Missing apiBaseUrl in config file: ${configPath}`);
+    }
+
     return {
         brand,
         env,
         baseUrl,
+        apiBaseUrl: apiBaseUrlFromFile,
         credentials: creds,
     };
 }

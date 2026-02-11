@@ -15,6 +15,12 @@ export type EnvConfig = {
   baseUrl: string;
 
   /**
+   * Base URL for API:
+   * used by page.goto('/path') and relative URLs.
+   */
+  apiBaseUrl: string;
+
+  /**
    * Optional test credentials stored directly in repo JSON.
    * (for test only)
    */

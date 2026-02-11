@@ -1,6 +1,7 @@
 {
   "env": "staging",
   "baseUrl": "https://automationexercise.com",
+  "apiBaseUrl": "https://automationexercise.com/api",
   "credentials": {
     "username": "admin_login",
     "email": "admin@email"
