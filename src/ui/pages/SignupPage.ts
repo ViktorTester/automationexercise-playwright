@@ -3,11 +3,14 @@ import {HomePage} from "./HomePage";
 import {LoginCopy} from "../copy/login.copy";
 import {Title} from "@app-types/SignupTypes/Title";
 import {InputField} from "@app-types/SignupTypes/InputField";
+import {BasePage} from "@pages/BasePage";
+import {SignupUser} from "@app-types/users/SignupUser";
+import {SignupStart} from "@app-types/users/SignupUser";
 
 /**
  * Login / Signup page object
  */
-export class SignupPage {
+export class SignupPage extends BasePage {
 
     readonly loginText: Locator;
     readonly signupText: Locator;
@@ -28,11 +31,8 @@ export class SignupPage {
     private readonly title: Record<Title, Locator>;
     private readonly input: Record<InputField, Locator>;
 
-    constructor(
-        private page: Page,
-        private home: HomePage
-    ) {
-        this.page = page;
+    constructor(page: Page, private home: HomePage) {
+        super(page);
 
         this.loginText = page.locator(".login-form > h2");
         this.signupText = page.locator(".signup-form > h2");
@@ -73,6 +73,60 @@ export class SignupPage {
 
     }
 
+    /**
+     * Step 1: Entering name + email on the signup form and moving on + header checks + prefilled
+     */
+    async startSignup(user: SignupStart): Promise<void> {
+        // Validate 'signup' page titles
+        await this.checkLoginText();
+        await this.checkSignupText();
+
+        // Complete first step
+        await this.inputName(user.firstName);
+        await this.inputEmail(user.email);
+        await this.clickSignupBtn();
+
+        // Validate 'account info' page titles
+        await this.checkAccountInfoTitle();
+        await this.checkAddressInfoTitle();
+        await this.checkStreetInfoTitle();
+
+        // Validate prefilled inputs
+        await this.isNamePrefilled(user.firstName);
+        await this.isEmailPrefilled(user.email);
+    }
+
+    /**
+     * Step 2: Fills out the main part of the form and clicks Create Account
+     */
+    async registerUser(user: SignupUser): Promise<void> {
+        await this.chooseTitle(user.title);
+
+        await this.fillTheInput(InputField.Password, user.password);
+        await this.fillTheInput(InputField.FirstName, user.firstName);
+        await this.fillTheInput(InputField.LastName, user.lastName);
+        await this.fillTheInput(InputField.Company, user.company);
+        await this.fillTheInput(InputField.Address1, user.address1);
+        await this.fillTheInput(InputField.Address2, user.address2);
+
+        await this.chooseCountry(InputField.Country, user.country);
+
+        await this.fillTheInput(InputField.State, user.state);
+        await this.fillTheInput(InputField.City, user.city);
+        await this.fillTheInput(InputField.ZipCode, user.zipCode);
+        await this.fillTheInput(InputField.MobileNr, user.mobileNr);
+
+        // Click account creation button
+        await this.createAccount();
+    }
+
+    // Validate 'account created' page titles
+    async expectAccountCreated(): Promise<void> {
+        await this.checkAccountCreatedTitle();
+        await this.checkAccountCreatedText1();
+        await this.checkAccountCreatedText2();
+    }
+
     // Actions
     async inputName(name: string): Promise<void> {
         await this.signupName.fill(name)
@@ -90,7 +144,6 @@ export class SignupPage {
         await this.input[input].selectOption(country)
     }
 
-    // to make checkbox mapping
     async chooseTitle(title: Title): Promise<void> {
         const locator = this.title[title];
         await locator.check();
@@ -111,6 +164,7 @@ export class SignupPage {
     // to make url valdiation
     async clickContinue(): Promise<void> {
         await this.continueBtn.click();
+        await this.expectUrl('/')
     }
 
     // Assertions
@@ -143,7 +197,7 @@ export class SignupPage {
     }
 
     async checkStreetInfoTitle(): Promise<void> {
-        await expect(this.accountInfoText).toBeVisible();
+        await expect(this.streetInfoText).toBeVisible();
     }
 
     async isChecked(title: Locator): Promise<void> {
