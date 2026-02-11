@@ -32,31 +32,38 @@ test.describe("Test Case 1: Register User", () => {
 
     test('@smoke DELETE /deleteAccount - Should delete a user', async ({ request }) => {
 
-        const baseURL = config.baseUrl + "/api";
+        const baseURL = config.apiBaseUrl
 
+        // test
         const formData = {
             email: TestUsers.validUser.email,
             password: TestUsers.validUser.password,
         };
 
+        // logs
         console.log(' -> -> -> -> -> -> -> REQUEST');
         console.log('DELETE', `${baseURL}/deleteAccount`);
         console.log('Payload:', JSON.stringify(formData, null, 2));
 
+        // test
         const response = await request.delete(`${baseURL}/deleteAccount`, {
             form: formData,
         });
 
         const responseBody = await response.json();
 
+        // logs
         function logJson(data: unknown): void {
             console.log()
             console.log('RESPONSE BODY <- <- <- <- <- <- <-');
             console.log(JSON.stringify(data, null, 2));
         }
+
         // LOG RESPONSE
         logJson(responseBody)
 
+
+        // assertions
         expect(responseBody).toMatchObject({
             responseCode: 200,
             message: 'Account deleted!',
