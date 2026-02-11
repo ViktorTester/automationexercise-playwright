@@ -12,11 +12,10 @@ export class HomePage {
     constructor(private page: Page) {
         this.page = page;
 
-        this.consentBtn = page.getByRole('button', { name: 'Consent' })
-        this.mainTitile = page.getByRole('link', { name: 'Website for automation' })
+        this.consentBtn = page.getByRole('button', {name: 'Consent'})
+        this.mainTitile = page.getByRole('link', {name: 'Website for automation'})
         this.copyright = page.getByText('Copyright © 2021 All rights')
-
-        this.loginPage = page.getByRole('link', { name: ' Signup / Login' })
+        this.loginPage = page.getByRole('link', {name: ' Signup / Login'})
 
     }
 
@@ -26,23 +25,15 @@ export class HomePage {
      */
     async open(): Promise<void> {
         await this.page.goto('/');
-
-        await this.validateConsentBtn;
-
+        await this.closeConsentIfPresent();
         await this.checkMainTitle();
         await this.checkCopyright();
 
     }
 
     // Actions
-    async confirmAdvForm(): Promise<void> {
-        await this.consentBtn.click();
-    }
-
-    async validateConsentBtn(): Promise<void> {
-        const isVisible = await this.consentBtn.isVisible();
-
-        if (isVisible) {
+    async closeConsentIfPresent(): Promise<void> {
+        if (await this.consentBtn.isVisible({ timeout: 2000 })) {
             await this.consentBtn.click();
         }
     }
