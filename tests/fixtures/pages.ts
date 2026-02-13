@@ -59,8 +59,8 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
         await use(new HomePage(page));
     },
 
-    signup: async ({page, home}, use) => {
-        await use(new SignupPage(page, home));
+    signup: async ({page}, use) => {
+        await use(new SignupPage(page));
     },
 
     api: async ({request, config}, use) => {

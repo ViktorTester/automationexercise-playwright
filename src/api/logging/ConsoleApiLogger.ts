@@ -12,7 +12,7 @@ export class ConsoleApiLogger implements ApiLogger {
         if (!this.enabled) return;
 
         console.log('\n -> -> -> -> -> -> -> REQUEST');
-        console.log(method, url);
+        console.log("[" + method + "]", url);
 
         if (payload !== undefined) {
             console.log('Payload:', JSON.stringify(payload, null, 2));

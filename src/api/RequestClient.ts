@@ -1,13 +1,16 @@
 import {APIRequestContext} from '@playwright/test';
 import type {HttpMethod} from './HttpMethod';
+import {ConsoleApiLogger} from './logging/ConsoleApiLogger';
 
 type Primitive = string | number | boolean;
+const logger = new ConsoleApiLogger(true);
 
 export type SendOptions = {
     query?: Record<string, Primitive>;
     form?: Record<string, Primitive>;
     json?: unknown;
     headers?: Record<string, string>;
+    log?: boolean;
 };
 
 export type ApiCallResponse = {
@@ -52,6 +55,7 @@ export class RequestClient {
 
         const url = urlObj.toString();
         const payload = opts.form ?? opts.json;
+        if (opts.log) logger.logRequest(method, url, payload);
 
         const resp = await this.request.fetch(url, {
             method,
@@ -68,6 +72,8 @@ export class RequestClient {
         } catch {
             body = rawText;
         }
+
+        if (opts.log) logger.logResponse(resp.status(), body);
 
         return {
             method,

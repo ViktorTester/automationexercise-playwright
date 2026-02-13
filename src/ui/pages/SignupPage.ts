@@ -1,5 +1,4 @@
 import {expect, Locator, Page} from "@playwright/test";
-import {HomePage} from "./HomePage";
 import {LoginCopy} from "../copy/login.copy";
 import {Title} from "@app-types/SignupTypes/Title";
 import {InputField} from "@app-types/SignupTypes/InputField";
@@ -31,7 +30,7 @@ export class SignupPage extends BasePage {
     private readonly title: Record<Title, Locator>;
     private readonly input: Record<InputField, Locator>;
 
-    constructor(page: Page, private home: HomePage) {
+    constructor(page: Page) {
         super(page);
 
         this.loginText = page.locator(".login-form > h2");
@@ -74,26 +73,12 @@ export class SignupPage extends BasePage {
     }
 
     /**
-     * Step 1: Entering name + email on the signup form and moving on + header checks + prefilled
+     * Step 1 action: submit name + email on the signup form.
      */
     async startSignup(user: SignupStart): Promise<void> {
-        // Validate 'signup' page titles
-        await this.checkLoginText();
-        await this.checkSignupText();
-
-        // Complete first step
         await this.inputName(user.firstName);
         await this.inputEmail(user.email);
         await this.clickSignupBtn();
-
-        // Validate 'account info' page titles
-        await this.checkAccountInfoTitle();
-        await this.checkAddressInfoTitle();
-        await this.checkStreetInfoTitle();
-
-        // Validate prefilled inputs
-        await this.isNamePrefilled(user.firstName);
-        await this.isEmailPrefilled(user.email);
     }
 
     /**
@@ -168,6 +153,22 @@ export class SignupPage extends BasePage {
     }
 
     // Assertions
+    async assertSignupLoaded(): Promise<void> {
+        await this.checkLoginText();
+        await this.checkSignupText();
+    }
+
+    async assertAccountInfoLoaded(): Promise<void> {
+        await this.checkAccountInfoTitle();
+        await this.checkAddressInfoTitle();
+        await this.checkStreetInfoTitle();
+    }
+
+    async assertSignupPrefilled(user: SignupStart): Promise<void> {
+        await this.isNamePrefilled(user.firstName);
+        await this.isEmailPrefilled(user.email);
+    }
+
     async checkLoginText(): Promise<void> {
         await expect(this.loginText).toHaveText(LoginCopy.login);
     }

@@ -42,7 +42,7 @@ export function verifyApiResponse(
 
     for (const a of bodyAsserts) {
         const actual = getByPath(r.body, a.path);
-        const hint = a.message ?? `Unexpected body field "${r.method}" for ${r.method} ${r.url}`;
+        const hint = a.message ?? `Unexpected body field "${a.path}" for ${r.method} ${r.url}`;
 
         if (a.expected instanceof RegExp) {
             expect(String(actual), hint).toMatch(a.expected);

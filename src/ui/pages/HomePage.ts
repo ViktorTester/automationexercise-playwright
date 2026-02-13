@@ -21,14 +21,18 @@ export class HomePage {
 
     /**
      * Opens home page
-     * Validates some of the main page functions
      */
     async open(): Promise<void> {
         await this.page.goto('/');
         await this.closeConsentIfPresent();
+    }
+
+    /**
+     * Verifies that key home page elements are rendered.
+     */
+    async assertLoaded(): Promise<void> {
         await this.checkMainTitle();
         await this.checkCopyright();
-
     }
 
     // Actions
