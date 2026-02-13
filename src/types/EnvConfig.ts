@@ -15,8 +15,7 @@ export type EnvConfig = {
   baseUrl: string;
 
   /**
-   * Base URL for API:
-   * used by page.goto('/path') and relative URLs.
+   * Base URL for API
    */
   apiBaseUrl: string;
 

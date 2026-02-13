@@ -47,12 +47,12 @@ Headless override (local debug):
 
 ## Secrets
 
-Example config files reference environment variable names for credentials, e.g.:
+Current config files contain test credentials directly under `credentials`:
 
-- `BRAND1_DEV_USERNAME`
-- `BRAND1_DEV_PASSWORD`
+- `username`
+- `email`
 
-Store secret values in your CI/CD secret store (GitHub Actions Secrets), not in repo JSON.
+If you need sensitive values, move them to CI/CD secrets and inject them at runtime.
 
 ---
 
@@ -88,6 +88,16 @@ Configuration is validated **before** Playwright starts. A run will fail fast if
 - `ENV`/`BRAND` contains an unsupported value
 - `config/<brand>/<env>.json` is missing or invalid JSON
 - `baseUrl` is missing (unless `BASE_URL` is provided)
+- `apiBaseUrl` is missing
+
+---
+
+## API endpoint path rule
+
+`apiBaseUrl` already contains `/api`, so endpoint paths in code must be relative:
+
+- Correct: `deleteAccount`
+- Avoid: `/deleteAccount`
 
 ---
 
@@ -95,4 +105,3 @@ Configuration is validated **before** Playwright starts. A run will fail fast if
 
 CI is triggered on pull requests to `main` / `master`.
 `main` is protected, so the pull request cannot be merged until CI passes.
-

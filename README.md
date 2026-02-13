@@ -1,8 +1,8 @@
 # Automationexercise Playwright (TypeScript)
 
-End-to-end and API test automation scaffolding built on **Playwright** and **TypeScript**.
+End-to-end and API test automation project built on **Playwright** and **TypeScript**.
 
-The repository is currently focused on **configuration and engineering guardrails** (lint, typecheck, environment loading, CI). Tests can be added incrementally without changing the foundational setup.
+The repository includes UI + API fixtures, strict quality gates (lint/typecheck), environment loading, and CI execution through Docker Compose.
 
 ---
 
@@ -91,6 +91,22 @@ More details: see `ENVIRONMENT_SETUP.md`.
 
 ---
 
+## API usage notes
+
+- `apiBaseUrl` is read from `config/<brand>/<env>.json`.
+- Endpoint values in `src/api/endpoints.ts` must be **relative** (for example `deleteAccount`, without leading `/`).
+- API block usage in tests:
+
+```ts
+const response = await api.account()
+  .call(Endpoints.Account.DeleteAccount, 'DELETE')
+  .setForm('email', TestUsers.validUser.email)
+  .setForm('password', TestUsers.validUser.password)
+  .send();
+```
+
+---
+
 ## Reports and artifacts
 
 Playwright outputs are intentionally consolidated under `artifacts/`:
@@ -125,8 +141,8 @@ CI runs on pull requests targeting `main` / `master` only
 1. Install dependencies
 2. ESLint (fail-fast)
 3. TypeScript typecheck (fail-fast)
-4. Install Playwright browsers (only when test files exist)
-5. Run Playwright tests (only when test files exist)
+4. Build Docker image
+5. Run Playwright tests in Docker Compose
 6. Upload artifacts
 
 Husky is disabled in CI to avoid side effects:
