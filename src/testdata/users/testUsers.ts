@@ -1,3 +1,9 @@
+import type {SignupUser} from "@app-types/users/SignupUser";
+
+type TestUser = Omit<SignupUser, 'title'> & {
+    name: string;
+};
+
 export const TestUsers = {
     validUser: {
         name: 'JohnDoe',
@@ -30,4 +36,4 @@ export const TestUsers = {
         zipCode: '845634',
         mobileNr: '2352352624236'
     },
-} as const;
+} satisfies Record<string, TestUser>;

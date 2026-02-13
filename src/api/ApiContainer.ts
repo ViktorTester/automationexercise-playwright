@@ -1,6 +1,6 @@
 import type { APIRequestContext } from '@playwright/test';
-import { RequestClient } from '../api/RequestClient';
-import { AccountBlock } from '../api/blocks/AccountBlock';
+import { RequestClient } from './RequestClient';
+import { AccountBlock } from './blocks/AccountBlock';
 
 
 /**

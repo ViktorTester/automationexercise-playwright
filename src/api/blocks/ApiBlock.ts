@@ -7,6 +7,7 @@ type Primitive = string | number | boolean;
 export class ApiCallBuilder {
     private query: Record<string, Primitive> = {};
     private form: Record<string, Primitive> = {};
+    private shouldLog = false;
 
     constructor(
         private readonly client: RequestClient,
@@ -31,12 +32,21 @@ export class ApiCallBuilder {
     }
 
     /**
+     * Enables request/response console logs for this call only.
+     */
+    withLogs(): this {
+        this.shouldLog = true;
+        return this;
+    }
+
+    /**
      * returns full response.
      */
     async send(): Promise<ApiCallResponse> {
         return this.client.send(this.method, this.path, {
             ...(Object.keys(this.query).length ? { query: this.query } : {}),
             ...(Object.keys(this.form).length ? { form: this.form } : {}),
+            ...(this.shouldLog ? { log: true } : {}),
         });
     }
 }

@@ -98,11 +98,10 @@ More details: see `ENVIRONMENT_SETUP.md`.
 - API block usage in tests:
 
 ```ts
-const response = await api.account()
-  .call(Endpoints.Account.DeleteAccount, 'DELETE')
-  .setForm('email', TestUsers.validUser.email)
-  .setForm('password', TestUsers.validUser.password)
-  .send();
+const response = await api.account().deleteAccount(
+  TestUsers.validUser.email,
+  TestUsers.validUser.password
+).withLogs().send();
 ```
 
 ---
