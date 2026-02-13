@@ -1,11 +1,8 @@
 import {test} from 'tests/fixtures/pages';
-import {loadEnvConfig} from "../../src/utils/envLoader";
 import {TestUsers} from "../../src/testdata/users/testUsers";
-import {expect} from "@playwright/test";
 import {Title} from "@app-types/SignupTypes/Title";
-
-const config = loadEnvConfig();
-
+import {Endpoints} from '../../src/api/endpoints';
+import {verifyApiResponse} from "../../src/api/asserts/ApiAsserts";
 test.describe("Test Case 1: Register User", () => {
     test.beforeEach(async ({home}) => {
         await home.open();
@@ -18,7 +15,7 @@ test.describe("Test Case 1: Register User", () => {
         await signup.startSignup(TestUsers.validUser);
 
         // Fills out the main part of the form and clicks Create Account
-        await signup.registerUser({ ...TestUsers.validUser, title: Title.Mr });
+        await signup.registerUser({...TestUsers.validUser, title: Title.Mr});
 
         // Validate 'account created' page titles
         await signup.expectAccountCreated();
@@ -30,44 +27,16 @@ test.describe("Test Case 1: Register User", () => {
 
     });
 
-    test('@smoke DELETE /deleteAccount - Should delete a user', async ({ request }) => {
+    test('@smoke DELETE /deleteAccount - Should delete a user', async ({api}) => {
 
-        const baseURL = config.apiBaseUrl
+        const response = await api.account()
+            .call(Endpoints.Account.DeleteAccount, 'DELETE')
+            .setForm("email", TestUsers.validUser.email)
+            .setForm("password", TestUsers.validUser.password)
+            .send();
 
-        // test
-        const formData = {
-            email: TestUsers.validUser.email,
-            password: TestUsers.validUser.password,
-        };
-
-        // logs
-        console.log(' -> -> -> -> -> -> -> REQUEST');
-        console.log('DELETE', `${baseURL}/deleteAccount`);
-        console.log('Payload:', JSON.stringify(formData, null, 2));
-
-        // test
-        const response = await request.delete(`${baseURL}/deleteAccount`, {
-            form: formData,
-        });
-
-        const responseBody = await response.json();
-
-        // logs
-        function logJson(data: unknown): void {
-            console.log()
-            console.log('RESPONSE BODY <- <- <- <- <- <- <-');
-            console.log(JSON.stringify(data, null, 2));
-        }
-
-        // LOG RESPONSE
-        logJson(responseBody)
-
-
-        // assertions
-        expect(responseBody).toMatchObject({
-            responseCode: 200,
-            message: 'Account deleted!',
-        });
+        verifyApiResponse(response, 200,
+            [{path: 'message', expected: 'Account deleted!'}]);
 
 
     });

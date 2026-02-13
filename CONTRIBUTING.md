@@ -107,12 +107,12 @@ config/<brand>/<env>.json
 
 ### Secrets
 
-Repository JSON config files reference **environment variable names**, not raw credentials.
+Current repository JSON files include test credentials in `credentials.username` and `credentials.email`.
 
-For CI:
+For sensitive environments:
 
-- Store secret values in GitHub Actions secrets.
-- Map secrets to the variable names referenced by the config (e.g., `BRAND1_DEV_USERNAME`).
+- Store values in GitHub Actions secrets.
+- Inject them at runtime instead of committing them to repo JSON.
 
 Avoid committing any secrets or tokens.
 
@@ -164,4 +164,3 @@ CI uses the same docker-compose.yml as local runs:
 5. Upload artifacts/
 
 This ensures identical runtime semantics.
-

@@ -1,8 +1,11 @@
 import {test as base, expect, type Page} from '@playwright/test'
 import {HomePage} from "../../src/ui/pages/HomePage";
-import {loadEnvConfig} from "../../src/utils/envLoader";
 import type {EnvConfig} from '../../src/types/EnvConfig';
+import {loadEnvConfig} from "../../src/utils/envLoader";
 import {SignupPage} from "../../src/ui/pages/SignupPage";
+import type {APIRequestContext} from '@playwright/test';
+import {ApiContainer} from '../../src/api/ApiContainer';
+
 
 /**
  * Page Object fixtures
@@ -16,9 +19,11 @@ type WorkerFixtures = {
 };
 
 type PagesFixtures = {
-    page: Page
-    home: HomePage
-    signup: SignupPage
+    page: Page;
+    home: HomePage;
+    signup: SignupPage;
+
+    api: ApiContainer;
 }
 
 export const test = base.extend<PagesFixtures, WorkerFixtures>({
@@ -36,7 +41,7 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
             const cfg = loadEnvConfig();
             await use(cfg);
         },
-        { scope: 'worker' },
+        {scope: 'worker'},
     ],
 
     // Page with baseURL applied
@@ -56,6 +61,10 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
 
     signup: async ({page, home}, use) => {
         await use(new SignupPage(page, home));
+    },
+
+    api: async ({request, config}, use) => {
+        await use(new ApiContainer(request as APIRequestContext, config.apiBaseUrl));
     }
 })
 
