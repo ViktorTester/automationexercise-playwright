@@ -5,6 +5,7 @@ import {InputField} from "@app-types/SignupTypes/InputField";
 import {BasePage} from "@pages/BasePage";
 import {SignupUser} from "@app-types/users/SignupUser";
 import {SignupStart} from "@app-types/users/SignupUser";
+import {ContinueSection} from "@pages/components/ContinueSection";
 
 /**
  * Login / Signup page object
@@ -25,13 +26,15 @@ export class SignupPage extends BasePage {
     readonly accountCreatedText2: Locator;
 
     readonly createAccountBtn: Locator;
-    readonly continueBtn: Locator;
+    readonly continueSection: ContinueSection;
 
     private readonly title: Record<Title, Locator>;
     private readonly input: Record<InputField, Locator>;
 
     constructor(page: Page) {
         super(page);
+
+        this.continueSection = new ContinueSection(page);
 
         this.loginText = page.locator(".login-form > h2");
         this.signupText = page.locator(".signup-form > h2");
@@ -47,7 +50,6 @@ export class SignupPage extends BasePage {
         this.accountCreatedText2 = page.getByText(LoginCopy.accCreatedText2);
 
         this.createAccountBtn = page.getByTestId('create-account')
-        this.continueBtn = page.getByTestId('continue-button')
 
         this.title = {
             [Title.Mr]: page.locator('#id_gender1')
@@ -73,7 +75,7 @@ export class SignupPage extends BasePage {
     }
 
     /**
-     * Step 1 action: submit name + email on the signup form.
+     * Step 1 action: submit name and email on the signup form.
      */
     async startSignup(user: SignupStart): Promise<void> {
         await this.inputName(user.firstName);
@@ -101,15 +103,8 @@ export class SignupPage extends BasePage {
         await this.fillTheInput(InputField.ZipCode, user.zipCode);
         await this.fillTheInput(InputField.MobileNr, user.mobileNr);
 
-        // Click account creation button
+        // Click the account creation button
         await this.createAccount();
-    }
-
-    // Validate 'account created' page titles
-    async expectAccountCreated(): Promise<void> {
-        await this.checkAccountCreatedTitle();
-        await this.checkAccountCreatedText1();
-        await this.checkAccountCreatedText2();
     }
 
     // Actions
@@ -146,10 +141,8 @@ export class SignupPage extends BasePage {
         await this.checkAccountCreatedTitle();
     }
 
-    // to make url valdiation
     async clickContinue(): Promise<void> {
-        await this.continueBtn.click();
-        await this.expectUrl('/')
+        await this.continueSection.clickContinue();
     }
 
     // Assertions
@@ -216,5 +209,13 @@ export class SignupPage extends BasePage {
     async isValueFilled(input: Locator, value: string): Promise<void> {
         await expect(input).toHaveValue(value)
     }
+
+    // Validate 'account created' page titles
+    async expectAccountCreated(): Promise<void> {
+        await this.checkAccountCreatedTitle();
+        await this.checkAccountCreatedText1();
+        await this.checkAccountCreatedText2();
+    }
+
 
 }
