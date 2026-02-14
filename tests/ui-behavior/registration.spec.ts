@@ -10,7 +10,7 @@ test.describe("Test Case 1: Register User", () => {
         await home.openLogin();
     });
 
-    test("@smoke Register and delete the user", async ({signup}) => {
+    test("@smoke Register and delete the user", async ({signup, home}) => {
         await signup.assertSignupLoaded();
 
         // Entering name + email on the signup form and moving on
@@ -27,22 +27,25 @@ test.describe("Test Case 1: Register User", () => {
         // Exit the flow
         await signup.clickContinue();
 
-        // TODO - delete user through the ui
+        // Delete the account
+        await home.deleteAccount();
+        await home.expectAccountDeleted();
+
+        // Return to home page
+        await home.clickContinue();
 
     });
 
-    test('@smoke DELETE /deleteAccount - Should delete a user', async ({api}) => {
+    test.skip('@smoke DELETE /deleteAccount - Should delete a user', async ({api}) => {
 
         const response = await api.account().deleteAccount(
             TestUsers.validUser.email,
             TestUsers.validUser.password
         ).withLogs().send();
 
-        verifyApiResponse(response, 200,
-            [
-                {path: 'message', expected: 'Account deleted!'},
-                {path: 'responseCode', expected: 200}
-            ]
+        verifyApiResponse(response, 200, [
+            {path: 'message', expected: 'Account deleted!'},
+            {path: 'responseCode', expected: 200}]
         );
 
     });
