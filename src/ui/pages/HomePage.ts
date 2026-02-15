@@ -50,7 +50,7 @@ export class HomePage extends BasePage {
     /**
      * Opens Signup / Login page
      */
-    async openLogin(): Promise<void> {
+    async openSignup(): Promise<void> {
         await this.loginPage.click();
     }
 
