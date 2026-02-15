@@ -69,6 +69,25 @@ export class HomePage extends BasePage {
         await this.deleteAccBtn.click();
     }
 
+// Actions
+    async closeConsentIfPresent(): Promise<void> {
+        if (await this.consentBtn.isVisible({ timeout: 2000 })) {
+            await this.consentBtn.click();
+        }
+    }
+
+    async clickContinue(): Promise<void> {
+        await this.continueSection.clickContinue();
+    }
+
+// Assertions
+    // Validate 'account deleted' page titles
+    async expectAccountDeleted(): Promise<void> {
+        await expect(this.accountDeletedTitle).toBeVisible();
+        await expect(this.accountDeletedText1).toBeVisible();
+        await expect(this.accountDeletedText2).toBeVisible();
+    }
+
     /**
      * Verifies that key home page elements are rendered.
      */
@@ -80,36 +99,6 @@ export class HomePage extends BasePage {
     async assertSectionsPresent():  Promise<void> {
         await expect(this.logoutBtn).toBeVisible();
         await expect(this.deleteAccBtn).toBeVisible();
-    }
-
-    // Actions
-    async closeConsentIfPresent(): Promise<void> {
-        if (await this.consentBtn.isVisible({ timeout: 2000 })) {
-            await this.consentBtn.click();
-        }
-    }
-
-    async clickContinue(): Promise<void> {
-        await this.continueSection.clickContinue();
-    }
-
-    // Validate 'account deleted' page titles
-    async expectAccountDeleted(): Promise<void> {
-        await this.checkAccountDeletedTitle();
-        await this.checkAccountDeletedText1();
-        await this.checkAccountDeletedText2();
-    }
-
-    async checkAccountDeletedTitle(): Promise<void> {
-        await expect(this.accountDeletedTitle).toBeVisible();
-    }
-
-    async checkAccountDeletedText1(): Promise<void> {
-        await expect(this.accountDeletedText1).toBeVisible();
-    }
-
-    async checkAccountDeletedText2(): Promise<void> {
-        await expect(this.accountDeletedText2).toBeVisible();
     }
 
 }

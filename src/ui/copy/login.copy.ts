@@ -10,5 +10,6 @@ export const LoginCopy = {
     accDeletedTitle: 'Account Deleted!',
     accDeletedText1: 'Your account has been permanently deleted!',
     accDeletedText2: 'You can create new account to take advantage of member privileges to enhance your online shopping experience with us.',
+    invalidCreadsText: 'Your email or password is incorrect!'
 
 } as const

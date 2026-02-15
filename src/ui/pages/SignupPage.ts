@@ -28,12 +28,15 @@ export class SignupPage extends BasePage {
     readonly accountInfoText: Locator;
     readonly addressInfotext: Locator;
     readonly streetInfoText: Locator;
+
     readonly accountCreatedTitle: Locator;
     readonly accountCreatedText1: Locator;
     readonly accountCreatedText2: Locator;
 
     readonly createAccountBtn: Locator;
     readonly continueSection: ContinueSection;
+
+    readonly invalidCreadsText: Locator;
 
     private readonly title: Record<Title, Locator>;
     private readonly input: Record<InputField, Locator>;
@@ -62,6 +65,8 @@ export class SignupPage extends BasePage {
         this.accountCreatedText2 = page.getByText(LoginCopy.accCreatedText2);
 
         this.createAccountBtn = page.getByTestId('create-account')
+
+        this.invalidCreadsText = page.getByText('Your email or password is')
 
         this.title = {
             [Title.Mr]: page.locator('#id_gender1')
@@ -147,7 +152,7 @@ export class SignupPage extends BasePage {
 
     async createAccount(): Promise<void> {
         await this.createAccountBtn.click();
-        await this.checkAccountCreatedTitle();
+        await expect(this.accountCreatedTitle).toBeVisible();
     }
 
     async clickContinue(): Promise<void> {
@@ -156,16 +161,16 @@ export class SignupPage extends BasePage {
 
     }
 
-    // Assertions
+// Assertions
     async assertSignupLoaded(): Promise<void> {
-        await this.checkLoginText();
-        await this.checkSignupText();
+        await expect(this.loginText).toHaveText(LoginCopy.login);
+        await expect(this.signupText).toHaveText(LoginCopy.signup);
     }
 
     async assertAccountInfoLoaded(): Promise<void> {
-        await this.checkAccountInfoTitle();
-        await this.checkAddressInfoTitle();
-        await this.checkStreetInfoTitle();
+        await expect(this.accountInfoText).toBeVisible();
+        await expect(this.addressInfotext).toBeVisible();
+        await expect(this.streetInfoText).toBeVisible();
     }
 
     async assertSignupPrefilled(user: SignupStart): Promise<void> {
@@ -173,36 +178,11 @@ export class SignupPage extends BasePage {
         await this.isEmailPrefilled(user.email);
     }
 
-    async checkLoginText(): Promise<void> {
-        await expect(this.loginText).toHaveText(LoginCopy.login);
-    }
-
-    async checkSignupText(): Promise<void> {
-        await expect(this.signupText).toHaveText(LoginCopy.signup);
-    }
-
-    async checkAccountInfoTitle(): Promise<void> {
-        await expect(this.accountInfoText).toBeVisible();
-    }
-
-    async checkAddressInfoTitle(): Promise<void> {
-        await expect(this.addressInfotext).toBeVisible();
-    }
-
-    async checkAccountCreatedTitle(): Promise<void> {
+    // Validate 'account created' page titles
+    async expectAccountCreated(): Promise<void> {
         await expect(this.accountCreatedTitle).toBeVisible();
-    }
-
-    async checkAccountCreatedText1(): Promise<void> {
         await expect(this.accountCreatedText1).toBeVisible();
-    }
-
-    async checkAccountCreatedText2(): Promise<void> {
         await expect(this.accountCreatedText2).toBeVisible();
-    }
-
-    async checkStreetInfoTitle(): Promise<void> {
-        await expect(this.streetInfoText).toBeVisible();
     }
 
     async isChecked(title: Locator): Promise<void> {
@@ -221,12 +201,8 @@ export class SignupPage extends BasePage {
         await expect(input).toHaveValue(value)
     }
 
-    // Validate 'account created' page titles
-    async expectAccountCreated(): Promise<void> {
-        await this.checkAccountCreatedTitle();
-        await this.checkAccountCreatedText1();
-        await this.checkAccountCreatedText2();
+    async assertInvalidCreds(): Promise<void> {
+        await expect(this.invalidCreadsText).toBeVisible();
     }
-
 
 }
