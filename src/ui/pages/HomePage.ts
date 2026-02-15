@@ -18,9 +18,12 @@ export class HomePage extends BasePage {
 
     readonly continueSection: ContinueSection;
     readonly deleteAccBtn: Locator;
+    readonly logoutBtn: Locator;
 
     constructor(page: Page) {
         super(page);
+
+        this.continueSection = new ContinueSection(page);
 
         this.consentBtn = page.getByRole('button', {name: 'Consent'})
         this.mainTitile = page.getByRole('link', {name: 'Website for automation'})
@@ -32,7 +35,7 @@ export class HomePage extends BasePage {
         this.accountDeletedText2 = page.getByText(LoginCopy.accDeletedText2);
 
         this.deleteAccBtn = page.getByRole('link', { name: ' Delete Account' })
-        this.continueSection = new ContinueSection(page);
+        this.logoutBtn = page.getByRole('link', { name: ' Logout' })
 
     }
 
@@ -52,6 +55,14 @@ export class HomePage extends BasePage {
     }
 
     /**
+     * Logouts
+     */
+    async logout(): Promise<void> {
+        await this.logoutBtn.click();
+        await this.expectUrl('/login');
+    }
+
+    /**
      * Deletes the account
      */
     async deleteAccount(): Promise<void> {
@@ -62,8 +73,13 @@ export class HomePage extends BasePage {
      * Verifies that key home page elements are rendered.
      */
     async assertLoaded(): Promise<void> {
-        await this.checkMainTitle();
-        await this.checkCopyright();
+        await expect(this.mainTitile).toBeVisible();
+        await expect(this.copyright).toBeVisible();
+    }
+
+    async assertSectionsPresent():  Promise<void> {
+        await expect(this.logoutBtn).toBeVisible();
+        await expect(this.deleteAccBtn).toBeVisible();
     }
 
     // Actions
@@ -75,15 +91,6 @@ export class HomePage extends BasePage {
 
     async clickContinue(): Promise<void> {
         await this.continueSection.clickContinue();
-    }
-
-    // Assertions
-    async checkMainTitle(): Promise<void> {
-        await expect(this.mainTitile).toBeVisible();
-    }
-
-    async checkCopyright(): Promise<void> {
-        await expect(this.copyright).toBeVisible();
     }
 
     // Validate 'account deleted' page titles

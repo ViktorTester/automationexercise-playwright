@@ -24,12 +24,12 @@ export function validateConfig(config: EnvConfig): void {
 
 
     if (config.credentials) {
-        const {username, email} = config.credentials;
-        const oneProvided = Boolean(username) || Boolean(email);
-        const bothProvided = Boolean(username) && Boolean(email);
+        const {username, email, password} = config.credentials;
+        const oneProvided = Boolean(username) || Boolean(email) || Boolean(password);
+        const allProvided = Boolean(username) && Boolean(email) && Boolean(password);
 
-        if (oneProvided && !bothProvided) {
-            throw new Error('credentials must contain both username and email or be omitted.');
+        if (oneProvided && !allProvided) {
+            throw new Error('credentials must contain username, email and password or be omitted.');
         }
     }
 }

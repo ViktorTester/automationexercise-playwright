@@ -3,7 +3,8 @@
   "baseUrl": "https://automationexercise.com",
   "apiBaseUrl": "https://automationexercise.com/api",
   "credentials": {
-    "username": "admin_login",
-    "email": "admin@email"
+    "username": "John",
+    "email": "test_login@testlogin.com",
+    "password": "Password123"
   }
 }

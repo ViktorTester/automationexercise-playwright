@@ -26,5 +26,6 @@ export type EnvConfig = {
   credentials: {
     username: string; // env var name that contains username
     email: string; // env var name that contains email
+    password: string; // env var name that contains password
   };
 }

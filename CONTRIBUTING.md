@@ -107,7 +107,7 @@ config/<brand>/<env>.json
 
 ### Secrets
 
-Current repository JSON files include test credentials in `credentials.username` and `credentials.email`.
+Current repository JSON files include test credentials in `credentials.username`, `credentials.email`, and `credentials.password`.
 
 For sensitive environments:
 
