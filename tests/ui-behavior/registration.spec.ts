@@ -3,18 +3,20 @@ import {TestUsers} from "../../src/testdata/users/testUsers";
 import {Title} from "@app-types/SignupTypes/Title";
 
 test.describe("Test Case 1: Register User", () => {
-    test.beforeEach(async ({home}) => {
+    test.beforeEach(async ({home, signup}) => {
         await home.open();
         await home.assertLoaded();
-        await home.openLogin();
+        await home.openSignup();
+        await signup.assertSignupLoaded();
     });
 
-    test("@smoke Register and delete the user", async ({signup, home}) => {
-
-        await signup.assertSignupLoaded();
+    test("@smoke @regression Register and delete the user", async ({signup, home}) => {
 
         // Entering name + email on the signup form and moving on
-        await signup.startSignup(TestUsers.validUser);
+        await signup.startSignup(
+            TestUsers.validUser.firstName,
+            TestUsers.validUser.email
+        );
         await signup.assertAccountInfoLoaded();
         await signup.assertSignupPrefilled(TestUsers.validUser);
 
@@ -36,7 +38,7 @@ test.describe("Test Case 1: Register User", () => {
 
     });
 
-    test("@smoke Login and Logout", async ({signup, config, home}) => {
+    test("@regression Login and Logout", async ({signup, config, home}) => {
 
         // Entering email + password on the login form and moving on
         await signup.startLogin(
@@ -50,15 +52,27 @@ test.describe("Test Case 1: Register User", () => {
 
     })
 
-    test('@smoke Login with incorrect credentials', async ({signup}) => {
+    test('@regression Login with incorrect credentials', async ({signup}) => {
 
-        // Entering incorrect email + password on the login form and moving on
+        // Entering incorrect email + password on the login form
         await signup.startLogin(
             TestUsers.anotherUser.email,
             TestUsers.anotherUser.password
         );
 
         await signup.assertInvalidCreds();
+
+    })
+
+    test('@regression Register with existing email', async ({signup, config}) => {
+
+        // Entering name + existing email on the signup form
+        await signup.startSignup(
+            TestUsers.validUser.firstName,
+            config.credentials.email
+        );
+
+        await signup.assertExistingEmail();
 
     })
 

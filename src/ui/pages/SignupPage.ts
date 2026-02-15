@@ -3,8 +3,7 @@ import {LoginCopy} from "../copy/login.copy";
 import {Title} from "@app-types/SignupTypes/Title";
 import {InputField} from "@app-types/SignupTypes/InputField";
 import {BasePage} from "@pages/BasePage";
-import {SignupUser} from "@app-types/users/SignupUser";
-import {SignupStart} from "@app-types/users/SignupUser";
+import {SignupUser, type SignupStart} from "@app-types/users/SignupUser";
 import {ContinueSection} from "@pages/components/ContinueSection";
 
 /**
@@ -37,6 +36,7 @@ export class SignupPage extends BasePage {
     readonly continueSection: ContinueSection;
 
     readonly invalidCreadsText: Locator;
+    readonly existingEmailText: Locator;
 
     private readonly title: Record<Title, Locator>;
     private readonly input: Record<InputField, Locator>;
@@ -57,6 +57,8 @@ export class SignupPage extends BasePage {
         this.loginPassword = page.getByTestId('login-password');
         this.loginBtn = page.getByTestId('login-button');
 
+        this.createAccountBtn = page.getByTestId('create-account')
+
         this.accountInfoText = page.getByText(LoginCopy.accountInfo);
         this.addressInfotext = page.getByText(LoginCopy.addressInfo);
         this.streetInfoText = page.getByText(LoginCopy.streetInfo);
@@ -64,9 +66,8 @@ export class SignupPage extends BasePage {
         this.accountCreatedText1 = page.getByText(LoginCopy.accCreatedText1);
         this.accountCreatedText2 = page.getByText(LoginCopy.accCreatedText2);
 
-        this.createAccountBtn = page.getByTestId('create-account')
-
-        this.invalidCreadsText = page.getByText('Your email or password is')
+        this.invalidCreadsText = page.getByText(LoginCopy.invalidCreadsText)
+        this.existingEmailText = page.getByText(LoginCopy.existingEmailText)
 
         this.title = {
             [Title.Mr]: page.locator('#id_gender1')
@@ -94,9 +95,9 @@ export class SignupPage extends BasePage {
     /**
      * Submits name and email on the signup form.
      */
-    async startSignup(user: SignupStart): Promise<void> {
-        await this.signupName.fill(user.firstName);
-        await this.signupEmail.fill(user.email);
+    async startSignup(email: string, password: string): Promise<void> {
+        await this.signupName.fill(email);
+        await this.signupEmail.fill(password);
         await this.signupBtn.click();
     }
 
@@ -203,6 +204,10 @@ export class SignupPage extends BasePage {
 
     async assertInvalidCreds(): Promise<void> {
         await expect(this.invalidCreadsText).toBeVisible();
+    }
+
+    async assertExistingEmail(): Promise<void> {
+        await expect(this.existingEmailText).toBeVisible();
     }
 
 }
