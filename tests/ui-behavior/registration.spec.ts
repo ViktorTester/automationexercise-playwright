@@ -50,4 +50,16 @@ test.describe("Test Case 1: Register User", () => {
 
     })
 
+    test('@smoke Login with incorrect credentials', async ({signup}) => {
+
+        // Entering incorrect email + password on the login form and moving on
+        await signup.startLogin(
+            TestUsers.anotherUser.email,
+            TestUsers.anotherUser.password
+        );
+
+        await signup.assertInvalidCreds();
+
+    })
+
 })

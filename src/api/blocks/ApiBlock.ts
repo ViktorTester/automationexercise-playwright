@@ -24,7 +24,7 @@ export class ApiCallBuilder {
     }
 
     /**
-     * Adds form field to `application/x-www-form-urlencoded` payload.
+     * Adds a form field to the ` application / x-www-form-urlencoded ` payload.
      */
     setForm(key: string, value: Primitive): this {
         this.form[key] = value;
