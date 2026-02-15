@@ -1,7 +1,6 @@
 import {test} from 'tests/fixtures/pages';
 import {TestUsers} from "../../src/testdata/users/testUsers";
 import {Title} from "@app-types/SignupTypes/Title";
-import {verifyApiResponse} from "../../src/api/asserts/ApiAsserts";
 
 test.describe("Test Case 1: Register User", () => {
     test.beforeEach(async ({home}) => {
@@ -11,6 +10,7 @@ test.describe("Test Case 1: Register User", () => {
     });
 
     test("@smoke Register and delete the user", async ({signup, home}) => {
+
         await signup.assertSignupLoaded();
 
         // Entering name + email on the signup form and moving on
@@ -36,18 +36,18 @@ test.describe("Test Case 1: Register User", () => {
 
     });
 
-    test.skip('@smoke DELETE /deleteAccount - Should delete a user', async ({api}) => {
+    test("@smoke Login and Logout", async ({signup, config, home}) => {
 
-        const response = await api.account().deleteAccount(
-            TestUsers.validUser.email,
-            TestUsers.validUser.password
-        ).withLogs().send();
-
-        verifyApiResponse(response, 200, [
-            {path: 'message', expected: 'Account deleted!'},
-            {path: 'responseCode', expected: 200}]
+        // Entering email + password on the login form and moving on
+        await signup.startLogin(
+            config.credentials.email,
+            config.credentials.password
         );
+        await home.assertSectionsPresent();
 
-    });
+        // Logout
+        await home.logout();
+
+    })
 
 })

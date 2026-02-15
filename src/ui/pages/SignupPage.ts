@@ -14,9 +14,16 @@ export class SignupPage extends BasePage {
 
     readonly loginText: Locator;
     readonly signupText: Locator;
+
+    // Signup form elements
     readonly signupName: Locator;
     readonly signupEmail: Locator;
     readonly signupBtn: Locator;
+
+    // Login form elements
+    readonly loginEmail: Locator;
+    readonly loginPassword: Locator;
+    readonly loginBtn: Locator;
 
     readonly accountInfoText: Locator;
     readonly addressInfotext: Locator;
@@ -37,10 +44,15 @@ export class SignupPage extends BasePage {
         this.continueSection = new ContinueSection(page);
 
         this.loginText = page.locator(".login-form > h2");
+
         this.signupText = page.locator(".signup-form > h2");
         this.signupName = page.getByTestId('signup-name');
         this.signupEmail = page.getByTestId('signup-email');
         this.signupBtn = page.getByTestId('signup-button');
+
+        this.loginEmail = page.getByTestId('login-email');
+        this.loginPassword = page.getByTestId('login-password');
+        this.loginBtn = page.getByTestId('login-button');
 
         this.accountInfoText = page.getByText(LoginCopy.accountInfo);
         this.addressInfotext = page.getByText(LoginCopy.addressInfo);
@@ -75,16 +87,16 @@ export class SignupPage extends BasePage {
     }
 
     /**
-     * Step 1 action: submit name and email on the signup form.
+     * Submits name and email on the signup form.
      */
     async startSignup(user: SignupStart): Promise<void> {
-        await this.inputName(user.firstName);
-        await this.inputEmail(user.email);
-        await this.clickSignupBtn();
+        await this.signupName.fill(user.firstName);
+        await this.signupEmail.fill(user.email);
+        await this.signupBtn.click();
     }
 
     /**
-     * Step 2: Fills out the main part of the form and clicks Create Account
+     * Fills out the main part of the form and clicks Create Account
      */
     async registerUser(user: SignupUser): Promise<void> {
         await this.chooseTitle(user.title);
@@ -107,19 +119,16 @@ export class SignupPage extends BasePage {
         await this.createAccount();
     }
 
+    /**
+     * Submits email and password on the login form.
+     */
+    async startLogin(email: string, password: string): Promise<void> {
+        await this.loginEmail.fill(email);
+        await this.loginPassword.fill(password);
+        await this.loginBtn.click();
+    }
+
     // Actions
-    async inputName(name: string): Promise<void> {
-        await this.signupName.fill(name)
-    }
-
-    async inputEmail(email: string): Promise<void> {
-        await this.signupEmail.fill(email)
-    }
-
-    async clickSignupBtn(): Promise<void> {
-        await this.signupBtn.click();
-    }
-
     async chooseCountry(input: InputField, country: string): Promise<void> {
         await this.input[input].selectOption(country)
     }
@@ -143,6 +152,8 @@ export class SignupPage extends BasePage {
 
     async clickContinue(): Promise<void> {
         await this.continueSection.clickContinue();
+        await this.expectUrl('/')
+
     }
 
     // Assertions

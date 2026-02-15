@@ -5,6 +5,7 @@ import {AllowedBrand, AllowedEnv, EnvConfig} from '../types/EnvConfig';
 type RawCredentials = {
     username?: unknown;
     email?: unknown;
+    password?: unknown;
 };
 
 type RawEnvConfigFile = {
@@ -102,10 +103,13 @@ export function loadEnvConfig(): EnvConfig {
         typeof fileConfig.credentials?.username === 'string' ? fileConfig.credentials.username.trim() : undefined;
     const emailFromFile =
         typeof fileConfig.credentials?.email === 'string' ? fileConfig.credentials.email.trim() : undefined;
+    const passwordFromFile =
+        typeof fileConfig.credentials?.password === 'string' ? fileConfig.credentials.password.trim() : undefined;
 
     const creds = {
         username: requireNonEmptyString('credentials.username', usernameFromFile, configPath),
         email: requireNonEmptyString('credentials.email', emailFromFile, configPath),
+        password: requireNonEmptyString('credentials.password', passwordFromFile, configPath),
     };
 
     const baseUrl = baseUrlOverride || baseUrlFromFile;
