@@ -32,7 +32,7 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
      * Worker-scoped fixture
      * {scope: 'worker'}:
      * “Load the configuration once for a group of tests
-     * executed within a single process, and reuse it across those tests.”
+     * executed within a single process and reuse it across those tests.”
      *
      * env config is loaded once per worker
      */
