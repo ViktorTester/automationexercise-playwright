@@ -1,6 +1,7 @@
-import type { APIRequestContext } from '@playwright/test';
-import { RequestClient } from './RequestClient';
-import { AccountBlock } from './blocks/AccountBlock';
+import type {APIRequestContext} from '@playwright/test';
+import {RequestClient} from './RequestClient';
+import {AccountBlock} from './blocks/AccountBlock';
+import {ProductsBlock} from "./blocks/ProductsBlock";
 
 
 /**
@@ -10,19 +11,28 @@ export class ApiContainer {
     private readonly client: RequestClient;
 
     private _account?: AccountBlock;
+    private _products?: ProductsBlock;
 
     /**
-     * @param apiBaseUrl Base API URL from env config, e.g. https://host/api
+     * @param apiBaseUrl Base API URL from env config, e.g., https://host/api
      */
     constructor(request: APIRequestContext, apiBaseUrl: string) {
         this.client = new RequestClient(request, apiBaseUrl);
     }
 
     /**
-     * Returns Account API block singleton for current test context.
+     * Returns Account API block singleton for the current test context.
      */
     account(): AccountBlock {
         return (this._account ??= new AccountBlock(this.client));
     }
+
+    /**
+     * Returns Products API block singleton for the current test context.
+     */
+    products(): ProductsBlock {
+        return (this._products ??= new ProductsBlock(this.client));
+    }
+
 
 }

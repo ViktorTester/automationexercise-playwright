@@ -49,6 +49,16 @@ export class ApiCallBuilder {
             ...(this.shouldLog ? { log: true } : {}),
         });
     }
+
+    /**
+     * Makes builder awaitable, so `await call.withLogs()` executes the request.
+     */
+    then<TResult1 = ApiCallResponse, TResult2 = never>(
+        onfulfilled?: ((value: ApiCallResponse) => TResult1 | PromiseLike<TResult1>) | null,
+        onrejected?: ((reason: unknown) => TResult2 | PromiseLike<TResult2>) | null
+    ): PromiseLike<TResult1 | TResult2> {
+        return this.send().then(onfulfilled, onrejected);
+    }
 }
 
 export abstract class ApiBlock {

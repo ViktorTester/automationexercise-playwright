@@ -6,5 +6,6 @@ export const Endpoints = {
     Account: {
         // Keep endpoint paths relative (without leading "/") for safe URL resolution with apiBaseUrl.
         DeleteAccount: 'deleteAccount',
+        ProductsList: 'productsList'
     }
 } as const;

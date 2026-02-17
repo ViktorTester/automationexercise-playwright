@@ -38,7 +38,7 @@ export class RequestClient {
         opts: SendOptions = {}
     ): Promise<ApiCallResponse> {
         /**
-         * URL join is normalized to avoid dropping "/api" when base URL has no trailing slash.
+         * URL join is normalized to avoid dropping "/api" when the base URL has no trailing slash.
          * Example: base "https://host/api" + path "deleteAccount" -> "https://host/api/deleteAccount"
          */
         const normalizedBaseUrl = this.baseUrl.endsWith('/')

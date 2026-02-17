@@ -2,7 +2,7 @@ import {test} from 'tests/fixtures/pages';
 import {TestUsers} from "../../src/testdata/users/testUsers";
 import {Title} from "@app-types/SignupTypes/Title";
 
-test.describe("Test Case 1: Register User", () => {
+test.describe("Account Lifecycle Tests", () => {
     test.beforeEach(async ({home, signup}) => {
         await home.open();
         await home.assertLoaded();
@@ -72,6 +72,7 @@ test.describe("Test Case 1: Register User", () => {
             config.credentials.email
         );
 
+        // Check validation message
         await signup.assertExistingEmail();
 
     })

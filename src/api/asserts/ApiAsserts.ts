@@ -1,5 +1,7 @@
 import {expect} from '@playwright/test';
 import type {ApiCallResponse} from '../RequestClient';
+import type {ApiAssertMatcher} from './matchers';
+import {isApiAssertMatcher} from './matchers';
 
 /**
  * Defines a single response body validation rule.
@@ -14,10 +16,9 @@ import type {ApiCallResponse} from '../RequestClient';
  */
 export type BodyAssert = {
     path: string;
-    expected: unknown | RegExp;
+    expected: unknown | RegExp | ApiAssertMatcher;
     message?: string;
 };
-
 
 /**
  * Verifies HTTP status and (optionally) selected response body fields.
@@ -44,7 +45,9 @@ export function verifyApiResponse(
         const actual = getByPath(r.body, a.path);
         const hint = a.message ?? `Unexpected body field "${a.path}" for ${r.method} ${r.url}`;
 
-        if (a.expected instanceof RegExp) {
+        if (isApiAssertMatcher(a.expected)) {
+            applyMatcher(actual, a.expected, hint);
+        } else if (a.expected instanceof RegExp) {
             expect(String(actual), hint).toMatch(a.expected);
         } else {
             expect(actual, hint).toEqual(a.expected);
@@ -61,7 +64,7 @@ export function verifyApiResponse(
  *  - "data.id"
  *  - "items[0].name"
  *
- * Returns undefined if path does not exist.
+ * Returns undefined if a path does not exist.
  *
  * @param obj - Source object.
  * @param path - Property path.
@@ -82,4 +85,48 @@ function getByPath(obj: unknown, path: string): unknown {
         cur = (cur as Record<string, unknown>)[t];
     }
     return cur;
+}
+
+function applyMatcher(actual: unknown, expected: ApiAssertMatcher, hint: string): void {
+    switch (expected.kind) {
+        case 'is_not_empty_list':
+            expect(Array.isArray(actual), hint).toBe(true);
+            expect((actual as unknown[]).length, hint).toBeGreaterThan(0);
+            return;
+        case 'is_empty_list':
+            expect(Array.isArray(actual), hint).toBe(true);
+            expect((actual as unknown[]).length, hint).toBe(0);
+            return;
+        case 'is_not_empty_object':
+            expect(isPlainObject(actual), hint).toBe(true);
+            expect(Object.keys(actual as Record<string, unknown>).length, hint).toBeGreaterThan(0);
+            return;
+        case 'is_empty_object':
+            expect(isPlainObject(actual), hint).toBe(true);
+            expect(Object.keys(actual as Record<string, unknown>).length, hint).toBe(0);
+            return;
+        case 'is_null':
+            expect(actual, hint).toBeNull();
+            return;
+        case 'is_not_null':
+            expect(actual, hint).not.toBeNull();
+            expect(actual, hint).not.toBeUndefined();
+            return;
+        case 'equals_or_greater':
+            expect(typeof actual, hint).toBe('number');
+            expect(actual as number, hint).toBeGreaterThanOrEqual(expected.value as number);
+            return;
+        case 'equals_or_less':
+            expect(typeof actual, hint).toBe('number');
+            expect(actual as number, hint).toBeLessThanOrEqual(expected.value as number);
+            return;
+        default: {
+            const exhaustiveCheck: never = expected.kind;
+            throw new Error(`Unsupported matcher: ${exhaustiveCheck}`);
+        }
+    }
+}
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
