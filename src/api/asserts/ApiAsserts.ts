@@ -89,37 +89,46 @@ function getByPath(obj: unknown, path: string): unknown {
 
 function applyMatcher(actual: unknown, expected: ApiAssertMatcher, hint: string): void {
     switch (expected.kind) {
+
         case 'is_not_empty_list':
             expect(Array.isArray(actual), hint).toBe(true);
             expect((actual as unknown[]).length, hint).toBeGreaterThan(0);
             return;
+
         case 'is_empty_list':
             expect(Array.isArray(actual), hint).toBe(true);
             expect((actual as unknown[]).length, hint).toBe(0);
             return;
+
         case 'is_not_empty_object':
             expect(isPlainObject(actual), hint).toBe(true);
             expect(Object.keys(actual as Record<string, unknown>).length, hint).toBeGreaterThan(0);
             return;
+
         case 'is_empty_object':
             expect(isPlainObject(actual), hint).toBe(true);
             expect(Object.keys(actual as Record<string, unknown>).length, hint).toBe(0);
             return;
+
         case 'is_null':
             expect(actual, hint).toBeNull();
             return;
+
         case 'is_not_null':
             expect(actual, hint).not.toBeNull();
             expect(actual, hint).not.toBeUndefined();
             return;
+
         case 'equals_or_greater':
             expect(typeof actual, hint).toBe('number');
             expect(actual as number, hint).toBeGreaterThanOrEqual(expected.value as number);
             return;
+
         case 'equals_or_less':
             expect(typeof actual, hint).toBe('number');
             expect(actual as number, hint).toBeLessThanOrEqual(expected.value as number);
             return;
+
         default: {
             const exhaustiveCheck: never = expected.kind;
             throw new Error(`Unsupported matcher: ${exhaustiveCheck}`);
