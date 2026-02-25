@@ -2,6 +2,7 @@ import {expect, Locator, Page} from "@playwright/test";
 import {LoginCopy} from "@ui/copy/login.copy";
 import {BasePage} from "@pages/BasePage";
 import {ContinueSection} from "@pages/components/ContinueSection";
+import {contactCopy} from "@ui/copy/contactCopy";
 
 /**
  * Home page object
@@ -11,6 +12,7 @@ export class HomePage extends BasePage {
     readonly mainTitile: Locator;
     readonly copyright: Locator;
     readonly loginPage: Locator;
+    readonly contactPage: Locator;
 
     readonly accountDeletedTitle: Locator;
     readonly accountDeletedText1: Locator;
@@ -29,6 +31,7 @@ export class HomePage extends BasePage {
         this.mainTitile = page.getByRole('link', {name: 'Website for automation'})
         this.copyright = page.getByText('Copyright © 2021 All rights')
         this.loginPage = page.getByRole('link', {name: ' Signup / Login'})
+        this.contactPage = page.getByRole('link', {name: ' Contact us'})
 
         this.accountDeletedTitle = page.getByText(LoginCopy.accDeletedTitle);
         this.accountDeletedText1 = page.getByText(LoginCopy.accDeletedText1);
@@ -52,6 +55,15 @@ export class HomePage extends BasePage {
      */
     async openSignup(): Promise<void> {
         await this.loginPage.click();
+        expect (this.page).toHaveTitle(LoginCopy.loginTitle)
+    }
+
+    /**
+     * Opens Contact Us page
+     */
+    async openContactUs(): Promise<void> {
+        await this.contactPage.click();
+        expect(this.page).toHaveTitle(contactCopy.contactTitle)
     }
 
     /**
