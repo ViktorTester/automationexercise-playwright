@@ -5,6 +5,7 @@ import {loadEnvConfig} from "../../src/utils/envLoader";
 import {SignupPage} from "../../src/ui/pages/SignupPage";
 import type {APIRequestContext} from '@playwright/test';
 import {ApiContainer} from '../../src/api/ApiContainer';
+import {ContactUsPage} from "@pages/ContactUsPage";
 
 
 /**
@@ -22,6 +23,7 @@ type PagesFixtures = {
     page: Page;
     home: HomePage;
     signup: SignupPage;
+    contact: ContactUsPage
 
     api: ApiContainer;
 }
@@ -63,9 +65,15 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
         await use(new SignupPage(page));
     },
 
+    contact: async ({page}, use) => {
+        await use(new ContactUsPage(page));
+    },
+
     api: async ({request, config}, use) => {
         await use(new ApiContainer(request as APIRequestContext, config.apiBaseUrl));
     }
+
+
 })
 
 export {expect}

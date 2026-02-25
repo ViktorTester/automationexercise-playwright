@@ -1,4 +1,5 @@
 export const LoginCopy = {
+    loginTitle: "Automation Exercise - Signup / Login",
     login: 'Login to your account',
     signup: 'New User Signup!',
     accountInfo: 'Enter Account Information',
