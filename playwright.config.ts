@@ -5,7 +5,7 @@ import { validateConfig } from 'src/utils/configValidator';
 /**
  * Environment-driven configuration (2-dimensional):
  * - BRAND: brand1 | brand2
- * - ENV:   dev | staging
+ * - ENV: dev | staging
  *
  * Resolution:
  * - If BASE_URL is provided, it overrides config files.
@@ -79,11 +79,9 @@ export default defineConfig({
 
     // Making a screenshot only on failure
     screenshot: 'only-on-failure',
-    // Recording the video, but saving only on failure
-    video: 'retain-on-failure',
     trace: 'on',
 
-    // Wait for element
+    // Wait for an element
     actionTimeout: 10_000,
 
     // Navigation custom timeout
