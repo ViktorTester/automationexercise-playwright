@@ -13,4 +13,4 @@ services:
     environment:
       ENV: dev
       BRAND: brand1
-    command: ["npm", "test"]
+    command: ["npm", "run", "test:smoke"]

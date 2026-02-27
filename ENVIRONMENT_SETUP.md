@@ -53,8 +53,6 @@ Current config files contain test credentials directly under `credentials`:
 - `email`
 - `password`
 
-If you need sensitive values, move them to CI/CD secrets and inject them at runtime.
-
 ---
 
 ## Running tests (Docker Compose)
