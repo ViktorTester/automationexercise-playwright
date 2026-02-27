@@ -5,7 +5,7 @@ export abstract class BasePage {
         protected readonly page: Page
     ) {}
 
-    async expectUrl(expected: string ): Promise<void> {
+    async expectUrl(expected: string | RegExp): Promise<void> {
         await expect(this.page).toHaveURL(expected);
     }
 

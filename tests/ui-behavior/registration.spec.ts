@@ -3,6 +3,7 @@ import {TestUsers} from "../../src/testdata/users/testUsers";
 import {Title} from "@app-types/SignupTypes/Title";
 
 test.describe("Account Lifecycle Tests", () => {
+
     test.beforeEach(async ({home, signup}) => {
         await home.open();
         await home.assertLoaded();

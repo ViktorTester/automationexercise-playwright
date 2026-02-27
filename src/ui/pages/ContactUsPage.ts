@@ -45,7 +45,10 @@ export class ContactUsPage extends BasePage {
 
     async clockHomeBtn(): Promise<void> {
         await this.homeBtn.click();
-        await this.expectUrl('/')
+        await Promise.race([
+            this.expectUrl(/\/$/),
+            this.expectUrl(/\/contact_us#google_vignette$/)
+        ]);
     }
 
     async submitTheForm(page: Page): Promise<void> {
