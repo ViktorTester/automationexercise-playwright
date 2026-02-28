@@ -20,7 +20,9 @@
       "@locators/*": ["src/ui/locators/*"],
       "@testdata/*": ["src/testdata/*"],
       "@utils/*": ["src/utils/*"],
-      "@ui/*": ["src/ui/*"]
+      "@ui/*": ["src/ui/*"],
+      "@constants/*": ["src/constants/*"],
+      "@asserts/*": ["src/api/asserts/*"],
     },
 
     "noUncheckedIndexedAccess": true,
