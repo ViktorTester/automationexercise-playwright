@@ -11,11 +11,14 @@ export const Endpoints = {
 
     Products: {
         ProductsList: 'productsList',
-        SerchProduct: 'searchProduct'
     },
 
     Brands: {
         BrandsList: 'brandsList'
+    },
+
+    SearchProduct: {
+        SearchForProduct: 'searchProduct'
     }
 
 } as const;

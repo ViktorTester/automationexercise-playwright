@@ -3,6 +3,7 @@ import {RequestClient} from './RequestClient';
 import {AccountBlock} from './blocks/AccountBlock';
 import {ProductsBlock} from "./blocks/ProductsBlock";
 import {BrandsBlock} from "./blocks/BrandsBlock";
+import {SearchProductBlock} from "./blocks/SearchProductBlock";
 
 
 /**
@@ -14,6 +15,7 @@ export class ApiContainer {
     private _account?: AccountBlock;
     private _products?: ProductsBlock;
     private _brands?: BrandsBlock;
+    private _searchProduct?: SearchProductBlock;
 
     /**
      * @param apiBaseUrl Base API URL from env config, e.g., https://host/api
@@ -23,24 +25,31 @@ export class ApiContainer {
     }
 
     /**
-     * Returns Account API block singleton for the current test context.
+     * Returns 'Account' API block singleton for the current test context.
      */
     account(): AccountBlock {
         return (this._account ??= new AccountBlock(this.client));
     }
 
     /**
-     * Returns Products API block singleton for the current test context.
+     * Returns 'Products' API block singleton for the current test context.
      */
     products(): ProductsBlock {
         return (this._products ??= new ProductsBlock(this.client));
     }
 
     /**
-     * Returns Brands API block singleton for the current test context.
+     * Returns 'Brands' API block singleton for the current test context.
      */
     brands(): BrandsBlock {
         return (this._brands ??= new BrandsBlock(this.client));
+    }
+
+    /**
+     * Returns 'Search product' API block singleton for the current test context.
+     */
+    searchProduct() : SearchProductBlock {
+        return (this._searchProduct ??= new SearchProductBlock(this.client))
     }
 
 }

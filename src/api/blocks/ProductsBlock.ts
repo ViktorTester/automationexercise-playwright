@@ -16,12 +16,4 @@ export class ProductsBlock extends ApiBlock {
         return this.call(Endpoints.Products.ProductsList, method);
     }
 
-    /**
-     * Builds a product search API call with a product category.
-     */
-    searchProducts(method: HttpMethod): ApiCallBuilder {
-        return this.call(Endpoints.Products.SerchProduct, method)
-            .setForm('search_product', 'top');
-    }
-
 }
