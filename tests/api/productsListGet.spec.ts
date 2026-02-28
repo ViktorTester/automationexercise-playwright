@@ -1,5 +1,6 @@
 import {test} from 'tests/fixtures/pages';
 import {IsNotEmptyObject, verifyApiResponse} from "src/api/asserts";
+import {commonResponses as common} from "@constants/commonResponses";
 
 
 test.describe('GET/api/productsList tests', () => {
@@ -22,8 +23,8 @@ test.describe('GET/api/productsList tests', () => {
             .products().productsList('POST');
 
         verifyApiResponse(response, 200, [
-            {path: 'responseCode', expected: 405},
-            {path: 'message', expected: 'This request method is not supported.'}
+            {path: 'responseCode', expected: common.METHOD_NOT_SUPPORTED.code},
+            {path: 'message', expected: common.METHOD_NOT_SUPPORTED.message}
         ]);
 
     })

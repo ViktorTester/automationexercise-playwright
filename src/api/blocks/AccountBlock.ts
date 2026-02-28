@@ -9,7 +9,7 @@ export class AccountBlock extends ApiBlock {
     }
 
     /**
-     * Builds a delete-account API call with credentials.
+     * Builds a 'delete-account' API call with credentials.
      */
     deleteAccount(email: string, password: string): ApiCallBuilder {
         return this.call(Endpoints.Account.DeleteAccount, 'DELETE')

@@ -10,7 +10,7 @@ export class BrandsBlock extends ApiBlock {
     }
 
     /**
-     * Builds a brands list API call
+     * Builds a 'brands list' API call
      */
     brandsList(method: HttpMethod): ApiCallBuilder {
         return this.call(Endpoints.Brands.BrandsList, method);

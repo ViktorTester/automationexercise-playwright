@@ -1,6 +1,6 @@
 import {test} from 'tests/fixtures/pages';
 import {IsNotEmptyList, verifyApiResponse} from "src/api/asserts";
-import {METHOD_NOT_SUPPORTED} from "../../src/constants/apiErrors";
+import {commonResponses as common} from "@constants/commonResponses";
 
 test.describe('GET/api/brandsList tests', () => {
     test('@smoke @regression [GET/api/brandsList] Should return all brands list', async ({api}) => {
@@ -22,8 +22,8 @@ test.describe('GET/api/brandsList tests', () => {
             .brands().brandsList('POST');
 
         verifyApiResponse(response, 200, [
-            {path: 'responseCode', expected: METHOD_NOT_SUPPORTED.code},
-            {path: 'message', expected: METHOD_NOT_SUPPORTED.message}
+            {path: 'responseCode', expected: common.METHOD_NOT_SUPPORTED.code},
+            {path: 'message', expected: common.METHOD_NOT_SUPPORTED.message}
         ]);
 
     })

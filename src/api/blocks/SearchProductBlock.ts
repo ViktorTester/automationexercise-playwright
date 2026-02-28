@@ -10,7 +10,7 @@ export class SearchProductBlock extends ApiBlock {
     }
 
     /**
-     * Builds a product search API call with a product category.
+     * Builds a 'product search' API call with a product category.
      */
     searchProduct(method: HttpMethod): ApiCallBuilder {
         return this.call(Endpoints.SearchProduct.SearchForProduct, method)
@@ -18,7 +18,7 @@ export class SearchProductBlock extends ApiBlock {
     }
 
     /**
-     * Builds a product search API call with an empty product category.
+     * Builds a 'product search' API call with an empty product category.
      */
     emptyParam(method: HttpMethod): ApiCallBuilder {
         return this.call(Endpoints.SearchProduct.SearchForProduct, method);

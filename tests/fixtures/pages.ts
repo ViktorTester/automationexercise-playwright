@@ -3,7 +3,6 @@ import {HomePage} from "../../src/ui/pages/HomePage";
 import type {EnvConfig} from '../../src/types/EnvConfig';
 import {loadEnvConfig} from "../../src/utils/envLoader";
 import {SignupPage} from "../../src/ui/pages/SignupPage";
-import type {APIRequestContext} from '@playwright/test';
 import {ApiContainer} from '../../src/api/ApiContainer';
 import {ContactUsPage} from "@pages/ContactUsPage";
 
@@ -70,7 +69,7 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
     },
 
     api: async ({request, config}, use) => {
-        await use(new ApiContainer(request as APIRequestContext, config.apiBaseUrl));
+        await use(new ApiContainer(request, config));
     }
 
 

@@ -1,7 +1,7 @@
 import {test} from 'tests/fixtures/pages';
 import {IsNotEmptyList, IsNotEmptyObject, verifyApiResponse} from "../../src/api/asserts";
-import {BAD_REQUEST, METHOD_NOT_SUPPORTED} from "../../src/constants/apiErrors";
-import {BAD_REQUEST_CUSTOM} from "../../src/constants/customErrorMessages";
+import {commonResponses as common} from "@constants/commonResponses";
+import {customResponseMessages as custom} from "@constants/customResponseMessages";
 
 test.describe('POST/api/searchProduct tests' , () => {
     test('@smoke @regression [POST/api/searchProduct] Should return a specific product info', async ({api}) => {
@@ -30,8 +30,8 @@ test.describe('POST/api/searchProduct tests' , () => {
 
         verifyApiResponse(response, 200,
             [
-                {path: 'responseCode', expected: METHOD_NOT_SUPPORTED.code},
-                {path: 'message', expected: METHOD_NOT_SUPPORTED.message}
+                {path: 'responseCode', expected: common.METHOD_NOT_SUPPORTED.code},
+                {path: 'message', expected: common.METHOD_NOT_SUPPORTED.message}
             ]);
     })
 
@@ -42,8 +42,8 @@ test.describe('POST/api/searchProduct tests' , () => {
 
         verifyApiResponse(response, 200,
             [
-                {path: 'responseCode', expected: BAD_REQUEST.code},
-                {path: 'message', expected: BAD_REQUEST_CUSTOM.message},
+                {path: 'responseCode', expected: common.BAD_REQUEST.code},
+                {path: 'message', expected: custom.SEARCH_PRODUCT_MISSING.message},
             ]);
     })
 });

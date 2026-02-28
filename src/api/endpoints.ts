@@ -5,6 +5,7 @@
  * Keep endpoint paths relative (without leading "/") for safe URL resolution with apiBaseUrl.
  */
 export const Endpoints = {
+
     Account: {
         DeleteAccount: 'deleteAccount',
     },
@@ -19,6 +20,10 @@ export const Endpoints = {
 
     SearchProduct: {
         SearchForProduct: 'searchProduct'
+    },
+
+    VerifyLogin: {
+        VerifyLogin: 'verifyLogin'
     }
 
 } as const;
