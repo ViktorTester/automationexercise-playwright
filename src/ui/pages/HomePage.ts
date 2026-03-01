@@ -4,6 +4,7 @@ import {BasePage} from "@pages/BasePage";
 import {ContinueSection} from "@pages/components/ContinueSection";
 import {contactCopy} from "@ui/copy/contactCopy";
 import {testCasesCopy} from "@ui/copy/testCasesCopy";
+import {productsCopy} from "@ui/copy/productsCopy";
 
 /**
  * Home page object
@@ -15,6 +16,7 @@ export class HomePage extends BasePage {
     readonly loginPage: Locator;
     readonly contactPage: Locator;
     readonly testCasesPage: Locator;
+    readonly productsPage: Locator;
 
     readonly accountDeletedTitle: Locator;
     readonly accountDeletedText1: Locator;
@@ -29,19 +31,20 @@ export class HomePage extends BasePage {
 
         this.continueSection = new ContinueSection(page);
 
-        this.consentBtn = page.getByRole('button', {name: 'Consent'})
-        this.mainTitile = page.getByRole('link', {name: 'Website for automation'})
-        this.copyright = page.getByText('Copyright © 2021 All rights')
-        this.loginPage = page.getByRole('link', {name: ' Signup / Login'})
-        this.contactPage = page.getByRole('link', {name: ' Contact us'})
-        this.testCasesPage = page.getByRole('link', {name: ' Test Cases'})
+        this.consentBtn = page.getByRole('button', {name: 'Consent'});
+        this.mainTitile = page.getByRole('link', {name: 'Website for automation'});
+        this.copyright = page.getByText('Copyright © 2021 All rights');
+        this.loginPage = page.getByRole('link', {name: ' Signup / Login'});
+        this.contactPage = page.getByRole('link', {name: ' Contact us'});
+        this.testCasesPage = page.getByRole('link', {name: ' Test Cases'});
+        this.productsPage = page.getByRole('link', {name: ' Products'});
 
         this.accountDeletedTitle = page.getByText(loginCopy.accDeletedTitle);
         this.accountDeletedText1 = page.getByText(loginCopy.accDeletedText1);
         this.accountDeletedText2 = page.getByText(loginCopy.accDeletedText2);
 
-        this.deleteAccBtn = page.getByRole('link', { name: ' Delete Account' })
-        this.logoutBtn = page.getByRole('link', { name: ' Logout' })
+        this.deleteAccBtn = page.getByRole('link', { name: ' Delete Account' });
+        this.logoutBtn = page.getByRole('link', { name: ' Logout' });
 
     }
 
@@ -58,7 +61,7 @@ export class HomePage extends BasePage {
      */
     async openSignup(): Promise<void> {
         await this.loginPage.click();
-        expect (this.page).toHaveTitle(loginCopy.title)
+        await expect (this.page).toHaveTitle(loginCopy.title);
     }
 
     /**
@@ -66,7 +69,7 @@ export class HomePage extends BasePage {
      */
     async openContactUs(): Promise<void> {
         await this.contactPage.click();
-        expect(this.page).toHaveTitle(contactCopy.title)
+        await expect(this.page).toHaveTitle(contactCopy.title);
     }
 
     /**
@@ -74,7 +77,15 @@ export class HomePage extends BasePage {
      */
     async openTestCases(): Promise<void> {
         await this.testCasesPage.click();
-        expect(this.page).toHaveTitle(testCasesCopy.title)
+        await expect(this.page).toHaveTitle(testCasesCopy.title);
+    }
+
+    /**
+     * Opens 'Products' page
+     */
+    async openProducts(): Promise<void> {
+        await this.productsPage.click();
+        await expect(this.page).toHaveTitle(productsCopy.title);
     }
 
     /**
