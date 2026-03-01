@@ -1,5 +1,5 @@
 import {expect, Locator, Page} from "@playwright/test";
-import {LoginCopy} from "../copy/login.copy";
+import {loginCopy} from "../copy/loginCopy";
 import {Title} from "@app-types/SignupTypes/Title";
 import {InputField} from "@app-types/SignupTypes/InputField";
 import {BasePage} from "@pages/BasePage";
@@ -59,15 +59,15 @@ export class SignupPage extends BasePage {
 
         this.createAccountBtn = page.getByTestId('create-account')
 
-        this.accountInfoText = page.getByText(LoginCopy.accountInfo);
-        this.addressInfotext = page.getByText(LoginCopy.addressInfo);
-        this.streetInfoText = page.getByText(LoginCopy.streetInfo);
-        this.accountCreatedTitle = page.getByText(LoginCopy.accountCreated);
-        this.accountCreatedText1 = page.getByText(LoginCopy.accCreatedText1);
-        this.accountCreatedText2 = page.getByText(LoginCopy.accCreatedText2);
+        this.accountInfoText = page.getByText(loginCopy.accountInfo);
+        this.addressInfotext = page.getByText(loginCopy.addressInfo);
+        this.streetInfoText = page.getByText(loginCopy.streetInfo);
+        this.accountCreatedTitle = page.getByText(loginCopy.accountCreated);
+        this.accountCreatedText1 = page.getByText(loginCopy.accCreatedText1);
+        this.accountCreatedText2 = page.getByText(loginCopy.accCreatedText2);
 
-        this.invalidCreadsText = page.getByText(LoginCopy.invalidCreadsText)
-        this.existingEmailText = page.getByText(LoginCopy.existingEmailText)
+        this.invalidCreadsText = page.getByText(loginCopy.invalidCreadsText)
+        this.existingEmailText = page.getByText(loginCopy.existingEmailText)
 
         this.title = {
             [Title.Mr]: page.locator('#id_gender1')
@@ -167,8 +167,8 @@ export class SignupPage extends BasePage {
 
 // Assertions
     async assertSignupLoaded(): Promise<void> {
-        await expect(this.loginText).toHaveText(LoginCopy.login);
-        await expect(this.signupText).toHaveText(LoginCopy.signup);
+        await expect(this.loginText).toHaveText(loginCopy.login);
+        await expect(this.signupText).toHaveText(loginCopy.signup);
     }
 
     async assertAccountInfoLoaded(): Promise<void> {

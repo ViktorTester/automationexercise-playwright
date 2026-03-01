@@ -2,7 +2,7 @@ import {test} from 'tests/fixtures/pages';
 import {testTexts} from "@testdata/Texts/testTexts";
 import {handleNextDialog} from "../helpers/dialog.helper";
 
-test.describe('Contact Us Page Tests', () => {
+test.describe('"Contact Us" Page Tests', () => {
 
     test.beforeEach(async ({home}) => {
         await home.open();
