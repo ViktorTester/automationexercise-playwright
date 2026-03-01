@@ -6,6 +6,7 @@ import {SignupPage} from "../../src/ui/pages/SignupPage";
 import {ApiContainer} from '../../src/api/ApiContainer';
 import {ContactUsPage} from "@pages/ContactUsPage";
 import {TestCasesPage} from "@pages/TestCasesPage";
+import {ProductsPage} from "@pages/ProductsPage";
 
 
 /**
@@ -25,6 +26,7 @@ type PagesFixtures = {
     signup: SignupPage;
     contact: ContactUsPage
     testCases: TestCasesPage
+    products: ProductsPage
 
     api: ApiContainer;
 }
@@ -72,6 +74,10 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
 
     testCases: async ({page}, use) => {
         await use(new TestCasesPage(page));
+    },
+
+    products: async ({page}, use) => {
+        await use(new ProductsPage(page));
     },
 
     api: async ({request, config}, use) => {
