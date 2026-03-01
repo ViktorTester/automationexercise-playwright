@@ -5,6 +5,7 @@ import {loadEnvConfig} from "../../src/utils/envLoader";
 import {SignupPage} from "../../src/ui/pages/SignupPage";
 import {ApiContainer} from '../../src/api/ApiContainer';
 import {ContactUsPage} from "@pages/ContactUsPage";
+import {TestCasesPage} from "@pages/TestCasesPage";
 
 
 /**
@@ -23,6 +24,7 @@ type PagesFixtures = {
     home: HomePage;
     signup: SignupPage;
     contact: ContactUsPage
+    testCases: TestCasesPage
 
     api: ApiContainer;
 }
@@ -66,6 +68,10 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
 
     contact: async ({page}, use) => {
         await use(new ContactUsPage(page));
+    },
+
+    testCases: async ({page}, use) => {
+        await use(new TestCasesPage(page));
     },
 
     api: async ({request, config}, use) => {

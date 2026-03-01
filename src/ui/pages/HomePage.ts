@@ -1,8 +1,9 @@
 import {expect, Locator, Page} from "@playwright/test";
-import {LoginCopy} from "@ui/copy/login.copy";
+import {loginCopy} from "@ui/copy/loginCopy";
 import {BasePage} from "@pages/BasePage";
 import {ContinueSection} from "@pages/components/ContinueSection";
 import {contactCopy} from "@ui/copy/contactCopy";
+import {testCasesCopy} from "@ui/copy/testCasesCopy";
 
 /**
  * Home page object
@@ -13,6 +14,7 @@ export class HomePage extends BasePage {
     readonly copyright: Locator;
     readonly loginPage: Locator;
     readonly contactPage: Locator;
+    readonly testCasesPage: Locator;
 
     readonly accountDeletedTitle: Locator;
     readonly accountDeletedText1: Locator;
@@ -32,10 +34,11 @@ export class HomePage extends BasePage {
         this.copyright = page.getByText('Copyright © 2021 All rights')
         this.loginPage = page.getByRole('link', {name: ' Signup / Login'})
         this.contactPage = page.getByRole('link', {name: ' Contact us'})
+        this.testCasesPage = page.getByRole('link', {name: ' Test Cases'})
 
-        this.accountDeletedTitle = page.getByText(LoginCopy.accDeletedTitle);
-        this.accountDeletedText1 = page.getByText(LoginCopy.accDeletedText1);
-        this.accountDeletedText2 = page.getByText(LoginCopy.accDeletedText2);
+        this.accountDeletedTitle = page.getByText(loginCopy.accDeletedTitle);
+        this.accountDeletedText1 = page.getByText(loginCopy.accDeletedText1);
+        this.accountDeletedText2 = page.getByText(loginCopy.accDeletedText2);
 
         this.deleteAccBtn = page.getByRole('link', { name: ' Delete Account' })
         this.logoutBtn = page.getByRole('link', { name: ' Logout' })
@@ -43,7 +46,7 @@ export class HomePage extends BasePage {
     }
 
     /**
-     * Opens home page
+     * Opens 'Home' page
      */
     async open(): Promise<void> {
         await this.page.goto('/');
@@ -51,19 +54,27 @@ export class HomePage extends BasePage {
     }
 
     /**
-     * Opens Signup / Login page
+     * Opens 'Signup / Login' page
      */
     async openSignup(): Promise<void> {
         await this.loginPage.click();
-        expect (this.page).toHaveTitle(LoginCopy.loginTitle)
+        expect (this.page).toHaveTitle(loginCopy.title)
     }
 
     /**
-     * Opens Contact Us page
+     * Opens 'Contact Us' page
      */
     async openContactUs(): Promise<void> {
         await this.contactPage.click();
-        expect(this.page).toHaveTitle(contactCopy.contactTitle)
+        expect(this.page).toHaveTitle(contactCopy.title)
+    }
+
+    /**
+     * Opens 'Test Cases' page
+     */
+    async openTestCases(): Promise<void> {
+        await this.testCasesPage.click();
+        expect(this.page).toHaveTitle(testCasesCopy.title)
     }
 
     /**
