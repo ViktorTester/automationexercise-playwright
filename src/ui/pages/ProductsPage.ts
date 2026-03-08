@@ -1,5 +1,6 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {BasePage} from "@pages/BasePage";
+import {productsCopy as text} from "@ui/copy/productsCopy";
 
 export class ProductsPage extends BasePage {
 
@@ -15,6 +16,11 @@ export class ProductsPage extends BasePage {
     readonly productCondition: Locator;
     readonly productBrand: Locator;
 
+    readonly searchInput: Locator;
+    readonly searchBtn: Locator;
+    readonly searchedProductsTitle: Locator
+    readonly searchedProductCount: Locator;
+    readonly searchResults: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -31,6 +37,12 @@ export class ProductsPage extends BasePage {
         this.productCondition = page.getByText('Condition: New');
         this.productBrand = page.getByText('Brand: Polo');
 
+        this.searchInput = page.locator('#search_product');
+        this.searchBtn = page.locator('#submit_search');
+        this.searchedProductsTitle = page.locator('.title.text-center');
+
+        this.searchedProductCount = page.locator('.features_items .col-sm-4');
+        this.searchResults = page.locator('.productinfo.text-center > p')
 
     }
 
@@ -63,5 +75,22 @@ export class ProductsPage extends BasePage {
         await expect(this.productAvailability).toBeVisible();
         await expect(this.productCondition).toBeVisible();
         await expect(this.productBrand).toBeVisible();
+    }
+
+    async searchForProduct(productName: string): Promise<void> {
+        await this.searchInput.fill(productName);
+        await this.searchBtn.click();
+    }
+
+    async searchedProductsTitlePresent(): Promise<void> {
+        await expect(this.searchedProductsTitle).toHaveText(text.searchedProductsTitle);
+    }
+
+    async checkProductsCount(count: number) {
+        await expect(this.searchedProductCount).toHaveCount(count);
+    }
+
+    async checkSearchOutput(productName: RegExp) {
+        await expect(this.searchResults).toContainText(productName);
     }
 }
