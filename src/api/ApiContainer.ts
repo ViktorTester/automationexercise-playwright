@@ -22,9 +22,6 @@ export class ApiContainer {
     /**
      * @param apiBaseUrl Base API URL from env config, e.g., https://host/api
      */
-    // constructor(request: APIRequestContext, apiBaseUrl: string) {
-    //     this.client = new RequestClient(request, apiBaseUrl);
-    // }
     constructor(request: APIRequestContext, config: EnvConfig) {
         this.client = new RequestClient(request, config.apiBaseUrl);
         this.config = config;
