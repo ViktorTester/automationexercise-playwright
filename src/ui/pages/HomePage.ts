@@ -5,6 +5,7 @@ import {ContinueSection} from "@pages/components/ContinueSection";
 import {contactCopy} from "@ui/copy/contactCopy";
 import {testCasesCopy} from "@ui/copy/testCasesCopy";
 import {productsCopy} from "@ui/copy/productsCopy";
+import {homeCopy} from "@ui/copy/homeCopy";
 
 /**
  * Home page object
@@ -26,6 +27,11 @@ export class HomePage extends BasePage {
     readonly deleteAccBtn: Locator;
     readonly logoutBtn: Locator;
 
+    readonly subscriptionText: Locator;
+    readonly subscriptionInput: Locator;
+    readonly subscriptionBtn: Locator;
+    readonly successSubscriptionAlert: Locator;
+
     constructor(page: Page) {
         super(page);
 
@@ -45,6 +51,11 @@ export class HomePage extends BasePage {
 
         this.deleteAccBtn = page.getByRole('link', { name: ' Delete Account' });
         this.logoutBtn = page.getByRole('link', { name: ' Logout' });
+
+        this.subscriptionText = page.getByRole('heading', {name: 'SUBSCRIPTION'});
+        this.subscriptionInput = page.locator('#susbscribe_email');
+        this.subscriptionBtn = page.locator('#subscribe');
+        this.successSubscriptionAlert = page.locator('.alert-success');
 
     }
 
@@ -135,4 +146,20 @@ export class HomePage extends BasePage {
         await expect(this.deleteAccBtn).toBeVisible();
     }
 
+    async scrollToFooter(): Promise<void> {
+        await this.copyright.scrollIntoViewIfNeeded();
+    }
+
+    async verifySubsriptionVisible(): Promise<void> {
+        await expect(this.subscriptionText).toContainText('Subscription');
+    }
+
+    async subscribe(email: string): Promise<void> {
+        await this.subscriptionInput.fill(email);
+        await this.subscriptionBtn.click();
+    }
+
+    async checkSubscriptionSuccessAlert(): Promise<void> {
+        await expect(this.successSubscriptionAlert).toContainText(homeCopy.subsriptionSuccess);
+    }
 }
