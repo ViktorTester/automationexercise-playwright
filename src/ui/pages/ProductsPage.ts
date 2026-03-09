@@ -86,11 +86,11 @@ export class ProductsPage extends BasePage {
         await expect(this.searchedProductsTitle).toHaveText(text.searchedProductsTitle);
     }
 
-    async checkProductsCount(count: number) {
+    async checkProductsCount(count: number): Promise<void> {
         await expect(this.searchedProductCount).toHaveCount(count);
     }
 
-    async checkSearchOutput(productName: RegExp) {
+    async checkSearchOutput(productName: RegExp): Promise<void> {
         await expect(this.searchResults).toContainText(productName);
     }
 }
