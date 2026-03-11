@@ -51,9 +51,9 @@ export class ContactUsPage extends BasePage {
         ]);
     }
 
-    async submitTheForm(page: Page): Promise<void> {
+    async submitTheForm(): Promise<void> {
         // Very bad practice, don't do this in real projects
-        await page.waitForTimeout(3000);
+        await this.page.waitForTimeout(3000);
         await this.submitBtn.click();
     }
 

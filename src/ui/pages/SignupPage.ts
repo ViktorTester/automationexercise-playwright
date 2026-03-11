@@ -4,7 +4,7 @@ import {Title} from "@app-types/SignupTypes/Title";
 import {InputField} from "@app-types/SignupTypes/InputField";
 import {BasePage} from "@pages/BasePage";
 import {SignupUser, type SignupStart} from "@app-types/users/SignupUser";
-import {ContinueSection} from "@pages/components/ContinueSection";
+import {ContinuBtn} from "@pages/components/ContinuBtn";
 
 /**
  * Login / Signup page object
@@ -33,7 +33,7 @@ export class SignupPage extends BasePage {
     readonly accountCreatedText2: Locator;
 
     readonly createAccountBtn: Locator;
-    readonly continueSection: ContinueSection;
+    readonly continueSection: ContinuBtn;
 
     readonly invalidCreadsText: Locator;
     readonly existingEmailText: Locator;
@@ -44,7 +44,7 @@ export class SignupPage extends BasePage {
     constructor(page: Page) {
         super(page);
 
-        this.continueSection = new ContinueSection(page);
+        this.continueSection = new ContinuBtn(page);
 
         this.loginText = page.locator(".login-form > h2");
 
