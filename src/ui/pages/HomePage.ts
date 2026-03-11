@@ -1,7 +1,8 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {loginCopy} from "@ui/copy/loginCopy";
 import {BasePage} from "@pages/BasePage";
-import {ContinueSection} from "@pages/components/ContinueSection";
+import {ContinuBtn} from "@pages/components/ContinuBtn";
+import {ConsentModal} from "@pages/components/ConsentModal";
 import {contactCopy} from "@ui/copy/contactCopy";
 import {testCasesCopy} from "@ui/copy/testCasesCopy";
 import {productsCopy} from "@ui/copy/productsCopy";
@@ -11,7 +12,7 @@ import {homeCopy} from "@ui/copy/homeCopy";
  * Home page object
  */
 export class HomePage extends BasePage {
-    readonly consentBtn: Locator;
+
     readonly mainTitile: Locator;
     readonly copyright: Locator;
     readonly loginPage: Locator;
@@ -23,7 +24,8 @@ export class HomePage extends BasePage {
     readonly accountDeletedText1: Locator;
     readonly accountDeletedText2: Locator;
 
-    readonly continueSection: ContinueSection;
+    readonly continueBtn: ContinuBtn;
+    readonly consentModal: ConsentModal;
     readonly deleteAccBtn: Locator;
     readonly logoutBtn: Locator;
 
@@ -35,9 +37,9 @@ export class HomePage extends BasePage {
     constructor(page: Page) {
         super(page);
 
-        this.continueSection = new ContinueSection(page);
+        this.continueBtn = new ContinuBtn(page);
+        this.consentModal = new ConsentModal(page);
 
-        this.consentBtn = page.getByRole('button', {name: 'Consent'});
         this.mainTitile = page.getByRole('link', {name: 'Website for automation'});
         this.copyright = page.getByText('Copyright © 2021 All rights');
         this.loginPage = page.getByRole('link', {name: ' Signup / Login'});
@@ -115,14 +117,12 @@ export class HomePage extends BasePage {
     }
 
 // Actions
-    async closeConsentIfPresent(): Promise<void> {
-        if (await this.consentBtn.isVisible({ timeout: 2000 })) {
-            await this.consentBtn.click();
-        }
+    async clickContinue(): Promise<void> {
+        await this.continueBtn.clickContinue();
     }
 
-    async clickContinue(): Promise<void> {
-        await this.continueSection.clickContinue();
+    async closeConsentIfPresent(): Promise<void> {
+        await this.consentModal.closeConsentIfPresent();
     }
 
 // Assertions

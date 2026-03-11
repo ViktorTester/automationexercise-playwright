@@ -28,7 +28,7 @@ test.describe('"Contact Us" Page Tests', () => {
         // Handle the dialog
         await handleNextDialog(page, "accept");
 
-        await contact.submitTheForm(page);
+        await contact.submitTheForm();
         await contact.expectSuccessMessage();
         await contact.clockHomeBtn();
 
