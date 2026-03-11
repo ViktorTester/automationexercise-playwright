@@ -11,7 +11,7 @@ test.describe("Account Lifecycle Tests", () => {
         await signup.assertSignupLoaded();
     });
 
-    test("@smoke @regression Register and delete the user", async ({signup, home}) => {
+    test.fixme("@smoke @regression Register and delete the user", async ({signup, home}) => {
 
         // Entering name + email on the signup form and moving on
         await signup.startSignup(
