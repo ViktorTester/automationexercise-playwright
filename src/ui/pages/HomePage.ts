@@ -7,6 +7,7 @@ import {contactCopy} from "@ui/copy/contactCopy";
 import {testCasesCopy} from "@ui/copy/testCasesCopy";
 import {productsCopy} from "@ui/copy/productsCopy";
 import {homeCopy} from "@ui/copy/homeCopy";
+import {cartCopy} from "@ui/copy/cartCopy";
 
 /**
  * Home page object
@@ -19,6 +20,7 @@ export class HomePage extends BasePage {
     readonly contactPage: Locator;
     readonly testCasesPage: Locator;
     readonly productsPage: Locator;
+    readonly cartPage: Locator;
 
     readonly accountDeletedTitle: Locator;
     readonly accountDeletedText1: Locator;
@@ -46,6 +48,7 @@ export class HomePage extends BasePage {
         this.contactPage = page.getByRole('link', {name: ' Contact us'});
         this.testCasesPage = page.getByRole('link', {name: ' Test Cases'});
         this.productsPage = page.getByRole('link', {name: ' Products'});
+        this.cartPage = page.getByRole('link', {name: ' Cart'})
 
         this.accountDeletedTitle = page.getByText(loginCopy.accDeletedTitle);
         this.accountDeletedText1 = page.getByText(loginCopy.accDeletedText1);
@@ -114,6 +117,14 @@ export class HomePage extends BasePage {
      */
     async deleteAccount(): Promise<void> {
         await this.deleteAccBtn.click();
+    }
+
+    /**
+     * Opens 'Cart' page
+     */
+    async openCart(): Promise<void> {
+        await this.cartPage.click();
+        await expect(this.page).toHaveTitle(cartCopy.title);
     }
 
 // Actions
