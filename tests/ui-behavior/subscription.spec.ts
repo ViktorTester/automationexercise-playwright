@@ -6,14 +6,14 @@ test.describe('Subsription tests', () => {
         await home.assertLoaded();
     })
 
-    test('@smoke Successfull subscription through the main page', async ({home, config}) => {
+    test('@smoke @regression Successfull subscription through the main page', async ({home, config}) => {
         await home.scrollToFooter();
         await home.verifySubsriptionVisible();
         await home.subscribe(config.credentials.email);
         await home.checkSubscriptionSuccessAlert();
     })
 
-    test('@smoke Successfull subscription through the cart', async ({home, config}) => {
+    test('@smoke @regression Successfull subscription through the cart', async ({home, config}) => {
         await home.openCart();
         await home.scrollToFooter();
         await home.verifySubsriptionVisible();
