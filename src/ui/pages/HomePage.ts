@@ -36,6 +36,12 @@ export class HomePage extends BasePage {
     readonly subscriptionBtn: Locator;
     readonly successSubscriptionAlert: Locator;
 
+    readonly addToCartBtn: Locator;
+    readonly productOverlay: Locator;
+    readonly productAddedText: Locator
+    readonly continueShoppingBtn: Locator;
+    readonly viewCartBtn: Locator;
+
     constructor(page: Page) {
         super(page);
 
@@ -61,6 +67,12 @@ export class HomePage extends BasePage {
         this.subscriptionInput = page.locator('#susbscribe_email');
         this.subscriptionBtn = page.locator('#subscribe');
         this.successSubscriptionAlert = page.locator('.alert-success');
+
+        this.addToCartBtn = page.getByText('Add to cart');
+        this.productOverlay = page.locator('.product-overlay');
+        this.productAddedText = page.getByText(homeCopy.productAddedToCart);
+        this.continueShoppingBtn = page.getByRole('button', {name: 'Continue Shopping'});
+        this.viewCartBtn = page.getByRole('link', {name: 'View Cart'});
 
     }
 
@@ -136,8 +148,44 @@ export class HomePage extends BasePage {
         await this.consentModal.closeConsentIfPresent();
     }
 
+    async hoverOverFirstProduct(): Promise<void> {
+        await this.addToCartBtn.first().hover();
+        await expect(this.productOverlay.first()).toBeVisible();
+        await expect(this.productOverlay.nth(2)).toBeHidden();
+    }
+
+    async hoverOverSecondProduct(): Promise<void> {
+        await this.addToCartBtn.nth(2).hover();
+        await expect(this.productOverlay.nth(1)).toBeVisible();
+        await expect(this.productOverlay.first()).toBeHidden();
+    }
+
+    async addFirstProductToCart(): Promise<void> {
+        await this.addToCartBtn.first().click();
+        await this.checkProductAddedText('visible');
+    }
+
+    async addSecondProductToCart(): Promise<void> {
+        await this.addToCartBtn.nth(2).click();
+        await this.checkProductAddedText('visible');
+    }
+
+    async closeTheModal(): Promise<void> {
+        await this.continueShoppingBtn.click();
+        await this.checkProductAddedText('hidden');
+    }
+
+    async clickViewCart(): Promise<void> {
+        await this.viewCartBtn.click();
+        await this.expectUrl(/view_cart/);
+
+    }
+
+
 // Assertions
-    // Validate 'account deleted' page titles
+    /**
+     * Validate 'account deleted' page titles
+     */
     async expectAccountDeleted(): Promise<void> {
         await expect(this.accountDeletedTitle).toBeVisible();
         await expect(this.accountDeletedText1).toBeVisible();
@@ -172,5 +220,13 @@ export class HomePage extends BasePage {
 
     async checkSubscriptionSuccessAlert(): Promise<void> {
         await expect(this.successSubscriptionAlert).toContainText(homeCopy.subsriptionSuccess);
+    }
+
+    async checkProductAddedText(option: string): Promise<void> {
+        if (option === 'visible') {
+            await expect(this.productAddedText).toBeVisible();
+        } else {
+            await expect(this.productAddedText).toBeHidden();
+        }
     }
 }

@@ -28,4 +28,20 @@ test.describe('"Products" page tests', () => {
         await products.checkSearchOutput(/Winter Top/);
 
     })
+
+    test('@regression Add products in cart', async ({home, cart}) => {
+
+        await home.hoverOverFirstProduct();
+        await home.addFirstProductToCart();
+        await home.closeTheModal();
+
+        await home.hoverOverSecondProduct();
+        await home.addSecondProductToCart();
+        await home.clickViewCart();
+
+        await cart.ckeckCartItemsQty(2);
+        await cart.checkFirstProductData('Rs. 500', '1');
+        await cart.checkSecondProductData('Rs. 400', '1');
+
+    })
 });
