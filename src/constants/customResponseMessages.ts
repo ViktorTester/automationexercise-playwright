@@ -7,5 +7,8 @@ export const customResponseMessages = {
     },
     USER_EXISTS: {
         message: 'User exists!'
+    },
+    USER_NOT_FOUND: {
+        message: 'User not found!'
     }
 } as const;

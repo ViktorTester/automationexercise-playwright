@@ -10,6 +10,10 @@ export const commonResponses = {
     OK: {
         code: 200,
         message: 'OK'
+    },
+    NOT_FOUND: {
+        code: 404,
+        message: 'Not found.'
     }
 }
 

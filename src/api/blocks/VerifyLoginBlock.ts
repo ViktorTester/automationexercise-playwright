@@ -29,4 +29,22 @@ export class VerifyLoginBlock extends ApiBlock {
         return this.call(Endpoints.VerifyLogin.VerifyLogin, method)
             .setForm('password', this.config.credentials.password);
     }
+
+    /**
+     * Builds a 'verify login' API call
+     */
+    verifyLogin(method: HttpMethod): ApiCallBuilder {
+        return this.call(Endpoints.VerifyLogin.VerifyLogin, method);
+    }
+
+    /**
+     * Builds a 'verify login' API call with invalid credentials.
+     */
+    invalidCreds(method: HttpMethod): ApiCallBuilder {
+        return this.call(Endpoints.VerifyLogin.VerifyLogin, method)
+            .setForm('email', "test")
+            .setForm('password', "test");
+    }
+
+
 }
