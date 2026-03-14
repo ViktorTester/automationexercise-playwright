@@ -16,7 +16,7 @@ test.describe('GET/api/brandsList tests', () => {
 
     })
 
-    test('@regression [GET/api/brandsList] Should validate wrong method', async ({api}) => {
+    test('@regression [GET/api/brandsList] Should validate unsupported method', async ({api}) => {
 
         const response = await api
             .brands().brandsList('POST');

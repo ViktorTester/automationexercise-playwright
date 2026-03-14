@@ -51,7 +51,7 @@ export class ApiContainer {
     /**
      * Returns 'Verifu login' API block singleton for the current test context.
      */
-    verifyLogin(): VerifyLoginBlock {
+    login(): VerifyLoginBlock {
         return (this._verifyLogin ??= new VerifyLoginBlock(this.client, this.config));
     }
 }
