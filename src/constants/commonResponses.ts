@@ -3,14 +3,22 @@ export const commonResponses = {
         code: 405,
         message: 'This request method is not supported.'
     },
+
     BAD_REQUEST: {
         code: 400,
         message: 'Bad request.'
     },
+
     OK: {
         code: 200,
         message: 'OK'
     },
+
+    CREATED: {
+        code: 201,
+        message: 'Created.'
+    },
+
     NOT_FOUND: {
         code: 404,
         message: 'Not found.'
