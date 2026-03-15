@@ -5,6 +5,7 @@ import {ProductsBlock} from "./blocks/ProductsBlock";
 import {BrandsBlock} from "./blocks/BrandsBlock";
 import {SearchProductBlock} from "./blocks/SearchProductBlock";
 import {EnvConfig} from "@app-types/EnvConfig";
+import {AccountBlock} from "./blocks/AccountBlock";
 
 
 /**
@@ -18,6 +19,7 @@ export class ApiContainer {
     private _brands?: BrandsBlock;
     private _searchProduct?: SearchProductBlock;
     private _verifyLogin?: VerifyLoginBlock;
+    private _account?: AccountBlock;
 
     /**
      * @param apiBaseUrl Base API URL from env config, e.g., https://host/api
@@ -46,6 +48,13 @@ export class ApiContainer {
      */
     searchProduct() : SearchProductBlock {
         return (this._searchProduct ??= new SearchProductBlock(this.client))
+    }
+
+    /**
+     * Returns 'Account' API block singleton for the current test context.
+     */
+    account() : AccountBlock {
+        return (this._account ??= new AccountBlock(this.client))
     }
 
     /**
