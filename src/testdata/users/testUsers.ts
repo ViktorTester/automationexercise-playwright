@@ -36,4 +36,20 @@ export const TestUsers = {
         zipCode: '845634',
         mobileNr: '2352352624236'
     },
+
+    deletedUser: {
+        name: 'JamesDoeDel',
+        email: 'test_user_deletion@delete2.del',
+        password: 'Password1234!',
+        firstName: 'James',
+        lastName: 'Doe',
+        company: 'Amazon',
+        address1: 'Street',
+        address2: 'Short Street',
+        country: 'United States',
+        state: 'Washington',
+        city: 'Washington',
+        zipCode: '845634',
+        mobileNr: '2352352624236'
+    }
 } satisfies Record<string, TestUser>;
