@@ -20,9 +20,12 @@ export class AccountBlock extends ApiBlock {
     }
 
     createAccount(user: SignupUser): ApiCallBuilder {
+
+        const email = user.email ?? randomEmail();
+
         return this.call(Endpoints.Account.CreateAccount, 'POST')
             .setForm('name', user.firstName)
-            .setForm('email', randomEmail())
+            .setForm('email', email)
             .setForm('password', user.password)
             .setForm('title', user.title)
             .setForm('birth_date', randomNumberInRange(1, 28))

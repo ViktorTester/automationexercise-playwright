@@ -17,6 +17,10 @@ export const customResponseMessages = {
 
     USER_CREATED: {
         message: 'User created!'
+    },
+
+    USER_DELETED: {
+        message: 'Account deleted!'
     }
 
 } as const;
