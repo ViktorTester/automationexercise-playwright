@@ -4,12 +4,17 @@ import {Title} from "@app-types/SignupTypes/Title";
 import {verifyApiResponse} from "@asserts/ApiAsserts";
 import {customResponseMessages as custom} from "@constants/customResponseMessages";
 import {commonResponses as common} from "@constants/commonResponses";
+import {randomEmail} from "@utils/randomData";
 
 test.describe('Create account tests', () => {
     test('@smoke @regression Create an account', async ({api}) => {
         const response = await api
             .account()
-            .createAccount({...TestUsers.validUser, title: Title.Mr});
+            .createAccount({
+                ...TestUsers.validUser,
+                title: Title.Mr,
+                email: randomEmail()}
+            );
 
         verifyApiResponse(response, 200, [
             {path: 'responseCode', expected: common.CREATED.code},

@@ -8,8 +8,7 @@ export async function accountRegistration(api: ApiContainer, user: SignupUser) {
 
     const response = await api
         .account()
-        .createAccount(user)
-        .withLogs();
+        .createAccount(user);
 
     verifyApiResponse(response, 200, [
         {path: 'responseCode', expected: common.CREATED.code},
