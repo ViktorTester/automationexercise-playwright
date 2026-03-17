@@ -1,6 +1,6 @@
 import {test} from 'tests/fixtures/pages'
 import {TestUsers} from "@testdata/users/testUsers";
-import {Title} from "@app-types/SignupTypes/Title";
+// import {Title} from "@app-types/SignupTypes/Title";
 import {verifyApiResponse} from "@asserts/ApiAsserts";
 import {customResponseMessages as custom} from "@constants/customResponseMessages";
 import {commonResponses as common} from "@constants/commonResponses";
@@ -12,7 +12,6 @@ test.describe('Create account tests', () => {
             .account()
             .createAccount({
                 ...TestUsers.validUser,
-                title: Title.Mr,
                 email: randomEmail()}
             );
 

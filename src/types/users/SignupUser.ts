@@ -1,7 +1,5 @@
-import { Title } from "@app-types/SignupTypes/Title";
-
 export type SignupUser = {
-    title: Title;
+    title: string;
     firstName: string;
     lastName: string;
     email: string;

@@ -1,6 +1,5 @@
 import {test} from 'tests/fixtures/pages';
 import {TestUsers} from "../../src/testdata/users/testUsers";
-import {Title} from "@app-types/SignupTypes/Title";
 
 test.describe("Account Lifecycle Tests", () => {
 
@@ -21,8 +20,8 @@ test.describe("Account Lifecycle Tests", () => {
         await signup.assertAccountInfoLoaded();
         await signup.assertSignupPrefilled(TestUsers.validUser);
 
-        // Fills out the main part of the form and clicks Create Account
-        await signup.registerUser({...TestUsers.validUser, title: Title.Mr});
+        // Fills out the main part of the form and clicks 'Create Account'
+        await signup.registerUser({...TestUsers.validUser});
 
         // Validate 'account created' page titles
         await signup.expectAccountCreated();

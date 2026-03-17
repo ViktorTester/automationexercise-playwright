@@ -3,6 +3,7 @@ export enum InputField {
     Email = 'Email',
     Password = 'Password',
     FirstName = 'First name',
+    Title = 'Title',
     LastName = 'Last name',
     Company = 'Company',
     Address1 = 'Address',
