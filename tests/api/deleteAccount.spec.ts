@@ -4,12 +4,11 @@ import {customResponseMessages as custom} from "@constants/customResponseMessage
 import {commonResponses as common} from "@constants/commonResponses";
 import {accountRegistration} from "../helpers/accountRegistration";
 import {TestUsers, TestUsers as user} from "../../src/testdata/users/testUsers";
-import {Title} from "@app-types/SignupTypes/Title";
 
 test.describe('Delete account tests', () => {
 
     test.beforeEach(async ({api}) => {
-        await accountRegistration(api, {...TestUsers.deletedUser, title: Title.Mr})
+        await accountRegistration(api, {...TestUsers.deletedUser})
     })
 
     test('@smoke @regression Delete an account', async ({api}) => {
