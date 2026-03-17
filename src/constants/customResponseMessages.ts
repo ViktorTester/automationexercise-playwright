@@ -21,6 +21,10 @@ export const customResponseMessages = {
 
     USER_DELETED: {
         message: 'Account deleted!'
+    },
+
+    USER_UPDATED: {
+        message: 'User updated!'
     }
 
 } as const;

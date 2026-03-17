@@ -2,18 +2,18 @@ import {verifyApiResponse} from "@asserts/ApiAsserts";
 import {commonResponses as common} from "@constants/commonResponses";
 import {customResponseMessages as custom} from "@constants/customResponseMessages";
 import {ApiContainer} from "../../src/api/ApiContainer";
-import {SignupUser} from "@app-types/users/SignupUser";
 
-export async function accountRegistration(api: ApiContainer, user: SignupUser) {
+export async function accountDeletion(api: ApiContainer, email: string, password: string) {
 
     const response = await api
         .account()
-        .createAccount(user)
+        .deleteAccount(email, password)
         .withLogs();
 
     verifyApiResponse(response, 200, [
-        {path: 'responseCode', expected: common.CREATED.code},
-        {path: 'message', expected: custom.USER_CREATED.message},
+        {path: 'responseCode', expected: common.OK.code},
+        {path: 'message', expected: custom.USER_DELETED.message}
+
     ])
 
 }

@@ -9,6 +9,7 @@ export const Endpoints = {
     Account: {
         DeleteAccount: 'deleteAccount',
         CreateAccount: 'createAccount',
+        UpdateAccount: 'updateAccount',
     },
 
     Products: {

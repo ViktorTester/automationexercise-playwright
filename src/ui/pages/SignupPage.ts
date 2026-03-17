@@ -1,6 +1,5 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {loginCopy} from "../copy/loginCopy";
-import {Title} from "@app-types/SignupTypes/Title";
 import {InputField} from "@app-types/SignupTypes/InputField";
 import {BasePage} from "@pages/BasePage";
 import {SignupUser, type SignupStart} from "@app-types/users/SignupUser";
@@ -38,7 +37,6 @@ export class SignupPage extends BasePage {
     readonly invalidCreadsText: Locator;
     readonly existingEmailText: Locator;
 
-    private readonly title: Record<Title, Locator>;
     private readonly input: Record<InputField, Locator>;
 
     constructor(page: Page) {
@@ -69,14 +67,15 @@ export class SignupPage extends BasePage {
         this.invalidCreadsText = page.getByText(loginCopy.invalidCreadsText)
         this.existingEmailText = page.getByText(loginCopy.existingEmailText)
 
-        this.title = {
-            [Title.Mr]: page.locator('#id_gender1')
-        };
+        // this.title = {
+        //     [Title.Mr]: page.locator('#id_gender1')
+        // };
 
         this.input = {
             [InputField.Name]: page.getByTestId('name'),
             [InputField.Email]: page.getByTestId('email'),
             [InputField.Password]: page.getByTestId('password'),
+            [InputField.Title]: page.locator('#id_gender1'),
             [InputField.FirstName]: page.getByTestId('first_name'),
             [InputField.LastName]: page.getByTestId('last_name'),
             [InputField.Company]: page.getByTestId('company'),
@@ -105,17 +104,14 @@ export class SignupPage extends BasePage {
      * Fills out the main part of the form and clicks Create Account
      */
     async registerUser(user: SignupUser): Promise<void> {
-        await this.chooseTitle(user.title);
-
         await this.fillTheInput(InputField.Password, user.password);
+        await this.chooseTitle(InputField.Title);
         await this.fillTheInput(InputField.FirstName, user.firstName);
         await this.fillTheInput(InputField.LastName, user.lastName);
         await this.fillTheInput(InputField.Company, user.company);
         await this.fillTheInput(InputField.Address1, user.address1);
         await this.fillTheInput(InputField.Address2, user.address2);
-
         await this.chooseCountry(InputField.Country, user.country);
-
         await this.fillTheInput(InputField.State, user.state);
         await this.fillTheInput(InputField.City, user.city);
         await this.fillTheInput(InputField.ZipCode, user.zipCode);
@@ -139,8 +135,8 @@ export class SignupPage extends BasePage {
         await this.input[input].selectOption(country)
     }
 
-    async chooseTitle(title: Title): Promise<void> {
-        const locator = this.title[title];
+    async chooseTitle(input: InputField): Promise<void> {
+        const locator = this.input[input];
         await locator.check();
         await this.isChecked(locator);
     }

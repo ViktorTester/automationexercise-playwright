@@ -1,14 +1,9 @@
-import type {SignupUser} from "@app-types/users/SignupUser";
-
-type TestUser = Omit<SignupUser, 'title'> & {
-    name: string;
-};
-
 export const TestUsers = {
     validUser: {
         name: 'JohnDoe',
         email: 'morning_at_pluto@test.com',
         password: 'Password123!',
+        title: 'Mr',
         firstName: 'John',
         lastName: 'Doe',
         company: 'Google',
@@ -25,6 +20,7 @@ export const TestUsers = {
         name: 'JamesDoe',
         email: 'evening_at_moon@test.com',
         password: 'Password1234!',
+        title: 'Mr',
         firstName: 'James',
         lastName: 'Doe',
         company: 'Amazon',
@@ -39,8 +35,9 @@ export const TestUsers = {
 
     deletedUser: {
         name: 'JamesDoeDel',
-        email: 'test_user_deletion@delete2.del',
+        email: 'test_user_deletion@delete4.del',
         password: 'Password1234!',
+        title: 'Mr',
         firstName: 'James',
         lastName: 'Doe',
         company: 'Amazon',
@@ -51,5 +48,23 @@ export const TestUsers = {
         city: 'Washington',
         zipCode: '845634',
         mobileNr: '2352352624236'
+    },
+
+    updatedUser: {
+        name: 'updatedName',
+        email: 'test_user_deletion@delete4.del',
+        password: 'Password1234!',
+        title: 'Mr',
+        firstName: 'UpdatedFirstName',
+        lastName: 'UpdatedLastName',
+        company: 'UpdatedCompany',
+        address1: 'UpdatedAddress1',
+        address2: 'UpdatedAddress2',
+        country: 'China',
+        state: 'UpdatedState',
+        city: 'UpdatedCity',
+        zipCode: '11',
+        mobileNr: '222222'
     }
-} satisfies Record<string, TestUser>;
+}
+
