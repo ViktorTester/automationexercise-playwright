@@ -1,4 +1,4 @@
-import {test} from 'tests/fixtures/pages';
+import {test} from '@fixtures/pages';
 import {testTexts} from "@testdata/Texts/testTexts";
 import {handleNextDialog} from "../helpers/dialog.helper";
 

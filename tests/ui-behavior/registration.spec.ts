@@ -1,5 +1,5 @@
-import {test} from 'tests/fixtures/pages';
-import {TestUsers} from "../../src/testdata/users/testUsers";
+import {test} from '@fixtures/pages';
+import {TestUsers} from "@testdata/users/testUsers";
 
 test.describe("Account Lifecycle Tests", () => {
 

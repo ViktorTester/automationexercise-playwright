@@ -1,10 +1,10 @@
-import {test} from 'tests/fixtures/pages'
+import {test} from '@fixtures/pages'
 import {verifyApiResponse} from "@asserts/ApiAsserts";
 import {customResponseMessages as custom} from "@constants/customResponseMessages";
 import {commonResponses as common} from "@constants/commonResponses";
-import {accountRegistration} from "../helpers/accountRegistration";
-import {TestUsers, TestUsers as user} from "../../src/testdata/users/testUsers";
-import {accountDeletion} from "../helpers/accountDeletion";
+import {accountRegistration} from "@helpers/accountRegistration";
+import {TestUsers, TestUsers as user} from "@testdata/users/testUsers";
+import {accountDeletion} from "@helpers/accountDeletion";
 
 test.describe('Update account tests', () => {
 

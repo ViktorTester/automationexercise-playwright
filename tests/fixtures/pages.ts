@@ -1,9 +1,9 @@
 import {test as base, expect, type Page} from '@playwright/test'
-import {HomePage} from "../../src/ui/pages/HomePage";
-import type {EnvConfig} from '../../src/types/EnvConfig';
-import {loadEnvConfig} from "../../src/utils/envLoader";
-import {SignupPage} from "../../src/ui/pages/SignupPage";
-import {ApiContainer} from '../../src/api/ApiContainer';
+import {HomePage} from "@pages/HomePage";
+import type {EnvConfig} from '@app-types/EnvConfig';
+import {loadEnvConfig} from "@utils/envLoader";
+import {SignupPage} from "@pages/SignupPage";
+import {ApiContainer} from '@api/ApiContainer';
 import {ContactUsPage} from "@pages/ContactUsPage";
 import {TestCasesPage} from "@pages/TestCasesPage";
 import {ProductsPage} from "@pages/ProductsPage";

@@ -1,5 +1,5 @@
-import {test} from 'tests/fixtures/pages';
-import {IsNotEmptyList, IsNotEmptyObject, verifyApiResponse} from "../../src/api/asserts";
+import {test} from '@fixtures/pages';
+import {IsNotEmptyList, IsNotEmptyObject, verifyApiResponse} from "@asserts";
 import {commonResponses as common} from "@constants/commonResponses";
 import {customResponseMessages as custom} from "@constants/customResponseMessages";
 

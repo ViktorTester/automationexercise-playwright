@@ -1,4 +1,4 @@
-import {test} from 'tests/fixtures/pages';
+import {test} from '@fixtures/pages';
 import {verifyApiResponse} from "@asserts/ApiAsserts";
 import {commonResponses as common} from "@constants/commonResponses";
 import {customResponseMessages as custom} from "@constants/customResponseMessages";
