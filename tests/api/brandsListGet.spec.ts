@@ -1,5 +1,5 @@
-import {test} from 'tests/fixtures/pages';
-import {IsNotEmptyList, verifyApiResponse} from "src/api/asserts";
+import {test} from '@fixtures/pages';
+import {IsNotEmptyList, verifyApiResponse} from "@asserts";
 import {commonResponses as common} from "@constants/commonResponses";
 
 test.describe('GET/api/brandsList tests', () => {

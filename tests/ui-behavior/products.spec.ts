@@ -1,4 +1,4 @@
-import {test} from 'tests/fixtures/pages';
+import {test} from '@fixtures/pages';
 
 test.describe('"Products" page tests', () => {
 

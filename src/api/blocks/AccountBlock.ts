@@ -70,4 +70,12 @@ export class AccountBlock extends ApiBlock {
             .setForm('city', user.city)
             .setForm('mobile_number', user.mobileNr)
     }
+
+    /**
+     * Builds a 'Get-user-details' API call with query param.
+     */
+    getUserDetails(email: string): ApiCallBuilder {
+        return this.call(Endpoints.Account.GetUserDetails, 'GET')
+            .setQuery('email', email);
+    }
 }

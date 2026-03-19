@@ -1,4 +1,4 @@
-import {test} from 'tests/fixtures/pages'
+import {test} from '@fixtures/pages'
 import {TestUsers} from "@testdata/users/testUsers";
 // import {Title} from "@app-types/SignupTypes/Title";
 import {verifyApiResponse} from "@asserts/ApiAsserts";

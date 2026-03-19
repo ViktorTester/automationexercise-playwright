@@ -15,6 +15,9 @@
 
     // 'Pretty' import path
     "paths": {
+      "@api/*": ["src/api/*"],
+      "@fixtures/*": ["tests/fixtures/*"],
+      "@helpers/*": ["tests/helpers/*"],
       "@app-types/*": ["src/types/*"],
       "@pages/*": ["src/ui/pages/*"],
       "@locators/*": ["src/ui/locators/*"],
@@ -22,7 +25,10 @@
       "@utils/*": ["src/utils/*"],
       "@ui/*": ["src/ui/*"],
       "@constants/*": ["src/constants/*"],
+      "@asserts": ["src/api/asserts/index.ts"],
       "@asserts/*": ["src/api/asserts/*"],
+      "@src/*": ["src/*"],
+      "@tests/*": ["tests/*"]
     },
 
     "noUncheckedIndexedAccess": true,
