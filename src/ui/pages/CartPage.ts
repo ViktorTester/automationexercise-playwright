@@ -19,13 +19,13 @@ export class CartPage {
     }
 
     // Assertions
-    async ckeckCartItemsQty(count: number): Promise<void> {
+    async checkCartItemsQty(count: number): Promise<void> {
         expect(this.cartItemsList).toHaveCount(count);
     }
 
-    async checkFirstProductData(price: string, qty: string): Promise<void> {
-        expect(this.productPrice.first()).toHaveText(price);
-        expect(this.totalPrice.first()).toHaveText(price);
+    async checkFirstProductData(productPrice: string, totalPrice: string, qty: string): Promise<void> {
+        expect(this.productPrice.first()).toHaveText(productPrice);
+        expect(this.totalPrice.first()).toHaveText(totalPrice);
         expect(this.quantity.first()).toHaveText(qty);
     }
 
