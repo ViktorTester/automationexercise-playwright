@@ -8,7 +8,7 @@ import {ContactUsPage} from "@pages/ContactUsPage";
 import {TestCasesPage} from "@pages/TestCasesPage";
 import {ProductsPage} from "@pages/ProductsPage";
 import {CartPage} from "@pages/CartPage";
-
+import {CheckoutPage} from "@pages/CheckoutPage";
 
 /**
  * Page Object fixtures
@@ -29,6 +29,7 @@ type PagesFixtures = {
     testCases: TestCasesPage
     products: ProductsPage
     cart: CartPage
+    checkout: CheckoutPage
 
     api: ApiContainer;
 }
@@ -84,6 +85,10 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
 
     cart: async ({page}, use) => {
         await use(new CartPage(page));
+    },
+
+    checkout: async ({page}, use) => {
+        await use(new CheckoutPage(page));
     },
 
     api: async ({request, config}, use) => {

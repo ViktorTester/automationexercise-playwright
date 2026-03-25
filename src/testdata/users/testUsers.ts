@@ -1,4 +1,4 @@
-export const TestUsers = {
+export const testUsers = {
     validUser: {
         name: 'JohnDoe',
         email: 'morning_at_pluto@test.com',
@@ -30,6 +30,23 @@ export const TestUsers = {
         state: 'Washington',
         city: 'Washington',
         zipCode: '845634',
+        mobileNr: '2352352624236'
+    },
+
+    anotherUser2: {
+        name: 'JamesCheckout',
+        email: 'checkout_james1@test.com',
+        password: 'Password1234!',
+        title: 'Mr',
+        firstName: 'James',
+        lastName: 'Doe',
+        company: 'Amazon',
+        address1: 'Street',
+        address2: 'Short Street',
+        country: 'United States',
+        state: 'Washington',
+        city: 'Washington',
+        zipCode: '8456234',
         mobileNr: '2352352624236'
     },
 
