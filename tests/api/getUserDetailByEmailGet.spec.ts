@@ -1,5 +1,5 @@
 import {test} from "@fixtures/pages";
-import {TestUsers as user} from "@testdata/users/testUsers";
+import {testUsers as user} from "@testdata/users/testUsers";
 import {IsNotNull, verifyApiResponse} from "@asserts";
 
 test.describe('Get User Detail tests', () => {

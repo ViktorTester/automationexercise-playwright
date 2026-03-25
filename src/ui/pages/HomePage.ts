@@ -42,6 +42,8 @@ export class HomePage extends BasePage {
     readonly continueShoppingBtn: Locator;
     readonly viewCartBtn: Locator;
 
+    readonly loggedUserNameTitle: Locator
+
     constructor(page: Page) {
         super(page);
 
@@ -73,6 +75,8 @@ export class HomePage extends BasePage {
         this.productAddedText = page.getByText(homeCopy.productAddedToCart);
         this.continueShoppingBtn = page.getByRole('button', {name: 'Continue Shopping'});
         this.viewCartBtn = page.getByRole('link', {name: 'View Cart'});
+
+        this.loggedUserNameTitle = page.getByText('Logged in as James');
 
     }
 
@@ -145,7 +149,7 @@ export class HomePage extends BasePage {
     }
 
     async closeConsentIfPresent(): Promise<void> {
-        await this.consentModal.closeConsentIfPresent();
+        await this.consentModal.closePopupsIfPresent();
     }
 
     async hoverOverFirstProduct(): Promise<void> {
@@ -228,5 +232,9 @@ export class HomePage extends BasePage {
         } else {
             await expect(this.productAddedText).toBeHidden();
         }
+    }
+
+    async checkLoggedUserName(): Promise<void> {
+        await expect(this.loggedUserNameTitle).toBeVisible();
     }
 }

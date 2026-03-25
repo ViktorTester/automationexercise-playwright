@@ -3,12 +3,12 @@ import {verifyApiResponse} from "@asserts/ApiAsserts";
 import {customResponseMessages as custom} from "@constants/customResponseMessages";
 import {commonResponses as common} from "@constants/commonResponses";
 import {accountRegistration} from "@helpers/accountRegistration";
-import {TestUsers, TestUsers as user} from "@testdata/users/testUsers";
+import {testUsers, testUsers as user} from "@testdata/users/testUsers";
 
 test.describe('Delete account tests', () => {
 
     test.beforeEach(async ({api}) => {
-        await accountRegistration(api, {...TestUsers.deletedUser})
+        await accountRegistration(api, {...testUsers.deletedUser})
     })
 
     test('@smoke @regression Delete an account', async ({api}) => {

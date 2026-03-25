@@ -1,5 +1,5 @@
 import {test} from '@fixtures/pages'
-import {TestUsers} from "@testdata/users/testUsers";
+import {testUsers} from "@testdata/users/testUsers";
 // import {Title} from "@app-types/SignupTypes/Title";
 import {verifyApiResponse} from "@asserts/ApiAsserts";
 import {customResponseMessages as custom} from "@constants/customResponseMessages";
@@ -11,7 +11,7 @@ test.describe('Create account tests', () => {
         const response = await api
             .account()
             .createAccount({
-                ...TestUsers.validUser,
+                ...testUsers.validUser,
                 email: randomEmail()}
             );
 
