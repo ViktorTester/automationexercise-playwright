@@ -1,6 +1,5 @@
 import {test} from '@fixtures/pages'
 import {testUsers} from "@testdata/users/testUsers";
-// import {Title} from "@app-types/SignupTypes/Title";
 import {verifyApiResponse} from "@asserts/ApiAsserts";
 import {customResponseMessages as custom} from "@constants/customResponseMessages";
 import {commonResponses as common} from "@constants/commonResponses";
