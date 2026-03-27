@@ -97,8 +97,8 @@ test.describe("Account Lifecycle Tests", () => {
 
     })
 
-    test('@regression Register while Checkout',
-        {tag: '@cleanup'}, async ({page, products, home, checkout, signup, cart}) => {
+    test('@regression Place Order: Register while Checkout',
+        {tag: '@cleanup'}, async ({products, home, checkout, signup, cart}) => {
 
         // Add product to the cart and proceed to checkout
         await products.clickFirstProduct();
@@ -133,10 +133,47 @@ test.describe("Account Lifecycle Tests", () => {
 
         // Fill card details and confirm the order
         await checkout.enterPaymentDetails();
-        await checkout.clickConfirmOrder();
-
-        await page.pause();
 
     })
+
+    test('@regression Place Order: Register before Checkout',
+        {tag: '@cleanup'}, async ({products, home, checkout, signup, cart}) => {
+
+            await home.openSignup();
+            await signup.assertSignupLoaded();
+
+            // Entering name + email on the signup form and moving on
+            await signup.startSignup(
+                testUsers.anotherUser2.firstName,
+                testUsers.anotherUser2.email
+            );
+            await signup.assertAccountInfoLoaded();
+            await signup.assertSignupPrefilled(testUsers.anotherUser2);
+
+            // Fills out the main part of the form and clicks 'Create Account'
+            await signup.registerUser({...testUsers.anotherUser2});
+
+            // Validate 'account created' page titles
+            await signup.expectAccountCreated();
+
+            // Exit the flow
+            await signup.clickContinue();
+            await home.checkLoggedUserName();
+
+            // Add product to the cart and proceed to checkout
+            await products.clickFirstProduct();
+            await products.addProductToCart();
+            await home.clickViewCart();
+            await cart.proceedToCheckout();
+            await checkout.checkHeadings();
+
+            // Enter the comment and place the order
+            await checkout.enterComment('Test comment');
+            await checkout.clickPlaceOrder();
+
+            // Fill card details and confirm the order
+            await checkout.enterPaymentDetails();
+
+        })
 
 })
