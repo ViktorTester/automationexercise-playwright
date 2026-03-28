@@ -85,6 +85,7 @@ export class HomePage extends BasePage {
      */
     async open(): Promise<void> {
         await this.page.goto('/');
+        await this.expectUrl('/');
         await this.closeConsentIfPresent();
     }
 
@@ -93,6 +94,7 @@ export class HomePage extends BasePage {
      */
     async openSignup(): Promise<void> {
         await this.loginPage.click();
+        await this.expectUrl('/login');
         await expect(this.page).toHaveTitle(loginCopy.title);
     }
 
@@ -101,6 +103,7 @@ export class HomePage extends BasePage {
      */
     async openContactUs(): Promise<void> {
         await this.contactPage.click();
+        await this.expectUrl('/contact_us');
         await expect(this.page).toHaveTitle(contactCopy.title);
     }
 
@@ -109,6 +112,7 @@ export class HomePage extends BasePage {
      */
     async openTestCases(): Promise<void> {
         await this.testCasesPage.click();
+        await this.expectUrl('/test_cases');
         await expect(this.page).toHaveTitle(testCasesCopy.title);
     }
 
@@ -117,6 +121,7 @@ export class HomePage extends BasePage {
      */
     async openProducts(): Promise<void> {
         await this.productsPage.click();
+        await this.expectUrl('/products');
         await expect(this.page).toHaveTitle(productsCopy.title);
     }
 
@@ -140,6 +145,7 @@ export class HomePage extends BasePage {
      */
     async openCart(): Promise<void> {
         await this.cartPage.click();
+        await this.expectUrl('/view_cart');
         await expect(this.page).toHaveTitle(cartCopy.title);
     }
 
