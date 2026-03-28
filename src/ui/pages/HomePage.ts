@@ -42,7 +42,7 @@ export class HomePage extends BasePage {
     readonly continueShoppingBtn: Locator;
     readonly viewCartBtn: Locator;
 
-    readonly loggedUserNameTitle: Locator
+    readonly loggedUsername: Locator
 
     constructor(page: Page) {
         super(page);
@@ -62,8 +62,8 @@ export class HomePage extends BasePage {
         this.accountDeletedText1 = page.getByText(loginCopy.accDeletedText1);
         this.accountDeletedText2 = page.getByText(loginCopy.accDeletedText2);
 
-        this.deleteAccBtn = page.getByRole('link', { name: ' Delete Account' });
-        this.logoutBtn = page.getByRole('link', { name: ' Logout' });
+        this.deleteAccBtn = page.getByRole('link', {name: ' Delete Account'});
+        this.logoutBtn = page.getByRole('link', {name: ' Logout'});
 
         this.subscriptionText = page.getByRole('heading', {name: 'SUBSCRIPTION'});
         this.subscriptionInput = page.locator('#susbscribe_email');
@@ -76,7 +76,7 @@ export class HomePage extends BasePage {
         this.continueShoppingBtn = page.getByRole('button', {name: 'Continue Shopping'});
         this.viewCartBtn = page.getByRole('link', {name: 'View Cart'});
 
-        this.loggedUserNameTitle = page.getByText('Logged in as James');
+        this.loggedUsername = this.page.locator('a', {has: this.page.locator('.fa-user')});
 
     }
 
@@ -93,7 +93,7 @@ export class HomePage extends BasePage {
      */
     async openSignup(): Promise<void> {
         await this.loginPage.click();
-        await expect (this.page).toHaveTitle(loginCopy.title);
+        await expect(this.page).toHaveTitle(loginCopy.title);
     }
 
     /**
@@ -204,7 +204,7 @@ export class HomePage extends BasePage {
         await expect(this.copyright).toBeVisible();
     }
 
-    async assertSectionsPresent():  Promise<void> {
+    async assertSectionsPresent(): Promise<void> {
         await expect(this.logoutBtn).toBeVisible();
         await expect(this.deleteAccBtn).toBeVisible();
     }
@@ -234,7 +234,7 @@ export class HomePage extends BasePage {
         }
     }
 
-    async checkLoggedUserName(): Promise<void> {
-        await expect(this.loggedUserNameTitle).toBeVisible();
+    async checkLoggedUserName(username: string): Promise<void> {
+        await expect(this.loggedUsername).toContainText(`Logged in as ${username}`);
     }
 }

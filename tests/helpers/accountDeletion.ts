@@ -7,8 +7,7 @@ export async function accountDeletion(api: ApiContainer, email: string, password
 
     const response = await api
         .account()
-        .deleteAccount(email, password)
-        .withLogs();
+        .deleteAccount(email, password);
 
     verifyApiResponse(response, 200, [
         {path: 'responseCode', expected: common.OK.code},

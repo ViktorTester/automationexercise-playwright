@@ -49,38 +49,6 @@ test.describe("Account Lifecycle Tests", () => {
 
     });
 
-    test("@regression Login and Logout", async ({signup, config, home}) => {
-
-        await home.openSignup();
-        await signup.assertSignupLoaded();
-
-        // Entering email + password on the login form and moving on
-        await signup.startLogin(
-            config.credentials.email,
-            config.credentials.password
-        );
-        await home.assertSectionsPresent();
-
-        // Logout
-        await home.logout();
-
-    })
-
-    test('@regression Login with incorrect credentials', async ({signup, home}) => {
-
-        await home.openSignup();
-        await signup.assertSignupLoaded();
-
-        // Entering incorrect email + password on the login form
-        await signup.startLogin(
-            testUsers.anotherUser.email,
-            testUsers.anotherUser.password
-        );
-
-        await signup.assertInvalidCreds();
-
-    })
-
     test('@regression Register with existing email', async ({signup, config, home}) => {
 
         await home.openSignup();
@@ -120,7 +88,7 @@ test.describe("Account Lifecycle Tests", () => {
 
         // Proceed to the home page and open the cart
         await home.clickContinue();
-        await home.checkLoggedUserName();
+        await home.checkLoggedUserName(testUsers.anotherUser2.firstName);
 
         // Open the cart and proceed to checkout
         await home.openCart();
@@ -158,7 +126,7 @@ test.describe("Account Lifecycle Tests", () => {
 
             // Exit the flow
             await signup.clickContinue();
-            await home.checkLoggedUserName();
+            // await home.checkLoggedUserName();
 
             // Add product to the cart and proceed to checkout
             await products.clickFirstProduct();

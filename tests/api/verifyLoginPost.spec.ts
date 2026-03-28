@@ -46,7 +46,7 @@ test.describe('POST/api/verifyLogin tests', () => {
     test('@regression [POST/api/verifyLogin] Login with invalid credentials', async ({api}) => {
 
         const response = await api
-            .login().invalidCreds('POST').withLogs();
+            .login().invalidCreds('POST');
 
         verifyApiResponse(response, 200, [
             {path: 'responseCode', expected: common.NOT_FOUND.code},
