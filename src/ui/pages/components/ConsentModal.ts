@@ -4,10 +4,12 @@ import { Locator, Page } from '@playwright/test';
  * Shared component for consent and ad popups.
  */
 export class ConsentModal {
+    private readonly page: Page;
     readonly consentBtn: Locator;
     readonly adFrames: Locator;
 
     constructor(page: Page) {
+        this.page = page;
         this.consentBtn = page.getByRole('button', { name: 'Consent' });
         this.adFrames = page.locator('iframe[name^="aswift_"]');
     }
