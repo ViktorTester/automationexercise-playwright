@@ -48,13 +48,24 @@ test.describe('"Products" page tests', () => {
     })
 
     test('@regression Verify product quantity in cart', async ({home, products, cart}) => {
-
         await products.clickFirstProduct();
         await products.increaseProductQtyTo('4');
         await products.addProductToCart();
         await home.clickViewCart();
         await cart.checkCartItemsQty(1);
         await cart.checkFirstProductData('Rs. 500','Rs. 2000', '4');
+
+    })
+
+    test('@regression Remove products from cart', async ({home, cart}) => {
+        await home.openProducts();
+
+        await home.hoverOverFirstProduct();
+        await home.addFirstProductToCart();
+        await home.closeTheModal();
+        await home.openCart();
+
+        await cart.clickRemoveItem();
 
     })
 });

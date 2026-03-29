@@ -155,10 +155,6 @@ export class SignupPage extends BasePage {
     async clickContinue(): Promise<void> {
         await this.continueSection.clickContinue();
         await this.expectUrl(/\/$/);
-        // await Promise.race([
-        //     this.expectUrl(/\/$/),
-        //     this.expectUrl(/\/contact_us#google_vignette$/)
-        // ]);
     }
 
 // Assertions
