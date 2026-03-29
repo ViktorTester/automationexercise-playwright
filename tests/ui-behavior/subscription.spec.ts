@@ -13,7 +13,7 @@ test.describe('Subsription tests', () => {
         await home.checkSubscriptionSuccessAlert();
     })
 
-    test('@smoke @regression Successfull subscription through the cart', async ({home, config}) => {
+    test('@regression Successfull subscription through the cart', async ({home, config}) => {
         await home.openCart();
         await home.scrollToFooter();
         await home.verifySubsriptionVisible();
