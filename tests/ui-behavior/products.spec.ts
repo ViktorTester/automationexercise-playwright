@@ -1,4 +1,5 @@
 import {test} from '@fixtures/pages';
+import {Categories} from "@constants/categories";
 
 test.describe('"Products" page tests', () => {
 
@@ -66,6 +67,17 @@ test.describe('"Products" page tests', () => {
         await home.openCart();
 
         await cart.clickRemoveItem();
+
+    })
+
+    test('@regression View category products', async ({home}) => {
+
+        // Choose a category filter and validate it
+        await home.checkCategoriesPresent(3);
+        await home.selectCategory(Categories.WOMEN_DRESS);
+
+        // Choose another category and validate it
+        await home.selectCategory(Categories.KIDS_DRESS);
 
     })
 });

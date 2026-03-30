@@ -9,7 +9,6 @@ test.describe('"Test Cases" page tests', () => {
     })
 
     test("@smoke @regression Open the page", async ({testCases}) => {
-
         testCases.expectedSections();
         testCases.expectedTestListAmount(27);
     })

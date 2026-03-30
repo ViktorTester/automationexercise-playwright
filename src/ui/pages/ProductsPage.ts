@@ -25,6 +25,8 @@ export class ProductsPage extends BasePage {
     readonly productQty: Locator;
     readonly addToCartBtn: Locator;
 
+    readonly womenDressCategoryTitle: Locator;
+
     constructor(page: Page) {
         super(page);
 
@@ -49,6 +51,8 @@ export class ProductsPage extends BasePage {
 
         this.productQty = page.locator('#quantity');
         this.addToCartBtn = page.getByRole('button', {name: ' Add to cart'});
+
+        this.womenDressCategoryTitle = page.getByRole('heading', {name: text.womenDressCategoryTitle})
 
     }
 
@@ -109,6 +113,11 @@ export class ProductsPage extends BasePage {
 
     async productIsVisible(): Promise<void> {
         await expect(this.singleProduct.first()).toBeVisible();
+    }
+
+    async checkFilterApplied(categoryId: string): Promise<void> {
+        await this.expectUrl('/category_products/' + categoryId);
+        await expect(this.womenDressCategoryTitle).toBeVisible();
     }
 
 }
