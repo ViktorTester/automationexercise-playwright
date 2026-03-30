@@ -8,11 +8,16 @@ import {testCasesCopy} from "@ui/copy/testCasesCopy";
 import {productsCopy} from "@ui/copy/productsCopy";
 import {homeCopy} from "@ui/copy/homeCopy";
 import {cartCopy} from "@ui/copy/cartCopy";
+import {CategoriesSection} from "@pages/components/Categories";
+import {Category} from "@constants/categories";
+
 
 /**
  * Home page object
  */
 export class HomePage extends BasePage {
+
+    readonly categories: CategoriesSection;
 
     readonly mainTitile: Locator;
     readonly copyright: Locator;
@@ -44,11 +49,14 @@ export class HomePage extends BasePage {
 
     readonly loggedUsername: Locator
 
+    readonly allCategories: Locator;
+
     constructor(page: Page) {
         super(page);
 
         this.continueBtn = new ContinuBtn(page);
         this.consentModal = new ConsentModal(page);
+        this.categories = new CategoriesSection(page);
 
         this.mainTitile = page.getByRole('link', {name: 'Website for automation'});
         this.copyright = page.getByText('Copyright © 2021 All rights');
@@ -77,6 +85,8 @@ export class HomePage extends BasePage {
         this.viewCartBtn = page.getByRole('link', {name: 'View Cart'});
 
         this.loggedUsername = this.page.locator('a', {has: this.page.locator('.fa-user')});
+
+        this.allCategories = page.locator('#accordian > div');
 
     }
 
@@ -188,9 +198,11 @@ export class HomePage extends BasePage {
     async clickViewCart(): Promise<void> {
         await this.viewCartBtn.click();
         await this.expectUrl(/view_cart/);
-
     }
 
+    async selectCategory(category: Category): Promise<void> {
+        await this.categories.selectCategory(category)
+    }
 
 // Assertions
     /**
@@ -242,5 +254,9 @@ export class HomePage extends BasePage {
 
     async checkLoggedUserName(username: string): Promise<void> {
         await expect(this.loggedUsername).toContainText(`Logged in as ${username}`);
+    }
+
+    async checkCategoriesPresent(categories: number): Promise<void> {
+        await expect(this.allCategories).toHaveCount(categories);
     }
 }
