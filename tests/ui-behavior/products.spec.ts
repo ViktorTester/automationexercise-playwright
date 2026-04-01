@@ -1,5 +1,8 @@
 import {test} from '@fixtures/pages';
-import {Categories} from "@constants/categories";
+import {categories} from "@constants/categories";
+import {brands} from "@constants/brands";
+import {poloProducts} from "@constants/products/poloProducts";
+import {madameProducts} from "@constants/products/madameProducts";
 
 test.describe('"Products" page tests', () => {
 
@@ -74,10 +77,26 @@ test.describe('"Products" page tests', () => {
 
         // Choose a category filter and validate it
         await home.checkCategoriesPresent(3);
-        await home.selectCategory(Categories.WOMEN_DRESS);
+        await home.selectCategory(categories.WOMEN_DRESS);
 
         // Choose another category and validate it
-        await home.selectCategory(Categories.KIDS_DRESS);
+        await home.selectCategory(categories.KIDS_DRESS);
+
+    })
+
+    test('@regression View & Cart brand products', async ({home, products}) => {
+        await home.openProducts();
+
+        // Check that all brands are present
+        await home.checkBrandsPresent(8);
+
+        // Select a brand and check that products are filtered by it
+        await products.selectBrand(brands.POLO);
+        await products.checkBrandsFiltering(poloProducts);
+
+        // Select a brand and check that products are filtered by it
+        await products.selectBrand(brands.MADAME);
+        await products.checkBrandsFiltering(madameProducts);
 
     })
 });
