@@ -1,8 +1,12 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {BasePage} from "@pages/BasePage";
 import {productsCopy as text} from "@ui/copy/productsCopy";
+import {Brand} from "@constants/brands";
+import {BrandsSection} from "@pages/components/Brands";
 
 export class ProductsPage extends BasePage {
+
+    readonly brands: BrandsSection;
 
     readonly centerTitle: Locator;
     readonly saleBanner: Locator;
@@ -26,6 +30,7 @@ export class ProductsPage extends BasePage {
     readonly addToCartBtn: Locator;
 
     readonly womenDressCategoryTitle: Locator;
+    readonly productNames: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -54,6 +59,9 @@ export class ProductsPage extends BasePage {
 
         this.womenDressCategoryTitle = page.getByRole('heading', {name: text.womenDressCategoryTitle})
 
+        this.brands = new BrandsSection(page);
+        this.productNames = page.locator('.single-products > div > p');
+
     }
 
     // Actions
@@ -74,6 +82,10 @@ export class ProductsPage extends BasePage {
 
     async addProductToCart(): Promise<void> {
         await this.addToCartBtn.click();
+    }
+
+    async selectBrand(brand: Brand): Promise<void> {
+        await this.brands.selectBrand(brand)
     }
 
     // Assertions
@@ -118,6 +130,12 @@ export class ProductsPage extends BasePage {
     async checkFilterApplied(categoryId: string): Promise<void> {
         await this.expectUrl('/category_products/' + categoryId);
         await expect(this.womenDressCategoryTitle).toBeVisible();
+    }
+
+    async checkBrandsFiltering(expectedNames: string[]): Promise<void> {
+        const actualNames = (await this.productNames.allTextContents());
+
+        expect(actualNames.sort()).toEqual([...expectedNames].sort());
     }
 
 }

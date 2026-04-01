@@ -10,7 +10,7 @@ import {homeCopy} from "@ui/copy/homeCopy";
 import {cartCopy} from "@ui/copy/cartCopy";
 import {CategoriesSection} from "@pages/components/Categories";
 import {Category} from "@constants/categories";
-
+import {BrandsSection} from "@pages/components/Brands";
 
 /**
  * Home page object
@@ -18,6 +18,7 @@ import {Category} from "@constants/categories";
 export class HomePage extends BasePage {
 
     readonly categories: CategoriesSection;
+    readonly brands: BrandsSection;
 
     readonly mainTitile: Locator;
     readonly copyright: Locator;
@@ -50,6 +51,7 @@ export class HomePage extends BasePage {
     readonly loggedUsername: Locator
 
     readonly allCategories: Locator;
+    readonly allBrands: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -57,6 +59,7 @@ export class HomePage extends BasePage {
         this.continueBtn = new ContinuBtn(page);
         this.consentModal = new ConsentModal(page);
         this.categories = new CategoriesSection(page);
+        this.brands = new BrandsSection(page);
 
         this.mainTitile = page.getByRole('link', {name: 'Website for automation'});
         this.copyright = page.getByText('Copyright © 2021 All rights');
@@ -87,6 +90,7 @@ export class HomePage extends BasePage {
         this.loggedUsername = this.page.locator('a', {has: this.page.locator('.fa-user')});
 
         this.allCategories = page.locator('#accordian > div');
+        this.allBrands = page.locator('.brands-name > ul > li');
 
     }
 
@@ -258,5 +262,9 @@ export class HomePage extends BasePage {
 
     async checkCategoriesPresent(categories: number): Promise<void> {
         await expect(this.allCategories).toHaveCount(categories);
+    }
+
+    async checkBrandsPresent(brands: number): Promise<void> {
+        await expect(this.allBrands).toHaveCount(brands);
     }
 }

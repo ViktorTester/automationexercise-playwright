@@ -8,13 +8,12 @@ export class CategoriesSection extends BasePage{
         super(page)
     }
 
-
-    private groupToggle(CategoryGroup: string): Locator {
-        return this.page.getByRole("link", {name: CategoryGroup});
+    private groupToggle(categoryGroup: string): Locator {
+        return this.page.getByRole("link", {name: categoryGroup});
     }
 
-    private categoryLink(CategoryName: string): Locator {
-        return this.page.getByRole("link", {name: CategoryName});
+    private categoryLink(categoryName: string): Locator {
+        return this.page.getByRole("link", {name: categoryName});
     }
 
     async selectCategory(category: Category): Promise<void> {

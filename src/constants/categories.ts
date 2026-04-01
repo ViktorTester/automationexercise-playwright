@@ -4,7 +4,7 @@ export type Category = {
     name: string;
 };
 
-export const Categories = {
+export const categories = {
     // Women
     WOMEN_DRESS: {
         id: "1",
