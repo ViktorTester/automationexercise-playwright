@@ -3,15 +3,15 @@ import {IsNotEmptyList, verifyApiResponse} from "@asserts";
 import {commonResponses as common} from "@constants/commonResponses";
 
 test.describe('GET/api/brandsList tests', () => {
-    test('@smoke @regression [GET/api/brandsList] Should return all brands.ts list', async ({api}) => {
+    test('@smoke @regression [GET/api/brandsList] Should return all brands list', async ({api}) => {
 
         const response = await api
             .brands().brandsList('GET');
 
         verifyApiResponse(response, 200, [
             {path: 'brands', expected: IsNotEmptyList},
-            {path: 'brands.ts.0.id', expected: 1},
-            {path: 'brands.ts.0.brand', expected: 'Polo'},
+            {path: 'brands.0.id', expected: 1},
+            {path: 'brands.0.brand', expected: 'Polo'},
         ]);
 
     })
