@@ -16,8 +16,8 @@ export class ContinuBtn {
     }
 
     async clickContinue(expectedPath: string = '/'): Promise<void> {
-        await this.consentModal.closePopupsIfPresent();
         await this.continueBtn.click();
+        await this.consentModal.closePopupsIfPresent();
         await expect(this.page).toHaveURL(expectedPath);
     }
 }

@@ -8,16 +8,16 @@ test.describe('Login Lifecycle Tests', () => {
         await home.assertLoaded();
     })
 
-    test.afterEach(async ({home}, testInfo) => {
+    test.afterEach(async ({home, cart}, testInfo) => {
+        if (testInfo.tags.includes('@cleanup')) {
+            await home.openCart();
+            await cart.clickRemoveItem();
+            await home.logout();
+        }
+    });
 
-        const hasLogoutTag = testInfo.tags.includes('@logout');
-
-        if (!hasLogoutTag) return;
-
-        await home.logout();
-    })
-
-    test("@smoke @regression Login and Logout", {tag: '@Logout'},async ({signup, config, home}) => {
+    test("@smoke @regression Login and Logout", {tag: '@Logout'},async (
+        {signup, config, home}) => {
 
         await home.openSignup();
         await signup.assertSignupLoaded();
@@ -46,7 +46,8 @@ test.describe('Login Lifecycle Tests', () => {
 
     })
 
-    test('@regression Login before Checkout', {tag: '@Logout'}, async ({config, home, signup, products, cart, checkout}) => {
+    test('@regression Login before Checkout', {tag: '@cleanup'}, async (
+        {config, home, signup, products, cart, checkout}) => {
 
         await home.openSignup();
         await signup.assertSignupLoaded();
