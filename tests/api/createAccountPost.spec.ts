@@ -4,6 +4,8 @@ import {verifyApiResponse} from "@asserts/ApiAsserts";
 import {customResponseMessages as custom} from "@constants/customResponseMessages";
 import {commonResponses as common} from "@constants/commonResponses";
 import {randomEmail} from "@utils/randomData";
+import {verifySchema} from "@asserts/verifySchema";
+import {registrationSchema} from "@api/schemas/registrationSchema";
 
 test.describe('Create account tests', () => {
     test('@smoke @regression Create an account', async ({api}) => {
@@ -12,12 +14,14 @@ test.describe('Create account tests', () => {
             .createAccount({
                 ...testUsers.validUser,
                 email: randomEmail()}
-            );
+            ).withLogs();
 
         verifyApiResponse(response, 200, [
             {path: 'responseCode', expected: common.CREATED.code},
             {path: 'message', expected: custom.USER_CREATED.message},
         ])
+
+        verifySchema(response, registrationSchema);
 
     })
 })
