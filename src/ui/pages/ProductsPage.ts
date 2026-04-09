@@ -32,6 +32,14 @@ export class ProductsPage extends BasePage {
     readonly womenDressCategoryTitle: Locator;
     readonly productNames: Locator;
 
+    readonly writeReviewTitle: Locator;
+    readonly reviewNameInput: Locator;
+    readonly reviewEmailInput: Locator;
+    readonly reviewTextInput: Locator;
+    readonly submitReviewBtn: Locator;
+    readonly successReviewAlertText: Locator;
+
+
     constructor(page: Page) {
         super(page);
 
@@ -62,6 +70,13 @@ export class ProductsPage extends BasePage {
         this.brands = new BrandsSection(page);
         this.productNames = page.locator('.single-products > div > p');
 
+        this.writeReviewTitle = page.getByText(text.writeReviewTitle);
+        this.reviewNameInput = page.locator('#name');
+        this.reviewEmailInput = page.locator('#email');
+        this.reviewTextInput = page.locator('#review');
+        this.submitReviewBtn = page.locator('#button-review');
+        this.successReviewAlertText = page.getByText(text.successReviewAlertText);
+
     }
 
     // Actions
@@ -86,6 +101,16 @@ export class ProductsPage extends BasePage {
 
     async selectBrand(brand: Brand): Promise<void> {
         await this.brands.selectBrand(brand)
+    }
+
+    async writeReview(name: string, email: string, message: string): Promise<void> {
+        await this.reviewNameInput.fill(name);
+        await this.reviewEmailInput.fill(email);
+        await this.reviewTextInput.fill(message);
+    }
+
+    async submitReview(): Promise<void> {
+        await this.submitReviewBtn.click();
     }
 
     // Assertions
@@ -136,6 +161,15 @@ export class ProductsPage extends BasePage {
         const actualNames = (await this.productNames.allTextContents());
 
         expect(actualNames.sort()).toEqual([...expectedNames].sort());
+    }
+
+    async checkReviewTitle(): Promise<void> {
+        await expect(this.writeReviewTitle).toBeVisible();
+
+    }
+
+    async verifySuccessReviewAlert(): Promise<void> {
+        await expect(this.successReviewAlertText).toBeVisible();
     }
 
 }
