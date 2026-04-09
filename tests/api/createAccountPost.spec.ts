@@ -14,7 +14,7 @@ test.describe('Create account tests', () => {
             .createAccount({
                 ...testUsers.validUser,
                 email: randomEmail()}
-            ).withLogs();
+            );
 
         verifyApiResponse(response, 200, [
             {path: 'responseCode', expected: common.CREATED.code},

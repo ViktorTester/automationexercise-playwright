@@ -3,6 +3,7 @@ import {categories} from "@constants/categories";
 import {brands} from "@constants/brands";
 import {poloProducts} from "@constants/products/poloProducts";
 import {madameProducts} from "@constants/products/madameProducts";
+import {testTexts} from "@testdata/Texts/testTexts";
 
 test.describe('"Products" page tests', () => {
 
@@ -139,6 +140,28 @@ test.describe('"Products" page tests', () => {
         await home.openCart();
         await cart.checkCartItemsQty(1);
         await cart.checkFirstProductData('Rs. 600','Rs. 600', '1');
+
+    })
+
+    test('@regression Add review on product', async ({home, products, config}) => {
+        await home.openProducts();
+
+        // Open the PDP
+        await products.checkAllProductsSelected();
+        await products.clickFirstProduct();
+
+        await products.checkReviewTitle();
+
+        // Write the review
+        await products.writeReview(
+            config.credentials.username,
+            config.credentials.email,
+            testTexts.contactValidText
+        );
+
+        // Submit the review and validate the alert
+        await products.submitReview();
+        await products.verifySuccessReviewAlert();
 
     })
 });
