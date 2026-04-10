@@ -22,6 +22,7 @@ test.describe('"Products" page tests', () => {
     })
 
     test('@smoke @regression Open the Products page and reach the PDP', async ({home, products}) => {
+
         await home.openProducts();
 
         await products.checkAllProductsSelected();
@@ -34,6 +35,7 @@ test.describe('"Products" page tests', () => {
     })
 
     test('@regression Search for a product', async ({home, products}) => {
+
         await home.openProducts();
 
         await products.checkAllProductsSelected();
@@ -45,6 +47,7 @@ test.describe('"Products" page tests', () => {
     })
 
     test('@regression Add products in cart', async ({home, cart}) => {
+
         await home.openProducts();
 
         await home.hoverOverFirstProduct();
@@ -62,6 +65,7 @@ test.describe('"Products" page tests', () => {
     })
 
     test('@regression Verify product quantity in cart', async ({home, products, cart}) => {
+
         await products.clickFirstProduct();
         await products.increaseProductQtyTo('4');
         await products.addProductToCart();
@@ -72,6 +76,7 @@ test.describe('"Products" page tests', () => {
     })
 
     test('@regression Remove products from cart', async ({home, cart}) => {
+
         await home.openProducts();
 
         await home.hoverOverFirstProduct();
@@ -95,6 +100,7 @@ test.describe('"Products" page tests', () => {
     })
 
     test('@regression View & Cart brand products', async ({home, products}) => {
+
         await home.openProducts();
 
         // Check that all brands are present
@@ -112,6 +118,7 @@ test.describe('"Products" page tests', () => {
 
     test('@regression Search Products and Verify Cart After Login', {tag: '@cleanup'}, async (
         {home, products, cart, signup, config}) => {
+
         await home.openProducts();
 
         // Search for a product and check that it's visible'
@@ -144,6 +151,7 @@ test.describe('"Products" page tests', () => {
     })
 
     test('@regression Add review on product', async ({home, products, config}) => {
+
         await home.openProducts();
 
         // Open the PDP
@@ -162,6 +170,16 @@ test.describe('"Products" page tests', () => {
         // Submit the review and validate the alert
         await products.submitReview();
         await products.verifySuccessReviewAlert();
+
+    })
+
+    test('@regression Add to cart from the recommended items', async ({home, cart}) => {
+
+        await home.scrollToFooter();
+        await home.recommendedItemsPresent();
+        await home.addToCartReccomendedItem();
+        await home.clickViewCart();
+        await cart.checkCartItemsQty(1);
 
     })
 });

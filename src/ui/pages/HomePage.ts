@@ -53,6 +53,9 @@ export class HomePage extends BasePage {
     readonly allCategories: Locator;
     readonly allBrands: Locator;
 
+    readonly recommendedItemstitle: Locator;
+    readonly recommendedItem: Locator;
+
     constructor(page: Page) {
         super(page);
 
@@ -91,6 +94,9 @@ export class HomePage extends BasePage {
 
         this.allCategories = page.locator('#accordian > div');
         this.allBrands = page.locator('.brands-name > ul > li');
+
+        this.recommendedItemstitle = page.getByRole('heading', {name: homeCopy.recommendedItems});
+        this.recommendedItem = page.locator('.item.active .add-to-cart');
 
     }
 
@@ -208,6 +214,10 @@ export class HomePage extends BasePage {
         await this.categories.selectCategory(category)
     }
 
+    async addToCartReccomendedItem(): Promise<void> {
+        await this.recommendedItem.first().click();
+    }
+
 // Assertions
     /**
      * Validate 'account deleted' page titles
@@ -266,5 +276,9 @@ export class HomePage extends BasePage {
 
     async checkBrandsPresent(brands: number): Promise<void> {
         await expect(this.allBrands).toHaveCount(brands);
+    }
+
+    async recommendedItemsPresent(): Promise<void> {
+        await expect(this.recommendedItemstitle).toBeVisible();
     }
 }
