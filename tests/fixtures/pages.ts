@@ -9,6 +9,9 @@ import {TestCasesPage} from "@pages/TestCasesPage";
 import {ProductsPage} from "@pages/ProductsPage";
 import {CartPage} from "@pages/CartPage";
 import {CheckoutPage} from "@pages/CheckoutPage";
+import {SignupUser} from "@app-types/users/SignupUser";
+import {UserFactory} from "@testdata/factories/user.factory";
+
 
 /**
  * Page Object fixtures
@@ -32,6 +35,8 @@ type PagesFixtures = {
     checkout: CheckoutPage
 
     api: ApiContainer;
+
+    user: SignupUser;
 }
 
 export const test = base.extend<PagesFixtures, WorkerFixtures>({
@@ -93,7 +98,12 @@ export const test = base.extend<PagesFixtures, WorkerFixtures>({
 
     api: async ({request, config}, use) => {
         await use(new ApiContainer(request, config));
-    }
+    },
+
+    user: async ({}, use) => {
+        const user = UserFactory.random();
+        await use(user);
+    },
 
 })
 
