@@ -2,6 +2,7 @@ import {BasePage} from "@pages/BasePage";
 import {expect, Locator, Page} from "@playwright/test";
 import {ConsentModal} from "@pages/components/ConsentModal";
 import {cardData as card} from "@testdata/payments/cardData";
+import {checkoutCopy as checkout} from "@ui/copy/checkoutCopy";
 
 /**
  * Checkout page object
@@ -22,6 +23,12 @@ export class CheckoutPage extends BasePage {
     readonly confirmOrderBtn: Locator;
     readonly orderPlacedTitle: Locator;
 
+    readonly deliveryTitle: Locator;
+    readonly billingTitle: Locator;
+
+    readonly deliveryAddressSection: Locator;
+    readonly billingAddressSection: Locator;
+
     constructor(page: Page) {
         super(page);
 
@@ -39,6 +46,12 @@ export class CheckoutPage extends BasePage {
         this.expiryYearInput = page.getByTestId('expiry-year');
         this.confirmOrderBtn = page.getByTestId('pay-button');
         this.orderPlacedTitle = page.getByText('Order Placed!');
+
+        this.deliveryTitle = page.getByRole('heading', {name: checkout.deliveryAddress});
+        this.billingTitle = page.getByRole('heading', {name: checkout.billingAddress});
+        this.deliveryAddressSection = page.locator('#address_delivery');
+        this.billingAddressSection = page.locator('#address_invoice');
+
     }
 
     async checkHeadings(): Promise<void> {
@@ -67,5 +80,20 @@ export class CheckoutPage extends BasePage {
     async clickConfirmOrder(): Promise<void> {
         await this.confirmOrderBtn.click();
         await expect(this.orderPlacedTitle).toBeVisible();
+    }
+
+    async checkTheTitles() {
+        await expect(this.deliveryTitle).toBeVisible();
+        await expect(this.billingTitle).toBeVisible();
+    }
+
+    async deliveryAddressCheck(address: string) {
+        const deliveryAddressLine = this.deliveryAddressSection.getByText(address, {exact: true});
+        await expect(deliveryAddressLine).toBeVisible();
+    }
+
+    async billingAddressCheck(address: string) {
+        const billingAddressLine = this.billingAddressSection.getByText(address, {exact: true});
+        await expect(billingAddressLine).toBeVisible();
     }
 }
