@@ -56,6 +56,9 @@ export class HomePage extends BasePage {
     readonly recommendedItemstitle: Locator;
     readonly recommendedItem: Locator;
 
+    readonly registerLoginBtn: Locator;
+    readonly loginToCheckoutText
+
     constructor(page: Page) {
         super(page);
 
@@ -97,6 +100,9 @@ export class HomePage extends BasePage {
 
         this.recommendedItemstitle = page.getByRole('heading', {name: homeCopy.recommendedItems});
         this.recommendedItem = page.locator('.item.active .add-to-cart');
+
+        this.registerLoginBtn = page.getByRole('link', {name: 'Register / Login'});
+        this.loginToCheckoutText = page.getByText(homeCopy.loginToCheckout);
 
     }
 
@@ -192,17 +198,17 @@ export class HomePage extends BasePage {
 
     async addFirstProductToCart(): Promise<void> {
         await this.addToCartBtn.first().click();
-        await this.checkProductAddedText('visible');
+        await this.checkModalText('visible');
     }
 
     async addSecondProductToCart(): Promise<void> {
         await this.addToCartBtn.nth(2).click();
-        await this.checkProductAddedText('visible');
+        await this.checkModalText('visible');
     }
 
     async closeTheModal(): Promise<void> {
         await this.continueShoppingBtn.click();
-        await this.checkProductAddedText('hidden');
+        await this.checkModalText('hidden');
     }
 
     async clickViewCart(): Promise<void> {
@@ -216,6 +222,11 @@ export class HomePage extends BasePage {
 
     async addToCartReccomendedItem(): Promise<void> {
         await this.recommendedItem.first().click();
+    }
+
+    async registerfromCheckoutModal(): Promise<void> {
+        await this.registerLoginBtn.click();
+        await this.checkModalText('hidden');
     }
 
 // Assertions
@@ -258,7 +269,7 @@ export class HomePage extends BasePage {
         await expect(this.successSubscriptionAlert).toContainText(homeCopy.subsriptionSuccess);
     }
 
-    async checkProductAddedText(option: string): Promise<void> {
+    async checkModalText(option: string): Promise<void> {
         if (option === 'visible') {
             await expect(this.productAddedText).toBeVisible();
         } else {

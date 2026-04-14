@@ -29,11 +29,13 @@ export class CheckoutPage extends BasePage {
     readonly deliveryAddressSection: Locator;
     readonly billingAddressSection: Locator;
 
-    constructor(page: Page) {
+    readonly payConfirmOrderBtn: Locator;
+    readonly invoiceDownloadBtn: Locator;
+
+    constructor(public readonly page: Page) {
         super(page);
 
         this.consentModal = new ConsentModal(page);
-
         this.adressDetailstitle = page.getByRole('heading', {name: 'Address Details'});
         this.reviewOrderTitle = page.getByRole('heading', {name: 'Review Your Order'});
         this.commentField = page.locator('textarea[name="message"]');
@@ -52,6 +54,9 @@ export class CheckoutPage extends BasePage {
         this.deliveryAddressSection = page.locator('#address_delivery');
         this.billingAddressSection = page.locator('#address_invoice');
 
+        this.payConfirmOrderBtn = page.getByRole('button', {name: 'Pay and Confirm Order'});
+        this.invoiceDownloadBtn = page.getByRole('link', {name: 'Download Invoice'});
+
     }
 
     async checkHeadings(): Promise<void> {
@@ -67,6 +72,15 @@ export class CheckoutPage extends BasePage {
     async clickPlaceOrder(): Promise<void> {
         await this.placeOrderBtn.click();
         await this.consentModal.closePopupsIfPresent();
+    }
+
+    async clickPayConfirmOrder(): Promise<void> {
+        await this.payConfirmOrderBtn.click();
+        await this.expectUrl(/payment_done\/\d+/ );
+    }
+
+    async clickInvoiceDownload(): Promise<void> {
+        await this.invoiceDownloadBtn.click();
     }
 
     async enterPaymentDetails(): Promise<void> {
