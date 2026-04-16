@@ -242,7 +242,6 @@ test.describe("Account Lifecycle Tests", () => {
             await checkout.enterPaymentDetails();
             await checkout.clickPayConfirmOrder();
 
-
             // Download the invoice and validate it
             await waitForDownload(
                 checkout,
