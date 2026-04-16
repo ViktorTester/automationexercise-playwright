@@ -57,7 +57,10 @@ export class HomePage extends BasePage {
     readonly recommendedItem: Locator;
 
     readonly registerLoginBtn: Locator;
-    readonly loginToCheckoutText
+    readonly loginToCheckoutText: Locator;
+
+    readonly arrowScrollerBtn: Locator;
+    readonly mainPageCarouselTitle: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -103,6 +106,9 @@ export class HomePage extends BasePage {
 
         this.registerLoginBtn = page.getByRole('link', {name: 'Register / Login'});
         this.loginToCheckoutText = page.getByText(homeCopy.loginToCheckout);
+
+        this.arrowScrollerBtn = page.locator('#scrollUp');
+        this.mainPageCarouselTitle = page.getByRole('heading', {name: homeCopy.mainPageCarouselTitle});
 
     }
 
@@ -229,6 +235,10 @@ export class HomePage extends BasePage {
         await this.checkModalText('hidden');
     }
 
+    async pressArrowUpScroll(): Promise<void> {
+        await this.arrowScrollerBtn.click();
+    }
+
 // Assertions
     /**
      * Validate 'account deleted' page titles
@@ -291,5 +301,9 @@ export class HomePage extends BasePage {
 
     async recommendedItemsPresent(): Promise<void> {
         await expect(this.recommendedItemstitle).toBeVisible();
+    }
+
+    async checkMainPageCarouselTitle(): Promise<void> {
+        await expect(this.mainPageCarouselTitle).toBeInViewport();
     }
 }
