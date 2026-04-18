@@ -266,6 +266,10 @@ export class HomePage extends BasePage {
         await this.copyright.scrollIntoViewIfNeeded();
     }
 
+    async scrollToHeader(): Promise<void> {
+        await this.page.mouse.wheel(0, -10000);
+    }
+
     async verifySubsriptionVisible(): Promise<void> {
         await expect(this.subscriptionText).toContainText('Subscription');
     }
