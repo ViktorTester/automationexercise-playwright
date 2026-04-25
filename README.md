@@ -11,6 +11,7 @@ The repository includes UI + API fixtures, strict quality gates (lint/typecheck)
 - **@playwright/test** (test runner)
 - **TypeScript** (strict mode)
 - **ESLint** + **eslint-plugin-playwright**
+- **Allure Report** (`allure-playwright` + `allure-commandline`)
 - **Husky** (local Git hooks)
 - **Docker** + **Docker Compose**
 - **GitHub Actions** (CI)
@@ -30,6 +31,8 @@ The repository includes UI + API fixtures, strict quality gates (lint/typecheck)
 npm install
 npx playwright install
 ```
+
+Allure CLI requires Java 8+ for local report generation/opening.
 
 ### Run tests
 
@@ -111,11 +114,32 @@ const response = await api.account().deleteAccount(
 Playwright outputs are intentionally consolidated under `artifacts/`:
 
 - `artifacts/playwright-report/` — HTML report
+- `artifacts/allure-results/` — raw Allure results
+- `artifacts/allure-report/` — generated Allure HTML report
 - `artifacts/test-output/` — Playwright test output directory
 - `artifacts/junit.xml` — JUnit report
 - `artifacts/results.json` — JSON results
 
 The same structure is used locally and in CI.
+
+CI generates the Allure HTML report before uploading `artifacts/`, so the downloadable workflow artifact already contains both raw results and a ready-to-open report.
+The test run also writes Allure metadata automatically:
+
+- `artifacts/allure-results/environment.properties` - runtime context like brand, env, URLs, branch, and worker mode
+- `artifacts/allure-results/executor.json` - run source metadata for local runs or GitHub Actions
+
+In CI, Allure `history` is restored and saved per `branch + brand + env`, so trend widgets survive between workflow runs.
+
+### Allure workflow
+
+Every `npm test` run also writes Allure result files.
+
+```bash
+npm test
+npm run allure:generate   # build artifacts/allure-report from artifacts/allure-results
+npm run allure:open       # open the generated report in a browser
+npm run allure:serve      # start a temporary local web server for the report
+```
 
 ---
 
@@ -160,7 +184,11 @@ npm run lint         # static analysis
 npm run lint:fix     # auto-fix where possible
 npm run typecheck    # TypeScript compilation checks
 npm test             # all tests
+npm run test:allure  # all tests with Allure results (same test run, explicit alias)
 npm run test:smoke   # subset tagged with @smoke
+npm run allure:generate
+npm run allure:open
+npm run allure:serve
 
 # Convenience scripts
 npm run test:brand1:dev

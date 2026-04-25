@@ -12,7 +12,9 @@ export default [
             "**/test-results/**",
             "**/.playwright/**",
             "**/dist/**",
-            "**/build/**"
+            "**/build/**",
+            "**/scripts/**",
+            "**/artifacts/**"
         ],
     },
 

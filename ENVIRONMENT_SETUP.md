@@ -75,8 +75,20 @@ artifacts/
 
 This includes:
 - HTML report
+- Allure raw results and generated report
 - JUnit and JSON results
 - Playwright outputDir (traces, screenshots, videos)
+
+For Allure specifically:
+
+- `artifacts/allure-results/` is produced by every Playwright test run
+- `environment.properties` and `executor.json` are written automatically during Playwright global setup
+- `npm run allure:generate` builds `artifacts/allure-report/`
+- `npm run allure:open` opens the generated report
+- `npm run allure:serve` starts a temporary local report server
+- CI restores and saves Allure `history/` per branch/environment combination for trend widgets
+
+Local Allure CLI usage requires Java 8+.
 
 ---
 

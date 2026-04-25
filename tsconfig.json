@@ -45,6 +45,7 @@
     "node_modules",
     "artifacts",
     "playwright-report",
-    "test-results"
+    "test-results",
+    "scripts"
   ]
 }

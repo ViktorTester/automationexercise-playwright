@@ -75,16 +75,22 @@ Current pipeline:
 1. Install dependencies
 2. Lint (fail-fast)
 3. Typecheck (fail-fast)
-4. Detect whether test files exist
-5. If tests exist:
-  - Install Playwright browsers
-  - Run Playwright tests
-  - Upload artifacts
+4. Restore cached Allure `history`
+5. Run Playwright tests in Docker Compose
+6. Inject previous history into `artifacts/allure-results/history`
+7. Generate Allure HTML report from `artifacts/allure-results`
+8. Refresh/save cached history from `artifacts/allure-report/history`
+9. Upload `artifacts/`
 
 Rationale:
 
 - Static checks provide early feedback.
-- Skipping test execution when no tests exist prevents false failures during project bootstrapping.
+- Uploading both raw and rendered reports reduces defect triage time.
+
+Allure metadata is also generated automatically:
+
+- `environment.properties` captures runtime context such as brand, environment, URLs, branch, and worker mode
+- `executor.json` identifies whether the run came from GitHub Actions or a local machine
 
 ---
 
@@ -145,7 +151,24 @@ Tagging:
 
 ### CI uploads are empty
 
-This project writes reports under `artifacts/`. Ensure the workflow uploads `artifacts/` (not only default Playwright folders).
+This project writes reports under `artifacts/`. Ensure the workflow uploads `artifacts/` so Playwright HTML, Allure results, and generated reports are preserved.
+
+### Allure report does not open
+
+Allure CLI requires Java 8+.
+Check local availability with:
+
+```bash
+java -version
+```
+
+If test execution succeeded but `npm run allure:generate` fails, verify that `artifacts/allure-results/` exists and is not empty.
+
+### Allure trends are missing
+
+Allure trend widgets depend on `history/`.
+This project restores and saves that directory through the GitHub Actions cache, keyed by `branch + brand + env`.
+If trends disappear after a workflow change, verify the cache restore/save steps in [ci.yml].
 
 ### Husky errors in non-git environments
 

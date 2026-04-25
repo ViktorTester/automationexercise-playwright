@@ -62,6 +62,15 @@ jobs:
       - name: Prepare artifact folders
         run: |
          mkdir -p artifacts
+
+      - name: Restore Allure history cache
+        if: always()
+        uses: actions/cache/restore@v4
+        with:
+          path: .allure-history
+          key: allure-history-${{ github.ref_name }}-${{ env.BRAND }}-${{ env.ENV }}-${{ github.run_id }}
+          restore-keys: |
+            allure-history-${{ github.ref_name }}-${{ env.BRAND }}-${{ env.ENV }}-
           
       # Start the tests with docker compose
       - name: Run tests in Docker (docker compose)
@@ -75,7 +84,44 @@ jobs:
           docker compose version
           docker compose build --pull         
           docker compose up --abort-on-container-exit --exit-code-from tests
-          
+
+      - name: Inject previous Allure history
+        if: always()
+        run: |
+          if [ -d .allure-history ] && [ -d artifacts/allure-results ]; then
+            mkdir -p artifacts/allure-results/history
+            cp -R .allure-history/. artifacts/allure-results/history/
+          else
+            echo "Skipping Allure history injection."
+          fi
+
+      - name: Generate Allure report
+        if: always()
+        run: |
+          if [ -d artifacts/allure-results ]; then
+            npm run allure:generate
+          else
+            echo "Skipping Allure generation because artifacts/allure-results was not created."
+          fi
+
+      - name: Refresh cached Allure history
+        if: always()
+        run: |
+          if [ -d artifacts/allure-report/history ]; then
+            rm -rf .allure-history
+            mkdir -p .allure-history
+            cp -R artifacts/allure-report/history/. .allure-history/
+          else
+            echo "Skipping Allure history refresh because artifacts/allure-report/history was not created."
+          fi
+
+      - name: Save Allure history cache
+        if: always() && hashFiles('.allure-history/**') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: .allure-history
+          key: allure-history-${{ github.ref_name }}-${{ env.BRAND }}-${{ env.ENV }}-${{ github.run_id }}
+
      # Clear docker resources
       - name: Docker compose down (cleanup)
         if: always()
@@ -86,13 +132,13 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: artifacts-${{ env.BRAND }}-${{ env.ENV }}
           path: artifacts/**
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: test-results-${{ env.BRAND }}-${{ env.ENV }}
           path: test-results/**
           if-no-files-found: ignore

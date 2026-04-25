@@ -25,6 +25,7 @@ const workerOverride = process["env"].PW_WORKERS ? Number(process["env"].PW_WORK
 export default defineConfig({
   // Where tests live
   testDir: './tests',
+  globalSetup: require.resolve('./src/utils/allureGlobalSetup'),
 
   // Global timeouts
   timeout: 30_000,
@@ -54,11 +55,13 @@ export default defineConfig({
    * - HTML: human-friendly (CI artifact)
    * - JUnit: CI integration
    * - JSON: analytics / custom tooling
+   * - Allure: rich local and CI report for trends / drill-down
    */
   reporter: [
     ['html', { open: 'never', outputFolder: 'artifacts/playwright-report' }],
     ['junit', { outputFile: 'artifacts/junit.xml' }],
-    ['json', { outputFile: 'artifacts/results.json' }]
+    ['json', { outputFile: 'artifacts/results.json' }],
+    ['allure-playwright', { resultsDir: 'artifacts/allure-results', detail: true, suiteTitle: false }]
   ],
 
   /**
